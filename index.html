@@ -1,64 +1,180 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UPSC Prelims Quiz - January 2025</title>
 <style>
-  :root{
-    --bg:#f9fafb; --card:#fff; --muted:#6b7280; --accent:#2563eb;
-    --green:#10b981; --yellow:#f59e0b; --gray:#9ca3af; --danger:#ef4444;
-    --max-width:1200px;
-  }
-  *{box-sizing:border-box}
-  body{font-family:Inter,system-ui,Arial,sans-serif;background:var(--bg);margin:0;color:#111827;}
-  .wrap{max-width:var(--max-width);margin:18px auto;padding:0 14px;display:flex;gap:20px;}
-  .sidebar{width:220px;position:sticky;top:18px;height:calc(100vh - 36px);display:flex;flex-direction:column;gap:12px;}
-  .side-card{background:var(--card);padding:12px;border-radius:10px;box-shadow:0 6px 18px rgba(15,23,42,0.06);flex-shrink:0;}
-  .side-card h3{margin:0;margin-bottom:8px;font-size:16px;text-align:center}
-  .counters{display:flex;justify-content:space-between;gap:6px;margin-bottom:8px;font-size:13px;color:var(--muted)}
-  .counter{display:flex;gap:6px;align-items:center}
-  .status-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:8px}
-  .q-tile{width:36px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:white;font-weight:600;cursor:pointer}
-  .tile-not{background:var(--gray)}
-  .tile-attempt{background:var(--green)}
-  .tile-review{background:var(--yellow)}
-  .main{flex:1}
-  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
-  header h1{margin:0;font-size:20px}
-  .card{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 6px 18px rgba(15,23,42,0.06)}
-  #start-screen{display:flex;flex-direction:column;align-items:center;gap:10px;padding:12px}
-  #start-screen input{width:360px;max-width:92%;padding:10px;border-radius:8px;border:1px solid #e5e7eb}
-  #start-screen button{background:var(--accent);color:white;border:none;padding:10px 16px;border-radius:8px;cursor:pointer}
-  .timer{color:#b91c1c;font-weight:700}
-  .questions-list{margin-top:12px}
-  .question{padding:12px;border-radius:8px;border:1px solid #f3f4f6;margin-bottom:12px;display:block}
-  .question h3{margin:0 0 10px 0;font-size:16px}
-  .options{display:flex;flex-direction:column;gap:8px}
-  .option-label{display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;border:1px solid transparent;cursor:pointer;background:#fff}
-  .option-label input{width:18px;height:18px}
-  .option-label:hover{background:#fbfdff;border-color:#eef2ff}
-  .option-correct{background:#ecfdf5;border-color:#bbf7d0}
-  .option-wrong{background:#fff1f2;border-color:#fecaca}
-  .option-unatt{opacity:0.9}
-  .controls{display:flex;gap:8px;align-items:center;margin-top:8px}
-  .mark-review{background:var(--yellow);border:none;color:black;padding:6px 10px;border-radius:6px;cursor:pointer}
-  .nav{display:flex;gap:8px;justify-content:center;margin-top:12px}
-  .nav button{padding:8px 12px;border-radius:8px;border:none;background:#0f172a;color:white;cursor:pointer}
-  .submit-area{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:12px}
-  .submit-area .summary{color:var(--muted);font-size:13px}
-  .submit-area button{padding:10px 14px;border-radius:8px;border:none;background:var(--accent);color:white;cursor:pointer}
-  .result-area{margin-top:16px}
-  .result-card{background:var(--card);padding:12px;border-radius:10px;border:1px solid #e6eef8;margin-bottom:12px}
-  .result-card h4{margin:0 0 8px 0}
-  .result-meta{display:flex;gap:12px;flex-wrap:wrap}
-  .muted{color:var(--muted)}
-  @media print{.sidebar,#start-screen,.nav,.submit-area{display:none!important}body{background:#fff}.wrap{max-width:100%;margin:0;padding:0}.result-card{page-break-inside:avoid}}
-  @media(max-width:980px){.wrap{flex-direction:column;padding:12px}.sidebar{position:relative;width:100%;height:auto;order:2}.main{order:1}}
+  body { font-family: Arial, sans-serif; background-color: #f9fafb; color: #111827; margin: 0; padding: 0; }
+  .container { max-width: 1000px; margin: 30px auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; }
+  h1 { text-align: center; color: #1f2937; }
+  .sidebar { width: 200px; margin-right: 20px; }
+  .sidebar h3 { text-align: center; }
+  .status { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; }
+  .status div { width: 25px; height: 25px; text-align: center; line-height: 25px; border-radius: 4px; color: white; cursor: pointer; }
+  .not-attempted { background: #9ca3af; }
+  .attempted { background: #10b981; }
+  .review { background: #f59e0b; }
+  .question-area { flex: 1; }
+  .question { margin-bottom: 20px; }
+  .question h3 { margin-bottom: 8px; }
+  button { background-color: #2563eb; color: white; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; }
+  button:hover { background-color: #1e40af; }
+  .result { text-align: center; font-weight: bold; margin-top: 20px; }
+  .timer { text-align: right; font-weight: bold; color: #b91c1c; margin-bottom: 20px; }
+  #start-screen { text-align: center; }
+  input { padding: 8px; border: 1px solid #ccc; border-radius: 6px; margin: 5px; width: 60%; }
+  label { display: block; padding: 6px; border: 1px solid #e5e7eb; border-radius: 6px; margin-bottom: 5px; cursor: pointer; }
+  .nav-buttons { text-align: center; margin-top: 20px; }
 </style>
 </head>
 <body>
-  <!-- The full functional script from the previous version goes here -->
-  <!-- Omitted in this summary for brevity but will include all quiz logic and data as previously provided -->
+<div class="container">
+  <div class="sidebar">
+    <h3>Progress</h3>
+    <div class="status" id="status-box"></div>
+  </div>
+
+  <div class="question-area">
+    <h1>UPSC Prelims Quiz - January 2025</h1>
+    <div id="start-screen">
+      <h2>Enter Your Name</h2>
+      <input type="text" id="name" placeholder="Enter your full name" required><br>
+      <button onclick="startQuiz()">Start Quiz</button>
+    </div>
+
+    <div id="quiz-section" style="display:none;">
+      <div class="timer">Time Left: <span id="timer">60:00</span></div>
+      <div id="quiz"></div>
+      <div class="nav-buttons">
+        <button onclick="prevPage()">Previous</button>
+        <button onclick="markForReview()">Mark for Review</button>
+        <button onclick="nextPage()">Next</button>
+        <button onclick="submitQuiz()">Submit Quiz</button>
+      </div>
+      <div class="result" id="result"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const questionsPerPage = 10;
+let currentPage = 0;
+let status = [];
+let candidateName = "";
+let timeLeft = 60 * 60;
+let timerInterval;
+
+function startQuiz() {
+  candidateName = document.getElementById('name').value.trim();
+  if (!candidateName) {
+    alert('Please enter your name to start the quiz.');
+    return;
+  }
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('quiz-section').style.display = 'block';
+  startTimer();
+  renderStatus();
+  renderPage();
+}
+
+function startTimer() {
+  const timerElement = document.getElementById('timer');
+  timerInterval = setInterval(() => {
+    let minutes = Math.floor(timeLeft / 60);
+    let seconds = timeLeft % 60;
+    timerElement.textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+    timeLeft--;
+    if (timeLeft < 0) { clearInterval(timerInterval); submitQuiz(); alert('Time up! Quiz auto-submitted.'); }
+  }, 1000);
+}
+
+const questions = Array.from({length: 50}, (_, i) => ({
+  q: `Sample question ${i+1}?`,
+  options: ['Option A', 'Option B', 'Option C', 'Option D'],
+  answer: Math.floor(Math.random() * 4)
+}));
+
+function renderStatus() {
+  const box = document.getElementById('status-box');
+  box.innerHTML = '';
+  for (let i = 0; i < questions.length; i++) {
+    const div = document.createElement('div');
+    div.textContent = i + 1;
+    div.className = 'not-attempted';
+    div.onclick = () => { currentPage = Math.floor(i / questionsPerPage); renderPage(); };
+    status.push('not-attempted');
+    box.appendChild(div);
+  }
+}
+
+function renderPage() {
+  const quizDiv = document.getElementById('quiz');
+  quizDiv.innerHTML = '';
+  const start = currentPage * questionsPerPage;
+  const end = start + questionsPerPage;
+  const pageQuestions = questions.slice(start, end);
+
+  pageQuestions.forEach((q, i) => {
+    const qIndex = start + i;
+    const div = document.createElement('div');
+    div.classList.add('question');
+    div.innerHTML = `<h3>Q${qIndex+1}. ${q.q}</h3>` + q.options.map((opt, idx) => `<label><input type='radio' name='q${qIndex}' value='${idx}' onchange='updateStatus(${qIndex})'> ${opt}</label>`).join('');
+    quizDiv.appendChild(div);
+  });
+}
+
+function updateStatus(index) {
+  status[index] = 'attempted';
+  document.getElementById('status-box').children[index].className = 'attempted';
+}
+
+function markForReview() {
+  const start = currentPage * questionsPerPage;
+  const end = start + questionsPerPage;
+  for (let i = start; i < end; i++) {
+    if (status[i] !== 'attempted') {
+      status[i] = 'review';
+      document.getElementById('status-box').children[i].className = 'review';
+    }
+  }
+  nextPage();
+}
+
+function nextPage() {
+  if ((currentPage + 1) * questionsPerPage < questions.length) {
+    currentPage++;
+    renderPage();
+  }
+}
+
+function prevPage() {
+  if (currentPage > 0) {
+    currentPage--;
+    renderPage();
+  }
+}
+
+function submitQuiz() {
+  clearInterval(timerInterval);
+  let score = 0, correct=0, wrong=0, unattempted=0;
+  questions.forEach((q, i) => {
+    const selected = document.querySelector(`input[name='q${i}']:checked`);
+    if(!selected){ unattempted++; return; }
+    const val = parseInt(selected.value);
+    if(val === q.answer){ score += 2; correct++; }
+    else { score -= 0.66; wrong++; }
+  });
+  const total = questions.length;
+
+  const resultDiv = document.getElementById('result');
+  resultDiv.innerHTML = `<h2>Results for ${candidateName}</h2>
+    <p><strong>Total Questions:</strong> ${total}</p>
+    <p><strong>Correct:</strong> ${correct}</p>
+    <p><strong>Wrong:</strong> ${wrong}</p>
+    <p><strong>Unattempted:</strong> ${unattempted}</p>
+    <p><strong>Final Score:</strong> ${score.toFixed(2)}</p>`;
+}
+</script>
 </body>
 </html>

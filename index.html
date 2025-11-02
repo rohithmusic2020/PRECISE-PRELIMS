@@ -5,91 +5,55 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UPSC Prelims Quiz - January 2025</title>
 <style>
-  body { font-family: Arial, sans-serif; background-color: #f9fafb; color: #111827; margin: 0; padding: 0; }
-  .container { max-width: 1000px; margin: 30px auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; }
-  h1 { text-align: center; color: #1f2937; }
-  .sidebar { width: 200px; margin-right: 20px; }
+  body { font-family: Arial, sans-serif; background-color: #f9fafb; color: #111827; margin: 0; padding: 0; display: flex; }
+  .sidebar { width: 220px; background: #fff; border-right: 1px solid #e5e7eb; padding: 15px; height: 100vh; overflow-y: auto; position: sticky; top: 0; }
   .sidebar h3 { text-align: center; }
   .status { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; }
-  .status div { width: 25px; height: 25px; text-align: center; line-height: 25px; border-radius: 4px; color: white; cursor: pointer; }
+  .status div { width: 28px; height: 28px; text-align: center; line-height: 28px; border-radius: 4px; color: white; cursor: pointer; font-weight: bold; }
   .not-attempted { background: #9ca3af; }
   .attempted { background: #10b981; }
+  .active { background: #2563eb; }
   .review { background: #f59e0b; }
-  .question-area { flex: 1; }
-  .question { margin-bottom: 20px; }
+  .main { flex: 1; padding: 25px; overflow-y: auto; height: 100vh; }
+  h1 { text-align: center; }
+  .question { margin-bottom: 20px; padding: 15px; border: 1px solid #e5e7eb; border-radius: 8px; background: #fff; }
   .question h3 { margin-bottom: 8px; }
-  button { background-color: #2563eb; color: white; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; }
+  button { background-color: #2563eb; color: white; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; margin-top: 15px; }
   button:hover { background-color: #1e40af; }
   .result { text-align: center; font-weight: bold; margin-top: 20px; }
   .timer { text-align: right; font-weight: bold; color: #b91c1c; margin-bottom: 20px; }
-  #start-screen { text-align: center; }
+  #start-screen { text-align: center; margin-top: 20%; }
   input { padding: 8px; border: 1px solid #ccc; border-radius: 6px; margin: 5px; width: 60%; }
-  label { display: block; padding: 6px; border: 1px solid #e5e7eb; border-radius: 6px; margin-bottom: 5px; cursor: pointer; }
-  .nav-buttons { text-align: center; margin-top: 20px; }
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="sidebar">
-    <h3>Progress</h3>
-    <div class="status" id="status-box"></div>
+<div class="sidebar">
+  <h3>Progress</h3>
+  <div class="status" id="status-box"></div>
+</div>
+
+<div class="main">
+  <h1>UPSC Prelims Quiz - January 2025</h1>
+  <div id="start-screen">
+    <h2>Enter Your Name</h2>
+    <input type="text" id="name" placeholder="Enter your full name" required><br>
+    <button onclick="startQuiz()">Start Quiz</button>
   </div>
 
-  <div class="question-area">
-    <h1>UPSC Prelims Quiz - January 2025</h1>
-    <div id="start-screen">
-      <h2>Enter Your Name</h2>
-      <input type="text" id="name" placeholder="Enter your full name" required><br>
-      <button onclick="startQuiz()">Start Quiz</button>
-    </div>
-
-    <div id="quiz-section" style="display:none;">
-      <div class="timer">Time Left: <span id="timer">60:00</span></div>
-      <div id="quiz"></div>
-      <div class="nav-buttons">
-        <button onclick="prevPage()">Previous</button>
-        <button onclick="markForReview()">Mark for Review</button>
-        <button onclick="nextPage()">Next</button>
-        <button onclick="submitQuiz()">Submit Quiz</button>
-      </div>
-      <div class="result" id="result"></div>
-    </div>
+  <div id="quiz-section" style="display:none;">
+    <div class="timer">Time Left: <span id="timer">60:00</span></div>
+    <div id="quiz"></div>
+    <button onclick="submitQuiz()">Submit Quiz</button>
+    <div class="result" id="result"></div>
   </div>
 </div>
 
 <script>
-const questionsPerPage = 10;
-let currentPage = 0;
-let status = [];
 let candidateName = "";
 let timeLeft = 60 * 60;
 let timerInterval;
+let status = [];
 
-function startQuiz() {
-  candidateName = document.getElementById('name').value.trim();
-  if (!candidateName) {
-    alert('Please enter your name to start the quiz.');
-    return;
-  }
-  document.getElementById('start-screen').style.display = 'none';
-  document.getElementById('quiz-section').style.display = 'block';
-  startTimer();
-  renderStatus();
-  renderPage();
-}
-
-function startTimer() {
-  const timerElement = document.getElementById('timer');
-  timerInterval = setInterval(() => {
-    let minutes = Math.floor(timeLeft / 60);
-    let seconds = timeLeft % 60;
-    timerElement.textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
-    timeLeft--;
-    if (timeLeft < 0) { clearInterval(timerInterval); submitQuiz(); alert('Time up! Quiz auto-submitted.'); }
-  }, 1000);
-}
-
-// 50 Real UPSC MCQs from Prelims Precise - January 2025
 const questions = [
   {q:'Which of the following is not part of NITI Aayog\'s twin mandate?', options:['Promoting cooperative federalism','Monitoring SDGs','Formulating Five-Year Plans','Designing welfare policies'], answer:2},
   {q:'Under Article 224A, ad-hoc judges are appointed with consent of:', options:['Prime Minister','Supreme Court','President','Parliament'], answer:2},
@@ -138,91 +102,92 @@ const questions = [
   {q:'SpaDeX made India the ___ country to dock spacecraft:', options:['3rd','4th','5th','6th'], answer:1}
 ];
 
-// Randomize questions each time
 questions.sort(() => Math.random() - 0.5);
 
-function renderStatus() {
-  const box = document.getElementById('status-box');
-  box.innerHTML = '';
-  status = [];
-  for (let i = 0; i < questions.length; i++) {
-    const div = document.createElement('div');
-    div.textContent = i + 1;
-    div.className = 'not-attempted';
-    div.onclick = () => { currentPage = Math.floor(i / questionsPerPage); renderPage(); };
+function startQuiz(){
+  candidateName=document.getElementById('name').value.trim();
+  if(!candidateName){alert('Please enter your name to start the quiz.');return;}
+  document.getElementById('start-screen').style.display='none';
+  document.getElementById('quiz-section').style.display='block';
+  startTimer();
+  renderQuestions();
+  renderStatus();
+  document.querySelector('.main').addEventListener('scroll', highlightOnScroll);
+}
+
+function startTimer(){
+  const timerElement=document.getElementById('timer');
+  timerInterval=setInterval(()=>{
+    let minutes=Math.floor(timeLeft/60);
+    let seconds=timeLeft%60;
+    timerElement.textContent=`${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+    timeLeft--;
+    if(timeLeft<0){clearInterval(timerInterval);submitQuiz();alert('Time up! Quiz auto-submitted.');}
+  },1000);
+}
+
+function renderQuestions(){
+  const quizDiv=document.getElementById('quiz');
+  quizDiv.innerHTML='';
+  questions.forEach((q,i)=>{
+    const div=document.createElement('div');
+    div.classList.add('question');
+    div.id=`q${i}`;
+    div.innerHTML=`<h3>Q${i+1}. ${q.q}</h3>`+q.options.map((opt,idx)=>`<label><input type='radio' name='q${i}' value='${idx}' onchange='updateStatus(${i})'> ${opt}</label>`).join('');
+    quizDiv.appendChild(div);
+  });
+}
+
+function renderStatus(){
+  const box=document.getElementById('status-box');
+  box.innerHTML='';
+  status=[];
+  for(let i=0;i<questions.length;i++){
+    const div=document.createElement('div');
+    div.textContent=i+1;
+    div.className='not-attempted';
+    div.onclick=()=>{
+      document.getElementById(`q${i}`).scrollIntoView({behavior:'smooth'});
+    };
     status.push('not-attempted');
     box.appendChild(div);
   }
 }
 
-function renderPage() {
-  const quizDiv = document.getElementById('quiz');
-  quizDiv.innerHTML = '';
-  const start = currentPage * questionsPerPage;
-  const end = start + questionsPerPage;
-  const pageQuestions = questions.slice(start, end);
+function updateStatus(i){
+  status[i]='attempted';
+  document.getElementById('status-box').children[i].className='attempted';
+}
 
-  pageQuestions.forEach((q, i) => {
-    const qIndex = start + i;
-    const div = document.createElement('div');
-    div.classList.add('question');
-    div.innerHTML = `<h3>Q${qIndex+1}. ${q.q}</h3>` + q.options.map((opt, idx) => `<label><input type='radio' name='q${qIndex}' value='${idx}' onchange='updateStatus(${qIndex})'> ${opt}</label>`).join('');
-    quizDiv.appendChild(div);
+function highlightOnScroll(){
+  const questionsList=document.querySelectorAll('.question');
+  let currentIndex=0;
+  questionsList.forEach((q,i)=>{
+    const rect=q.getBoundingClientRect();
+    if(rect.top<window.innerHeight/2 && rect.bottom>0){currentIndex=i;}
   });
-}
-
-function updateStatus(index) {
-  status[index] = 'attempted';
-  document.getElementById('status-box').children[index].className = 'attempted';
-}
-
-function markForReview() {
-  const start = currentPage * questionsPerPage;
-  const end = start + questionsPerPage;
-  for (let i = start; i < end; i++) {
-    if (status[i] !== 'attempted') {
-      status[i] = 'review';
-      document.getElementById('status-box').children[i].className = 'review';
-    }
+  const tracker=document.getElementById('status-box').children;
+  for(let j=0;j<tracker.length;j++){
+    tracker[j].classList.remove('active');
+    if(status[j]==='attempted')tracker[j].classList.add('attempted');
+    else if(status[j]==='not-attempted')tracker[j].classList.add('not-attempted');
   }
-  nextPage();
+  tracker[currentIndex].classList.add('active');
 }
 
-function nextPage() {
-  if ((currentPage + 1) * questionsPerPage < questions.length) {
-    currentPage++;
-    renderPage();
-  }
-}
-
-function prevPage() {
-  if (currentPage > 0) {
-    currentPage--;
-    renderPage();
-  }
-}
-
-function submitQuiz() {
+function submitQuiz(){
   clearInterval(timerInterval);
-  let score = 0, correct=0, wrong=0, unattempted=0;
-  questions.forEach((q, i) => {
-    const selected = document.querySelector(`input[name='q${i}']:checked`);
-    if(!selected){ unattempted++; return; }
-    const val = parseInt(selected.value);
-    if(val === q.answer){ score += 2; correct++; }
-    else { score -= 0.66; wrong++; }
+  let score=0,correct=0,wrong=0,unattempted=0;
+  questions.forEach((q,i)=>{
+    const selected=document.querySelector(`input[name='q${i}']:checked`);
+    if(!selected){unattempted++;return;}
+    const val=parseInt(selected.value);
+    if(val===q.answer){score+=2;correct++;}else{score-=0.66;wrong++;}
   });
-  const total = questions.length;
-
-  const resultDiv = document.getElementById('result');
-  let answerList = '<h3>Correct Answers</h3><ol>' + questions.map((q,i)=>`<li>${q.q}<br><b>Ans:</b> ${q.options[q.answer]}</li>`).join('') + '</ol>';
-
-  resultDiv.innerHTML = `<h2>Results for ${candidateName}</h2>
-    <p><strong>Total Questions:</strong> ${total}</p>
-    <p><strong>Correct:</strong> ${correct}</p>
-    <p><strong>Wrong:</strong> ${wrong}</p>
-    <p><strong>Unattempted:</strong> ${unattempted}</p>
-    <p><strong>Final Score:</strong> ${score.toFixed(2)}</p>` + answerList;
+  const total=questions.length;
+  const resultDiv=document.getElementById('result');
+  let key='<h3>Answer Key</h3><ol>'+questions.map((q,i)=>`<li>${q.q}<br><b>Answer:</b> ${q.options[q.answer]}</li>`).join('')+'</ol>';
+  resultDiv.innerHTML=`<h2>Results for ${candidateName}</h2><p><strong>Total Questions:</strong> ${total}</p><p><strong>Correct:</strong> ${correct}</p><p><strong>Wrong:</strong> ${wrong}</p><p><strong>Unattempted:</strong> ${unattempted}</p><p><strong>Final Score:</strong> ${score.toFixed(2)}</p>`+key;
 }
 </script>
 </body>

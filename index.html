@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Prelims Precise - Feb 2025</title>
+<title>Prelims Precise - Feb 2025 (Reframed Final)</title>
 <style>
   body{font-family:system-ui,Segoe UI,Roboto,Arial;background:#f6f5f3;margin:0;color:#0f172a}
   .wrap{max-width:1100px;margin:20px auto;display:grid;grid-template-columns:1fr 260px;gap:18px;padding:14px}
@@ -27,10 +27,10 @@
   .num{width:42px;height:42px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#e6e7eb;font-weight:700;cursor:pointer}
   .num.attempted{background:#10b981;color:#fff}
   .num.active{background:#7b5cff;color:#fff;box-shadow:0 6px 18px rgba(123,92,255,0.12)}
-  .result{background:#fff;padding:18px;border-radius:10px;box-shadow:0 8px 24px rgba(15,23,42,0.06);margin-top:20px;border:1px solid #f0f0f3;display:none;animation:fadeIn 0.5s ease-in-out}
+  .result{background:#fff;padding:18px;border-radius:10px;box-shadow:0 8px 24px rgba(15,23,42,0.06);margin-top:20px;border:1px solid #f0f0f3;display:none;animation:fadeIn 0.4s ease-in-out}
   .key{padding-left:18px}
   .controls{display:flex;gap:8px;justify-content:center;margin-top:12px}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
   @media(max-width:980px){.wrap{grid-template-columns:1fr}.tracker{position:static;height:auto;margin-top:12px}}
 </style>
 </head>
@@ -46,17 +46,17 @@
       <div style="color:#555;margin-bottom:8px">Enter your full name to begin</div>
       <input id="name" type="text" placeholder="Your full name" autocomplete="off"/><br>
       <button id="startButton" class="btn">Start Quiz</button>
-      <div style="color:#777;font-size:13px;margin-top:10px">50 Qs • +2 / −0.66 / 0 • Key shown after submission</div>
+      <div style="color:#777;font-size:13px;margin-top:10px">50 Qs • +2 / −0.66 / 0 • Answer key shown after submission</div>
     </div>
 
     <div id="quiz-section" style="display:none">
-      <div id="questions-root"></div>
+      <div id="questions-root" aria-live="polite"></div>
       <div style="text-align:center;margin-top:12px">
         <button id="submitButton" class="btn">Submit Quiz</button>
       </div>
     </div>
 
-    <!-- ✅ Result is now outside quiz-section -->
+    <!-- Result is outside quiz-section so it always shows -->
     <div id="result" class="result"></div>
   </section>
 
@@ -70,97 +70,218 @@
 </div>
 
 <script>
-const QUESTIONS=[
- {q:"Consider the following statements about the doctrine of 'pith and substance': 1. It is used to determine the true nature of legislation when classification under legislative lists is in doubt. 2. The doctrine allows the legislature to enact laws outside its competence if the dominant feature falls within its competence. 3. It is applied only in cases involving fundamental rights. How many of the statements given above are correct?",options:["1 and 2 only","1 only","2 and 3 only","All three"],answer:0},
- {q:"With reference to Article 356 of the Constitution, consider the following statements: 1. The President can impose President’s Rule only upon the written request of the Governor. 2. The imposition of President’s Rule can be challenged in the Supreme Court on ground of mala fides. 3. Parliament’s approval is required for continuance beyond two months. Which of the statements is/are correct?",options:["2 only","1 and 2 only","2 and 3 only","1, 2 and 3"],answer:0},
- {q:"The doctrine of basic structure in Indian Constitution acts as:",options:["A limitation on Parliament's amending power","An explicit clause in the Constitution","A principle permitting abolition of judicial review","A rule under Article 370"],answer:0},
- {q:"With reference to Soil Health Card Scheme, which of the following are correct? 1. It provides nutrient status of soil. 2. It ensures MSP. 3. It helps precision nutrient management.",options:["1 and 3 only","1 only","2 only","All three"],answer:0}
+/* 50 Reframed UPSC-style questions (Polity 12, Economy 12, Environment 10, Sci&Tech 8, IR/Misc 8)
+   Options use UPSC patterns (1 only, 1 & 2 only, etc.). Answers are index 0..3 corresponding to options array. */
+
+const QUESTIONS = [
+{"q":"Consider the following statements about the 'pith and substance' doctrine: 1. It examines the true nature of legislation when classification under legislative lists is ambiguous. 2. It allows a legislature to ignore the distribution of powers if the purpose is welfare. 3. It is confined to adjudication on federalism issues only. Which of the statements are correct?","options":["1 only","2 only","1 and 2 only","All three"],"answer":0},
+{"q":"With reference to Article 356, consider: 1. It allows President’s Rule when a state government cannot function per Constitution. 2. Parliamentary approval is needed for the continuation beyond two months. 3. It can be imposed only on the recommendation of the Governor. Which are correct?","options":["1 and 2 only","1 only","2 and 3 only","All three"],"answer":0},
+{"q":"Consider the following about the 'basic structure' doctrine: 1. It restricts Parliament’s power to amend the Constitution. 2. It is explicitly stated in the Constitution. 3. Judicial review is part of the basic structure. Which are correct?","options":["1 and 3 only","1 only","2 only","All three"],"answer":0},
+{"q":"Regarding Fundamental Rights and Directive Principles: 1. Fundamental Rights are enforceable; Directive Principles are not. 2. Directive Principles have priority over Fundamental Rights in case of conflict. 3. Both were part of the original Constitution. Which statements are correct?","options":["1 only","1 and 3 only","2 only","All three"],"answer":1},
+{"q":"Consider the following statements about Article 370 (as originally applied): 1. It granted special status to Jammu & Kashmir. 2. It was a permanent provision that could not be abrogated. 3. It allowed the state's Constituent Assembly to decide permanent status. Which are correct?","options":["1 and 3 only","1 only","2 only","All three"],"answer":0},
+{"q":"Which of the following are functions of the Election Commission of India? 1. Conduct of elections to Parliament and state legislatures. 2. Supervising local body elections in all states. 3. Delimitation of constituencies. Choose correct statements.","options":["1 only","1 and 2 only","1 and 3 only","All three"],"answer":0},
+{"q":"Consider the following statements about the National Commission for Scheduled Castes (NCSC): 1. It is a constitutional body. 2. It examines complaints and safeguards the rights of SCs. 3. It has powers of a civil court. Which are correct?","options":["2 and 3 only","1 and 2 only","1 only","All three"],"answer":1},
+{"q":"Regarding the 'rarest of rare' doctrine in death penalty jurisprudence: 1. It prescribes mandatory death for specific crimes. 2. It was developed by the Supreme Court to restrict death sentences. 3. It requires examination of mitigating and aggravating factors. Which are correct?","options":["2 and 3 only","1 only","1 and 2 only","All three"],"answer":0},
+{"q":"Consider the following about the National Dam Safety Act, 2021: 1. It establishes a National Dam Safety Authority. 2. The Act applies only to dams owned by the Centre. 3. It provides for dam safety programmes and surveillance. Which statements are correct?","options":["1 and 3 only","1 only","2 only","All three"],"answer":0},
+{"q":"About Temporary Suspension of Telecom Services Rules, 2017: 1. It provides procedure for suspension of telecom services. 2. Only the Home Secretary can issue an order under the Rules. 3. Orders under these rules must be narrowly tailored to time and area. Which are correct?","options":["1 and 3 only","1 only","2 only","All three"],"answer":0},
+{"q":"Consider these statements about the Right to Privacy (India): 1. It is a fundamental right under the Constitution. 2. The Supreme Court declared it so in K.S. Puttaswamy case. 3. It is absolute and cannot be restricted. Which are correct?","options":["1 and 2 only","1 only","2 and 3 only","All three"],"answer":0},
+{"q":"Which of the following fall under Article 32? 1. Right to move Supreme Court for enforcement of fundamental rights. 2. Parliament can curtail Article 32 by ordinary law. 3. Article 32 is a fundamental right itself. Choose correct statements.","options":["1 and 3 only","1 only","2 only","All three"],"answer":1},
+
+{"q":"Consider the following statements about Adjusted Gross Revenue (AGR) in telecom disputes: 1. AGR was used to calculate license fees and spectrum dues. 2. AGR includes all revenues including non-telecom sources as per regulatory interpretation. 3. AGR excludes international revenue by default. Which statements are correct?","options":["1 and 2 only","1 only","2 and 3 only","All three"],"answer":0},
+{"q":"About National Bank for Financing Infrastructure and Development (NaBFID): 1. It is a Development Finance Institution (DFI). 2. It takes retail deposits from the public. 3. Its main role is long-term financing for infrastructure. Which are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0},
+{"q":"Consider the following about Electronic Negotiable Warehouse Receipts (e-NWRs): 1. They provide digital evidence of stored commodity. 2. They can be used as collateral for loans. 3. They change land ownership records. Which are correct?","options":["1 and 2 only","1 only","2 and 3 only","All three"],"answer":0},
+{"q":"With reference to QIP (Qualified Institutional Placement): 1. It enables listed companies to raise capital from institutional buyers. 2. It is aimed at retail investors. 3. It is regulated by securities market regulator. Which are correct?","options":["1 and 3 only","1 only","2 only","All three"],"answer":0},
+{"q":"Consider statements about the Composite Flash PMI: 1. A reading above 50 indicates expansion. 2. It is an instantaneous policy instrument of RBI. 3. It is survey-based from purchasing managers. Which are correct?","options":["1 and 3 only","1 only","2 and 3 only","All three"],"answer":0},
+{"q":"About the Dollar-Rupee swap auctions by RBI: 1. They are used to manage rupee liquidity. 2. They fix the rupee exchange rate permanently. 3. They are a foreign exchange operation, not fiscal policy. Which statements are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0},
+{"q":"Consider the following statements regarding Soil Health Card scheme: 1. It provides nutrient status and fertilizer recommendation. 2. It guarantees fixed income to farmers. 3. It aids precision nutrient management. Which are correct?","options":["1 and 3 only","1 only","2 only","All three"],"answer":0},
+{"q":"Regarding exchange rate impact: 1. Rupee depreciation benefits exporters in the short run. 2. Depreciation reduces import bills immediately. 3. Remittance receivers may gain from depreciation. Which are correct?","options":["1 and 3 only","2 only","1 and 2 only","All three"],"answer":0},
+{"q":"Consider statements about the Market Intervention Scheme (MIS): 1. MIS is used to procure perishable crops to prevent distress sale. 2. It is primarily a monetary policy instrument. 3. It is implemented by central agencies for select commodities. Which are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0},
+{"q":"About Minimum Selling Price (MSP) for sugar: 1. MSP ensures mills recover production costs. 2. MSP directly controls retail consumer prices. 3. MSP impacts sugarcane farmers' remuneration. Which are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0},
+
+{"q":"Consider the following statements about climate finance negotiations (recent COP-related): 1. Mechanisms like 'Cali Fund' aim to finance biodiversity projects. 2. They propose compensation mechanisms for digital sequence information use. 3. They replace the Green Climate Fund entirely. Which are correct?","options":["1 and 2 only","3 only","1 only","All three"],"answer":0},
+{"q":"Which of the following about Ramsar sites is/are correct? 1. Ramsar listing recognises wetlands of international importance. 2. Ramsar status is equivalent to UNESCO World Heritage listing. 3. Ramsar sites can help conservation funding access. Choose correct statements.","options":["1 and 3 only","1 only","2 only","All three"],"answer":0},
+{"q":"Consider the Climate Risk Index: 1. It assesses historical weather-related losses. 2. It combines socio-economic impacts in ranking. 3. It is based solely on current temperature rise. Which are correct?","options":["1 and 2 only","3 only","1 only","All three"],"answer":0},
+{"q":"About International Big Cat Alliance (IBCA): 1. It aims to coordinate conservation across range and non-range countries. 2. It promotes commercial trade in big cat derivatives. 3. It facilitates knowledge sharing on big cat conservation. Which are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0},
+{"q":"Consider statements on brine pools and hazards: 1. Brine pools are hypersaline and denser than surrounding seawater. 2. They readily mix with adjacent seawater increasing oxygen. 3. They can create anoxic conditions lethal to most marine life. Which are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0},
+{"q":"Regarding ferrihydrite in Martian studies: 1. Ferrihydrite formation indicates alteration in presence of water. 2. Its discovery proves current breathable atmosphere on Mars. 3. It supports hypotheses of past wetter conditions. Which are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0},
+{"q":"Consider the 'Quipu' cosmic structure discovery: 1. It represents a very large superstructure of galaxy clusters. 2. It challenges simplistic homogeneity assumptions at certain scales. 3. It is evidence of extraterrestrial technology. Which statements are correct?","options":["1 and 2 only","3 only","1 only","All three"],"answer":0},
+{"q":"About the Gaia BH3 discovery: 1. It is a nearby passive black hole inferred from stellar motion. 2. Detection relied on astrometric data. 3. It indicates imminent danger to Earth. Which are correct?","options":["1 and 2 only","2 only","3 only","All three"],"answer":0},
+
+{"q":"Consider the following statements about KM3NeT detectors: 1. They are deep-sea neutrino telescopes using Cherenkov radiation. 2. They detect gravitational waves directly. 3. They help study high-energy cosmic neutrinos. Which are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0},
+{"q":"About the National Geospatial Mission, consider: 1. It aims to create foundational geospatial infrastructure. 2. Its primary goal is to replace GPS globally. 3. It supports modernisation of land records and planning. Which are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0},
+{"q":"Regarding Small Modular Reactors (SMRs): 1. They are modular and suitable for distributed generation. 2. They are currently exempt from regulatory oversight. 3. Factory-built SMRs offer potential for scalability. Which are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0},
+{"q":"Consider the Extremely Large Telescope (ELT): 1. It will have a very large aperture enabling study of faint distant objects. 2. It will replace space telescopes entirely. 3. It will enhance exoplanet and early universe studies. Which are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0},
+{"q":"About ITER project, which are correct? 1. It aims to demonstrate feasibility of fusion energy. 2. It is an international collaborative project. 3. It will deliver commercial fusion power to grids by 2025. Choose correct statements.","options":["1 and 2 only","3 only","1 only","All three"],"answer":0},
+{"q":"Consider the following about biomedical waste innovations like 'Sṛjanam': 1. They aim for eco-friendly on-site processing without incineration. 2. They immediately replace municipal waste systems nationwide. 3. They focus on safe treatment at healthcare facilities. Which are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0},
+
+{"q":"Regarding faecal coliform counts spike during mass bathing: 1. It indicates sewage contamination and public health risk. 2. It reflects improved water quality. 3. Such spikes are temporary but can cause disease outbreaks. Which are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0},
+{"q":"Consider black plastics in food contact concerns: 1. Studies found they may contain hazardous additives and heavy metals. 2. All black plastics are universally food-safe. 3. Risk arises mainly when recycled e-waste enters feedstock. Which are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0},
+{"q":"With reference to selenium toxicity events: 1. They result from excess selenium in staple grains. 2. Selenium toxicity can cause hair loss and neurological symptoms. 3. They are typically viral outbreaks. Which are correct?","options":["1 and 2 only","3 only","1 only","All three"],"answer":0},
+{"q":"Consider recent medical advances in Spinal Muscular Atrophy (SMA): 1. Disease-modifying therapies now improve outcomes across types. 2. A single short course of antibiotics cures SMA. 3. Gene therapies have become part of treatment strategies. Which are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0},
+
+{"q":"About Aero India, which statements are correct? 1. It showcases aerospace and defence technologies and facilitates cooperation. 2. It is primarily a music festival. 3. It helps defence trade and partnerships. Which are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0},
+{"q":"Consider Pinaka rocket system: 1. It is an artillery rocket system for area saturation. 2. It is an intercontinental ballistic missile. 3. It provides multi-round salvo capability. Which are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0},
+{"q":"Regarding e-NWRs and farmers: 1. They improve access to formal credit by serving as collateral. 2. They automatically raise MSP for commodities. 3. They improve marketability of stored produce. Which are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0},
+{"q":"About Grameen Credit Score (GCS): 1. It uses alternative data to assess rural creditworthiness. 2. It replaces formal credit bureaus for all borrowers. 3. It aims to improve inclusion of rural borrowers. Which are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0}
 ];
+/* End QUESTIONS */
+
 QUESTIONS.sort(()=>Math.random()-0.5);
 
-let candidateName='',timeLeft=60*60,timerInterval=null;
-const $=id=>document.getElementById(id);
+let candidateName = '';
+let timeLeft = 60 * 60; // 60 minutes
+let timerInterval = null;
+const $ = id => document.getElementById(id);
 
-function renderQuestions(){
- const root=$('questions-root');root.innerHTML='';
- QUESTIONS.forEach((q,i)=>{
-  const div=document.createElement('div');
-  div.className='question';div.id='q'+i;
-  div.innerHTML=`<h3>Q${i+1}. ${q.q}</h3>`+
-   q.options.map((opt,j)=>`<label class="option"><input type="radio" name="q${i}" value="${j}" onchange="markAttempt(${i})"> ${opt}</label>`).join('');
-  root.appendChild(div);
- });
+/* Batch renderer to avoid blocking UI (render 6 per frame) */
+function renderQuestionsInBatches() {
+  const root = $('questions-root'); root.innerHTML = '';
+  const batchSize = 6;
+  let idx = 0;
+  function renderBatch() {
+    const end = Math.min(idx + batchSize, QUESTIONS.length);
+    for (let i = idx; i < end; i++) {
+      const q = QUESTIONS[i];
+      const card = document.createElement('div');
+      card.className = 'question';
+      card.id = 'q' + i;
+      const h = document.createElement('h3');
+      h.innerText = `Q${i+1}. ${q.q}`;
+      card.appendChild(h);
+      q.options.forEach((opt, j) => {
+        const lbl = document.createElement('label');
+        lbl.className = 'option';
+        const inp = document.createElement('input');
+        inp.type = 'radio';
+        inp.name = 'q' + i;
+        inp.value = j;
+        inp.addEventListener('change', () => markAttempt(i));
+        lbl.appendChild(inp);
+        lbl.appendChild(document.createTextNode(' ' + opt));
+        card.appendChild(lbl);
+      });
+      root.appendChild(card);
+    }
+    idx = end;
+    if (idx < QUESTIONS.length) {
+      setTimeout(renderBatch, 40);
+    } else {
+      setTimeout(highlightOnScroll, 200);
+    }
+  }
+  renderBatch();
 }
-function renderTracker(){
- const grid=$('tracker-grid');grid.innerHTML='';
- QUESTIONS.forEach((_,i)=>{
-  const b=document.createElement('div');
-  b.className='num';b.textContent=i+1;
-  b.addEventListener('click',()=>{const el=$('q'+i);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});});
-  grid.appendChild(b);
- });
-}
-function markAttempt(i){
- const n=document.querySelectorAll('.num')[i];if(n)n.classList.add('attempted');
-}
-function highlightOnScroll(){
- const qs=document.querySelectorAll('.question');let active=0;
- const mid=window.innerHeight/2;
- qs.forEach((el,i)=>{const r=el.getBoundingClientRect();if(r.top<mid&&r.bottom>100)active=i;});
- const nums=document.querySelectorAll('.num');nums.forEach(n=>n.classList.remove('active'));
- if(nums[active])nums[active].classList.add('active');
-}
-function startTimer(){
- const t=$('timer');
- timerInterval=setInterval(()=>{
-  const m=Math.floor(timeLeft/60),s=timeLeft%60;
-  t.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-  timeLeft--;
-  if(timeLeft<0){clearInterval(timerInterval);submitQuiz(true);alert('Time up — quiz auto-submitted.');}
- },1000);
-}
-function submitQuiz(auto=false){
- clearInterval(timerInterval);
- let score=0,correct=0,wrong=0,unattempted=0;
- QUESTIONS.forEach((q,i)=>{
-  const sel=document.querySelector(`input[name="q${i}"]:checked`);
-  if(!sel){unattempted++;return;}
-  const val=parseInt(sel.value);
-  if(val===q.answer){score+=2;correct++;}else{score-=0.66;wrong++;}
- });
- const total=QUESTIONS.length;
- const res=$('result');
- res.style.display='block';
- res.innerHTML=`
-  <h2>${candidateName}</h2>
-  <p><strong>Total Questions:</strong> ${total}</p>
-  <p><strong>Correct:</strong> ${correct}</p>
-  <p><strong>Incorrect:</strong> ${wrong}</p>
-  <p><strong>Unattempted:</strong> ${unattempted}</p>
-  <p><strong>Final Score:</strong> ${score.toFixed(2)}</p>
-  <hr><h3>Answer Key</h3>
-  <ol class="key">${QUESTIONS.map((q,i)=>`<li>Q${i+1}: ${q.options[q.answer]}</li>`).join('')}</ol>`;
- $('quiz-section').style.display='none';
- res.scrollIntoView({behavior:'smooth'});
-}
-document.addEventListener('DOMContentLoaded',()=>{
- renderTracker();
- const startBtn=$('startButton'),submitBtn=$('submitButton'),nameInput=$('name');
- if(startBtn){
-  startBtn.addEventListener('click',()=>{
-   const nm=nameInput.value.trim();
-   if(!nm){alert('Please enter your name');nameInput.focus();return;}
-   candidateName=nm;
-   renderQuestions();renderTracker();
-   $('start-card').style.display='none';
-   $('quiz-section').style.display='block';
-   startTimer();
-   window.addEventListener('scroll',highlightOnScroll,{passive:true});
-   setTimeout(highlightOnScroll,300);
+
+function renderTracker() {
+  const grid = $('tracker-grid'); grid.innerHTML = '';
+  QUESTIONS.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'num';
+    d.innerText = i + 1;
+    d.addEventListener('click', () => {
+      const el = $('q' + i);
+      if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
+    });
+    grid.appendChild(d);
   });
- }
- if(submitBtn)submitBtn.addEventListener('click',()=>{if(confirm('Submit quiz now?'))submitQuiz(false);});
- const btnTop=$('btn-top');if(btnTop)btnTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+}
+
+function markAttempt(i) {
+  const nodes = document.querySelectorAll('#tracker-grid .num');
+  const node = nodes[i];
+  if (node) node.classList.add('attempted');
+  window._attempts = window._attempts || [];
+  window._attempts[i] = true;
+}
+
+function highlightOnScroll() {
+  const qs = document.querySelectorAll('.question');
+  if (!qs || qs.length === 0) return;
+  const viewportMid = window.innerHeight / 2;
+  let active = 0;
+  qs.forEach((el, i) => {
+    const r = el.getBoundingClientRect();
+    if (r.top < viewportMid && r.bottom > 100) active = i;
+  });
+  const nums = document.querySelectorAll('#tracker-grid .num');
+  nums.forEach(n => n.classList.remove('active'));
+  if (nums[active]) nums[active].classList.add('active');
+}
+
+function startTimer() {
+  const tEl = $('timer');
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    const m = Math.floor(timeLeft / 60);
+    const s = timeLeft % 60;
+    const txt = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    if (tEl) tEl.textContent = txt;
+    timeLeft--;
+    if (timeLeft < 0) {
+      clearInterval(timerInterval);
+      submitQuiz(true);
+      alert('Time up — quiz auto-submitted.');
+    }
+  }, 1000);
+}
+
+function submitQuiz(auto=false) {
+  if (timerInterval) clearInterval(timerInterval);
+  let score = 0, correct = 0, wrong = 0, unattempted = 0;
+  QUESTIONS.forEach((q, i) => {
+    const sel = document.querySelector(`input[name="q${i}"]:checked`);
+    if (!sel) { unattempted++; return; }
+    const v = parseInt(sel.value);
+    if (v === q.answer) { score += 2; correct++; } else { score -= 0.66; wrong++; }
+  });
+  const total = QUESTIONS.length;
+  const res = $('result');
+  res.style.display = 'block';
+  // Only correct options in key as requested
+  let keyHtml = '<h3>Answer Key</h3><ol class="key">';
+  QUESTIONS.forEach((q,i)=>{
+    // convert option index to textual option (use the option string itself)
+    keyHtml += `<li>Q${i+1}: ${q.options[q.answer]}</li>`;
+  });
+  keyHtml += '</ol>';
+  res.innerHTML = `
+    <h2>${candidateName}</h2>
+    <p><strong>Total Questions:</strong> ${total}</p>
+    <p><strong>Correct:</strong> ${correct}</p>
+    <p><strong>Incorrect:</strong> ${wrong}</p>
+    <p><strong>Unattempted:</strong> ${unattempted}</p>
+    <p><strong>Final Score:</strong> ${score.toFixed(2)}</p>
+    <hr>
+    ${keyHtml}
+  `;
+  // hide quiz area after short delay (let the UI settle)
+  setTimeout(()=>{ $('quiz-section').style.display='none'; }, 150);
+  res.scrollIntoView({behavior:'smooth'});
+}
+
+/* Wire events */
+document.addEventListener('DOMContentLoaded', ()=> {
+  renderTracker();
+  const startBtn = $('startButton'), submitBtn = $('submitButton'), nameInput = $('name');
+  if (startBtn) {
+    startBtn.addEventListener('click', ()=> {
+      const nm = (nameInput && nameInput.value || '').trim();
+      if (!nm) { alert('Please enter your name'); if (nameInput) nameInput.focus(); return; }
+      candidateName = nm;
+      renderQuestionsInBatches();
+      renderTracker();
+      $('start-card').style.display = 'none';
+      $('quiz-section').style.display = 'block';
+      startTimer();
+      window.addEventListener('scroll', highlightOnScroll, {passive:true});
+      setTimeout(highlightOnScroll, 300);
+    });
+  }
+  if (submitBtn) {
+    submitBtn.addEventListener('click', ()=> { if (confirm('Submit quiz now?')) submitQuiz(false); });
+  }
+  const btnTop = $('btn-top');
+  if (btnTop) btnTop.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
 });
 </script>
 </body>

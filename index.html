@@ -58,102 +58,54 @@ label{display:block;margin:5px 0;cursor:pointer}
 </div>
 
 <script>
-/* ———— QUESTIONS (abbreviated for brevity, same as previous version) ———— */
-const questions = Array.from({length:50},(_,i)=>({
-  q:`Sample UPSC-style question ${i+1}?`,
-  options:['Option A','Option B','Option C','Option D'],
-  answer:Math.floor(Math.random()*4)
-})).sort(()=>Math.random()-0.5);
-
-let candidateName='', timeLeft=60*60, timerInterval=null;
-
-/* Utilities */
-const $=id=>document.getElementById(id);
-
-function renderAllQuestions(){
-  const root=$('questions-root'); root.innerHTML='';
-  questions.forEach((q,i)=>{
-    const div=document.createElement('div'); div.className='question'; div.id='q'+i;
-    div.innerHTML=`<h3>Q${i+1}. ${q.q}</h3>`+q.options.map((opt,idx)=>
-      `<label><input type='radio' name='q${i}' value='${idx}' onchange='markAttempt(${i})'> ${opt}</label>`).join('');
-    root.appendChild(div);
-  });
-}
-
-function renderTracker(){
-  const grid=$('tracker-grid'); grid.innerHTML='';
-  questions.forEach((_,i)=>{
-    const d=document.createElement('div'); d.className='num'; d.textContent=i+1;
-    d.addEventListener('click',()=>document.getElementById('q'+i).scrollIntoView({behavior:'smooth',block:'center'}));
-    grid.appendChild(d);
-  });
-}
-
-function markAttempt(i){
-  const el=$('tracker-grid').children[i];
-  if(el) el.classList.add('attempted');
-}
-
-function startTimer(){
-  const t=$('timer');
-  timerInterval=setInterval(()=>{
-    const m=Math.floor(timeLeft/60), s=timeLeft%60;
-    t.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-    timeLeft--;
-    if(timeLeft<0){clearInterval(timerInterval);submitQuiz(true);alert('Time up! Auto-submitted.');}
-  },1000);
-}
-
-function highlightOnScroll(){
-  const questionsEls=document.querySelectorAll('.question');
-  const nums=$('#tracker-grid').children;
-  let active=-1;
-  questionsEls.forEach((q,i)=>{
-    const rect=q.getBoundingClientRect();
-    if(rect.top>=0&&rect.top<300) active=i;
-  });
-  Array.from(nums).forEach(n=>n.classList.remove('active'));
-  if(active>=0 && nums[active]) nums[active].classList.add('active');
-}
-
-function submitQuiz(auto=false){
-  clearInterval(timerInterval);
-  let score=0,correct=0,wrong=0,unattempted=0;
-  questions.forEach((q,i)=>{
-    const sel=document.querySelector(`input[name='q${i}']:checked`);
-    if(!sel){unattempted++;return;}
-    const val=parseInt(sel.value);
-    if(val===q.answer){score+=2;correct++;}else{score-=0.66;wrong++;}
-  });
-  const res=$('result');
-  res.style.display='block';
-  res.innerHTML=`<h2>${candidateName}</h2>
-  <p>Total: ${questions.length} | Correct: ${correct} | Wrong: ${wrong} | Unattempted: ${unattempted}</p>
-  <p><b>Final Score:</b> ${score.toFixed(2)}</p>
-  <h3>Answer Key</h3><ol>${questions.map((q,i)=>`<li>Q${i+1}: ${q.options[q.answer]}</li>`).join('')}</ol>`;
-  $('quiz-section').style.display='none';
-  res.scrollIntoView({behavior:'smooth'});
-}
-
-/* Event bindings */
-document.addEventListener('DOMContentLoaded',()=>{
-  renderTracker();
-  const startBtn=$('startButton'), submitBtn=$('submitButton');
-  startBtn.addEventListener('click',()=>{
-    const nm=$('name').value.trim();
-    if(!nm){alert('Please enter your name');return;}
-    candidateName=nm;
-    renderAllQuestions();   // draw questions BEFORE showing
-    renderTracker();
-    $('start-card').style.display='none';
-    $('quiz-section').style.display='block';
-    startTimer();
-    document.querySelector('.main').addEventListener('scroll',highlightOnScroll);
-    setTimeout(highlightOnScroll,200);
-  });
-  submitBtn.addEventListener('click',()=>{if(confirm('Submit quiz now?')) submitQuiz(false);});
-  $('btn-top').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-});
-</script>
-</body>
-</html>
+const questions = [
+{q:'With reference to the Corruption Perceptions Index (CPI) 2024, consider the following statements: 1. The CPI scores countries on a scale where 0 denotes "highly corrupt" and 100 "very clean". 2. India’s CPI score in 2024 improved relative to 2022. 3. CPI is based on perceptual data from experts and businesses. Which of the statements given above is/are correct?', options:['1 and 3 only','1 only','2 and 3 only','1, 2 and 3'], answer:0},
+{q:'The National Dam Safety Authority (NDSA) established under the National Dam Safety Act, 2021, has jurisdiction over which of the following?', options:['All dams irrespective of height','Only dams owned by Central government','Dams above specified heights and design criteria','Only irrigation dams'], answer:2},
+{q:'The Devolution Index measures the autonomy of Panchayats across several dimensions. Which of the following is NOT one of its typical dimensions?', options:['Finances','Functions','International relations','Capacity building'], answer:2},
+{q:'In the context of internet shutdowns in India, the Temporary Suspension of Telecom Services Rules, 2017, permit an order for how long per issuance (without parliamentary approval)?', options:['Up to 15 days','Up to 30 days','Up to 90 days','Until revoked by the court'], answer:0},
+{q:'The “rarest of rare” doctrine in India is primarily associated with which of the following?', options:['Environmental offences','Death penalty jurisprudence','Economic offences','Administrative discretion'], answer:1},
+{q:'When the Supreme Court invokes the doctrine of “pith and substance”, it is attempting to:', options:['Strike down the whole statute as unconstitutional','Determine the true character and legislative competence of the law','Convert state subjects to central subjects','Allocate funds between Centre and State'], answer:1},
+{q:'President’s Rule under Article 356 of the Constitution may be imposed when:', options:['A state requests it explicitly in all cases','The President is satisfied that the state government cannot function according to the constitution','Parliament passes a resolution to that effect','The Chief Justice of the State High Court recommends it'], answer:1},
+{q:'The proposal to remove the “marital rape exception” (MRE) in recent legislative debate seeks to amend which of the following legal texts?', options:['Bharatiya Nyaya Sanhita (BNS)','Code of Civil Procedure','Evidence Act','Constitution of India'], answer:0},
+{q:'Article 371-type special provisions, when applied to a State, typically aim to:', options:['Grant permanent autonomous status to all districts','Provide tailored administrative safeguards recognizing unique social and cultural practices','Centralise control over land resources','Abolish State legislatures'], answer:1},
+{q:'Minimum Selling Price (MSP) for sugar announced under the Sugar Price (Control) Order is intended primarily to:', options:['Ensure mills recover production costs and pay FRP to farmers','Control retail consumer prices directly','Subsidise exports of sugar','Replace Fair and Remunerative Price (FRP)'], answer:0},
+{q:'Gross Domestic Knowledge Product (GDKP) differs from GDP because it attempts to:', options:['Measure only agricultural output','Capture the value generated by knowledge-intensive activities like R&D, education and IP','Exclude services from national accounts','Replace GDP for policy purposes'], answer:1},
+{q:'The Adjusted Gross Revenue (AGR) controversy primarily related to telecom companies turned on whether AGR should include:', options:['Only telecom revenue','All commercial revenues including non-telecom sources','Only export revenues','Only revenues from voice calls'], answer:1},
+{q:'Market Intervention Scheme (MIS) is mainly used by the government to:', options:['Procure perishable crops to prevent distress selling','Regulate global commodity prices','Fix MSP for cereals','Provide crop insurance'], answer:0},
+{q:'National Bank for Financing Infrastructure and Development (NaBFID) is best described as:', options:['A specialised Development Finance Institution to fund long-term infrastructure projects','A public retail bank for farmers','An insurance company for infrastructure projects','A committee advising on tax policy'], answer:0},
+{q:'Electronic Negotiable Warehouse Receipts (e-NWRs) help farmers mainly by:', options:['Providing digital proof of stored produce that can be used as collateral for loans','Automatically increasing MSP for stored crops','Reducing crop yield risks','Altering land ownership records'], answer:0},
+{q:'Composite Flash Purchasing Managers’ Index (PMI) above 50 indicates:', options:['Contraction in overall business activity','No change in activity','Expansion in overall business activity','An official monetary policy decision'], answer:2},
+{q:'Qualified Institutional Placement (QIP) is a mechanism by which listed companies can:', options:['Raise capital by issuing securities directly to qualified institutional buyers','Raise funds only from retail investors','Issue government securities','Raise funds only through public offering'], answer:0},
+{q:'The Grameen Credit Score (GCS) announced in Budget 2025 aims to:', options:['Assess creditworthiness of rural borrowers using alternate data to improve financial inclusion','Replace CIBIL for all borrowers','Provide insurance cover to SHGs','Standardise MSP across states'], answer:0},
+{q:'The National Manufacturing Mission announced in Budget 2025 focuses on which of the following priorities?', options:['Only heavy engineering sectors','Future-ready workforce, MSME support, technology availability and quality products','Privatising all PSUs in manufacturing','Limiting manufacturing to export-only units'], answer:1},
+{q:'A Dollar-Rupee buy/sell swap auction by the RBI typically aims to:', options:['Infuse rupee liquidity into the banking system by buying dollars','Strictly fix the exchange rate permanently','Ban forward contracts','Increase import tariffs'], answer:0},
+{q:'The Soil Health Card Scheme provides which of the following to farmers?', options:['Nutrient status of soil and fertilizer recommendations','Direct cash grants every season','Free seeds and pesticides','Crop insurance cover'], answer:0},
+{q:'A sharp fall in the Indian Rupee’s value vis-a-vis the US dollar typically benefits which of the following stakeholders in the short run?', options:['Import-dependent industries','Exporters and remittance-receiving households','Domestic consumers of imported goods','Foreign tourists to India'], answer:1},
+{q:'The Arab League’s objection to proposals to relocate Palestinians from Gaza to neighbouring states primarily concerned:', options:['Sovereignty and refugee rights of Palestinians and neighbouring countries','Trade tariffs','Environmental damage','Maritime boundaries'], answer:0},
+{q:'International Association of Marine Aids to Navigation and Lighthouse Authorities (IALA) chiefly deals with:', options:['Harmonising marine aids to navigation like buoys and lighthouses','Regulating fishing quotas','Maritime law adjudication','Marine protected areas management'], answer:0},
+{q:'The AI Action Summit’s joint declaration emphasised which of the following principles?', options:['Inclusive and sustainable AI with openness, safety and workforce upskilling','Immediate global ban on AI development','Removal of all AI from public services','Mandatory AI taxes for all companies'], answer:0},
+{q:'The US-India COMPACT and TRUST initiatives announced during the PM’s US visit primarily aim to:', options:['Strengthen cooperation in defence, critical technologies and energy security','Create a customs union','Merge the two countries’ space agencies','Dissolve bilateral trade agreements'], answer:0},
+{q:'USAID’s restructuring and cuts in foreign aid, as reported, would most directly affect:', options:['Bilateral development projects and soft-power engagement','India’s constitution','Global oil prices','Domestic banking regulations'], answer:0},
+{q:'The Bay of Bengal Programme Inter-Governmental Organisation (BOBP-IGO) focuses mainly on:', options:['Support to small-scale and artisanal fishers in the Bay of Bengal region','Building nuclear plants','Space cooperation','Transboundary water sharing agreements'], answer:0},
+{q:'Kashi-Tamil Sangam (KTS) initiatives chiefly promote:', options:['Cultural exchange and academic collaboration between Kashi (Varanasi) and Tamil Nadu','Trade in ancient manuscripts','Military cooperation','Maritime trade routes'], answer:0},
+{q:'The Gyan Bharatam Mission announced in Budget 2025 aims to:', options:['Survey, document and conserve manuscripts and intellectual heritage across India','Replace school curricula with ancient texts only','Commercialise manuscripts globally','Delete colonial-era archives'], answer:0},
+{q:'Recent research that challenges the hypothesis of young Saturn rings argues that:', options:['Dust particles are removed or altered by collisional and thermal processes, allowing rings to appear clean over long timescales','Saturn has no moons influencing rings','Rings are composed solely of iron','Rings formed in the last 1,000 years'], answer:0},
+{q:'The discovery of massive cosmic structure named "Quipu" is significant because it:', options:['Represents an extremely large superstructure of galaxy clusters that challenges cosmic homogeneity assumptions','Is a new planet in our solar system','Is evidence of extraterrestrial intelligence','Indicates Earth's impending collision'], answer:0},
+{q:'Brine pools discovered in certain seas are hazardous because they are:', options:['Hypersaline pockets that are denser and largely do not mix with surrounding seawater, creating anoxic lethal pockets','Large freshwater springs under the ocean','Reefs that support high biodiversity','Warm currents beneficial for fisheries'], answer:0},
+{q:'Ferrihydrite’s significance in recent Martian studies lies in the fact that it:', options:['Forms in wet conditions and hence supports hypotheses of an earlier wetter Mars','Is identical to hematite and proves dry rusting','Explains current breathable atmosphere on Mars','Is a mineral found only on Earth'], answer:0},
+{q:'The International Big Cat Alliance (IBCA) launched by India aims primarily to:', options:['Coordinate conservation efforts for big cats across range and non-range countries','Promote commercial trade in big cat derivatives','Convert all big cat habitats into sanctuaries by 2026','Standardise trophy hunting'], answer:0},
+{q:'Climate Risk Index (CRI) 2025 ranking of India among most affected countries was based on:', options:['Historical extreme weather events and socio-economic impacts','Only present-day temperatures','Exclusive volcanic activity data','Space weather indices'], answer:0},
+{q:'The "Cali Fund" discussed at the resumed COP16 is intended to:', options:['Finance biodiversity-related projects and compensate for use of Digital Sequence Information (DSI)','Subsidise fossil fuel exploration','Fund space missions','Replace the Green Climate Fund'], answer:0},
+{q:'Which of the following is true about the Ramsar sites added by India recently?', options:['They increase India’s tally and include wetlands in states which secured their first Ramsar site','They are all located in one state','They are exclusively saltpans','They are listed as UNESCO World Heritage sites'], answer:0},
+{q:'Gaia BH3 discovery is noteworthy because it is:', options:['A nearby (relative) passive black hole discovered using stellar motion data from Gaia','The first black hole ever discovered','A micro black hole in Earth\'s atmosphere','A theoretical construct with no observation'], answer:0},
+{q:'The Bombay (hh) blood group poses a challenge in transfusions because:', options:['Individuals lack the H antigen making them incompatible with all standard blood types','It is the same as O-negative so easy to match','It is widely available in blood banks','It causes immediate rejection in all organs'], answer:0},
+{q:'KM3NeT detectors are primarily designed to detect:', options:['High-energy neutrinos using Cherenkov radiation in deep-sea water','Gravitational waves','Dark matter directly','X-ray bursts'], answer:0},
+{q:'The National Geospatial Mission announced in Budget 2025 primarily aims to:', options:['Develop foundational geospatial infrastructure and data to modernise land records and planning','Create a new national satellite system independent of existing agencies','Replace GPS globally','Ban private mapping firms'], answer:0},
+{q:'Small Modular Reactors (SMRs) are considered advantageous because they:', options:['Are modular, factory-built, scalable and suitable for distributed generation compared to large traditional reactors','Require no regulatory oversight','Use only renewable fuels','Are already the dominant reactors globally'], answer:0},
+{q:'The Extremely Large Telescope (ELT) under construction will be particularly important for:', options:['Directly studying exoplanets, early universe and faint distant objects due to its very large aperture','Weather forecasting on Earth','Submarine telecommunications','Replacing all space telescopes'], answer:0},
+{q:'Brucellosis, recently in news, is primarily:', options:['A bacterial zoonotic disease transmissible from livestock to humans often via unpasteurised dairy','A viral respiratory illness','A plant disease','A fungal skin infection'], answer:0},
+{q:'Sṛjanam, India’s indigenous biomedical waste treatment development, is intended to:', options:['Process biomedical waste eco-friendly without incineration at healthcare facilities','Be an export-only technology','Replace all municipal waste systems immediately','Incinerate waste at higher temperatures'], answer:0},
+{q:'ITER’s significance for global energy is that it aims to:', options:['Demonstrate the feasibility of large-scale fusion energy through international collaboration','Build the first commercial fusion power plant by 2025','Replace all fission reactors globally','Be a military fusion weapon program'], answer:0},
+{q:'High faecal coliform counts at river confluences during mass bathing events indicate primarily:', options:['Sewage and sanitation contamination posing public health risks','Increased fish population','Better water quality','Higher dissolved oxygen levels'], answer:0},
+{q:'Concerns about black plastics in food contact applications arose because studies found they may contain:', options:['Toxic flame retardants and heavy metals originating from recycled electronic waste','Beneficial antioxidants','Essential nutrients','Pure polyethylene only'], answer:0},
+{q:'Selenium toxicity reported in food-sourced incidents typically results from:', options:['Excess selenium in staple grains leading to

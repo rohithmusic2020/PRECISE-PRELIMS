@@ -49,7 +49,7 @@
     </div>
 
     <div id="quiz-section" style="display:none">
-      <div id="questions-root" aria-live="polite"></div>
+      <div id="questions-root"></div>
       <div style="text-align:center;margin-top:12px">
         <button id="submitButton" class="btn">Submit Quiz</button>
       </div>
@@ -67,181 +67,98 @@
 </div>
 
 <script>
-/* Reframed & rebalanced 50 UPSC-style MCQs
-   - Polity 12, Economy 12, Environment 10, Science & Tech 8, IR/Misc 8
-   - Options use UPSC patterns like "1 only", "1 & 2 only", "All of the above" etc.
-   - Answers are embedded as index (0..3). */
-const QUESTIONS = [
-{"q":"Consider the following statements about the doctrine of 'pith and substance': 1. It is used to determine the true nature of legislation when classification under legislative lists is in doubt. 2. The doctrine allows the legislature to enact laws outside its competence if the dominant feature falls within its competence. 3. It is applied only in cases involving fundamental rights. How many of the statements given above are correct?","options":["1 and 2 only","1 only","2 and 3 only","All three"],"answer":0},
-{"q":"With reference to Article 356 of the Constitution, consider the following statements: 1. The President can impose President’s Rule only upon the written request of the Governor. 2. The imposition of President’s Rule can be challenged in the Supreme Court on ground of mala fides. 3. Parliament’s approval is required for continuance of President’s Rule beyond two months. Which of the statements is/are correct?","options":["2 only","1 and 2 only","2 and 3 only","1, 2 and 3"],"answer":0},
-{"q":"Consider the following about the 'rarest of rare' doctrine in capital punishment jurisprudence in India: 1. The doctrine provides an exhaustive list of offences for which death penalty is mandatory. 2. It is a principle developed by the Supreme Court to limit the imposition of death sentence. 3. It requires consideration of aggravating and mitigating circumstances. Which are correct?","options":["2 and 3 only","1 only","1 and 2 only","All three"],"answer":0},
-{"q":"With reference to the National Dam Safety Act, 2021, consider the statements: 1. The Act created the National Dam Safety Authority (NDSA). 2. NDSA has powers to frame guidelines for classification of dams by seismic risk. 3. The Act applies only to dams owned by the Central Government. Which of the above is/are correct?","options":["1 and 2 only","1 only","3 only","1, 2 and 3"],"answer":0},
-{"q":"Consider the following statements about Internet shutdowns under Temporary Suspension of Telecom Services Rules, 2017: 1. An order can be issued by the Secretary to the Government of India only. 2. The order can be for a limited area and time. 3. Users must be informed about the reason for suspension unless disclosure would be prejudicial to public safety. Which are correct?","options":["2 and 3 only","1 and 2 only","1, 2 and 3","3 only"],"answer":0},
-{"q":"With reference to the fundamental rights jurisprudence, which of the following is correct about the 'basic structure' doctrine?","options":["It limits Parliament’s power to amend the Constitution","It is explicitly mentioned in the Constitution","It allows Parliament to abolish judicial review","It originated in the Constitution (Forty-second Amendment) Act"],"answer":0},
-{"q":"Consider the following statements about the Minimum Selling Price (MSP) for sugar under the Sugar Price (Control) Order: 1. MSP aims to ensure that sugar mills can cover production costs. 2. MSP directly sets retail prices for consumers. 3. MSP replaces Fair and Remunerative Price (FRP) paid to sugarcane farmers. Which of the statements are correct?","options":["1 only","1 and 2 only","2 and 3 only","All three"],"answer":0},
-{"q":"Regarding Electronic Negotiable Warehouse Receipts (e-NWRs), consider: 1. They enable farmers to obtain collateralised loans against stored produce. 2. They automatically change land ownership records. 3. They are meant to be transferable electronically. Which are correct?","options":["1 and 3 only","1 only","2 only","All three"],"answer":0},
-{"q":"With reference to composite flash PMI, consider: 1. A reading above 50 indicates expansion of business activity. 2. It is an official instrument of monetary policy. 3. It is compiled from surveys of purchasing managers. Which are correct?","options":["1 and 3 only","1 only","2 and 3 only","All three"],"answer":0},
-{"q":"Consider the following about NaBFID (National Bank for Financing Infrastructure and Development): 1. It is a Development Finance Institution (DFI). 2. Its primary role is to provide long-term finance for infrastructure. 3. It takes deposits from the public like a retail bank. Which are correct?","options":["1 and 2 only","2 and 3 only","1 and 3 only","All three"],"answer":0},
-{"q":"With reference to the Adjusted Gross Revenue (AGR) controversy in telecom, which of the following statements is/are correct? 1. AGR was central to determining license fees and spectrum dues. 2. The Supreme Court interpreted AGR to include non-core telecom revenues. 3. AGR only included export revenues and not domestic non-telecom receipts. Choose the correct option.","options":["1 and 2 only","1 only","2 and 3 only","All three"],"answer":0},
-{"q":"Consider the following statements regarding e-NWRs and Farmers’ benefit: 1. e-NWR facilitates better access to formal credit. 2. It creates immediate price support by fixing MSP for stored produce. Which are correct?","options":["1 only","2 only","Both 1 and 2","Neither"],"answer":0},
-{"q":"Consider the following statements about QIP (Qualified Institutional Placement): 1. It allows listed companies to raise capital from institutional investors. 2. QIP permits raising capital via preferential allotment to retail individual investors. 3. It is a mechanism regulated by securities market regulators. Which are correct?","options":["1 and 3 only","1 only","2 and 3 only","All three"],"answer":0},
-{"q":"With reference to the Grameen Credit Score (GCS), consider: 1. It aims at assessing creditworthiness of rural borrowers using alternative data. 2. It intends to replace formal credit bureaus for urban borrowers. 3. It is expected to improve access to formal credit in rural areas. Choose the correct statements.","options":["1 and 3 only","1 only","2 only","All three"],"answer":0},
-{"q":"Consider the following statements about the National Manufacturing Mission (as envisaged in recent budgets): 1. It emphasizes upskilling the workforce. 2. It focuses solely on heavy industry and not MSMEs. 3. It aims to improve quality infrastructure and technology availability. Which are correct?","options":["1 and 3 only","2 only","1 and 2 only","All three"],"answer":0},
-{"q":"With reference to a Dollar-Rupee buy/sell swap auction by RBI, which of the following is true?","options":["It is intended to infuse or manage rupee liquidity while engaging in FX operations","It fixes the exchange rate permanently","It bans forward contracts","It is a fiscal measure passed by Parliament"],"answer":0},
-{"q":"Consider the following statements about Soil Health Card Scheme: 1. It provides a nutrient status of soil and fertilizer recommendations. 2. It guarantees minimum support price for beneficiaries. 3. It helps in precision nutrient management. Which are correct?","options":["1 and 3 only","1 only","2 only","All three"],"answer":0},
-{"q":"With reference to exchange rate changes, consider: 1. A sharp depreciation of the rupee benefits exporters in the short run. 2. Depreciation always reduces import costs. 3. Remittance-receiving households may benefit from depreciation. Which are correct?","options":["1 and 3 only","2 only","1 and 2 only","All three"],"answer":0},
-{"q":"Consider the following statements about the Arab League’s reaction to relocation proposals for Palestinians: 1. The reaction centres on concerns about sovereignty and refugee rights. 2. The Arab League supported unilateral relocation to neighbouring states without consent. 3. International law issues such as non-refoulement were highlighted. Which are correct?","options":["1 and 3 only","1 only","2 and 3 only","All three"],"answer":0},
-{"q":"Regarding IALA (International Association of Marine Aids to Navigation and Lighthouse Authorities), which of the following best describes its mandate?","options":["Harmonising marine aids to navigation like buoys and lighthouses","Regulating fishing quotas globally","Adjudicating maritime boundary disputes","Managing marine protected areas"],"answer":0},
-{"q":"Consider the AI Action Summit’s joint declaration principles: 1. It emphasised safety and openness in AI development. 2. It called for an immediate global ban on AI research. 3. It included workforce upskilling as a plank. Which statements are correct?","options":["1 and 3 only","1 only","2 only","All three"],"answer":0},
-{"q":"With reference to recent US-India initiatives labelled COMPACT and TRUST, which is/are correct? 1. They focus on critical technology cooperation. 2. They aimed to create an immediate customs union between the two countries. 3. They include elements of energy and defence cooperation. Choose the correct option.","options":["1 and 3 only","1 only","2 only","All three"],"answer":0},
-{"q":"Consider the following statements about USAID restructuring: 1. Cuts in foreign aid would primarily affect bilateral development projects. 2. Such restructuring directly alters India’s constitutional provisions. 3. Soft-power engagement can be impacted by changes in assistance. Which are correct?","options":["1 and 3 only","1 only","2 only","All three"],"answer":0},
-{"q":"With reference to the Bay of Bengal Programme (BOBP-IGO), consider: 1. It focuses on small-scale fishers and coastal fisheries sustainability. 2. It is primarily a nuclear energy collaboration. 3. It facilitates regional technical cooperation among member states. Which are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0},
-{"q":"Consider the objectives of 'Gyan Bharatam' mission as announced in a budget: 1. To survey and conserve manuscripts and intellectual heritage. 2. To replace modern curricula exclusively with ancient texts. 3. To create digital access to manuscripts. Which are correct?","options":["1 and 3 only","1 only","2 only","All three"],"answer":0},
-{"q":"Consider the recent debate on the age of Saturn’s rings. Which of the following statements are supported by recent research that challenges the 'young rings' hypothesis? 1. Collisional and thermal processes can clean ring particles over long timescales. 2. Ring age can be constrained only by tidal models. 3. The presence of moons does not affect ring structure. Choose correct statements.","options":["1 only","1 and 2 only","2 and 3 only","All three"],"answer":0},
-{"q":"With reference to cosmic structures, the recently reported 'Quipu' is notable because it:","options":["Is an extremely large superstructure of galaxy clusters challenging homogeneity assumptions","Is a discovery of a near-Earth asteroid posing immediate threat","Is a new exoplanet hosting life","Is a laboratory particle discovered on Earth"],"answer":0},
-{"q":"Consider brine pools in the ocean: 1. They are hypersaline pockets denser than surrounding seawater. 2. They readily mix with ambient seawater and promote high oxygen levels. 3. They can create anoxic lethal conditions for most marine life. Which statements are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0},
-{"q":"Ferrihydrite’s detection in Martian studies is significant because: 1. It forms under wet conditions and supports a wetter past on Mars. 2. It proves the existence of current breathable atmosphere on Mars. 3. It is identical to hematite. Which are correct?","options":["1 only","2 only","1 and 3 only","All three"],"answer":0},
-{"q":"Consider the objectives of the International Big Cat Alliance (IBCA) launched by India: 1. Coordinate conservation across range and non-range countries. 2. Promote trade in big cat derivatives. 3. Facilitate research and habitat protection. Which are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0},
-{"q":"With reference to Climate Risk Index (CRI) assessments, which of the following factors are commonly considered? 1. Historical extreme weather events. 2. Socio-economic impacts and vulnerability. 3. Space weather phenomena. Choose correct statements.","options":["1 and 2 only","1 only","3 only","All three"],"answer":0},
-{"q":"The so-called 'Cali Fund' discussed in biodiversity negotiations is intended to:","options":["Finance biodiversity-related projects and address use of digital sequence information (DSI)","Subsidise fossil fuel exploration in developing countries","Fund interplanetary missions","Replace the Green Climate Fund"],"answer":0},
-{"q":"Which of the following is/are true about recent Ramsar site additions by India? 1. They increased India’s tally and included some states’ first Ramsar sites. 2. All newly added sites are located in a single state. 3. Ramsar listing is equivalent to UNESCO World Heritage listing. Choose the correct option.","options":["1 only","2 only","1 and 3 only","All three"],"answer":0},
-{"q":"Consider Gaia BH3 discovery: 1. It is a nearby passive black hole detected via stellar motion data. 2. It is the very first black hole discovered by humans. 3. Detection relied on precise astrometric measurements. Which are correct?","options":["1 and 3 only","1 only","2 only","All three"],"answer":0},
-{"q":"With regard to the Bombay (hh) blood group: 1. Individuals lack the H antigen making transfusions challenging. 2. It is common and therefore easy to match in transfusion banks. 3. It complicates organ transplantation compatibility. Which statements are correct?","options":["1 and 3 only","1 only","2 only","All three"],"answer":0},
-{"q":"KM3NeT detectors being built in the deep sea are primarily designed to detect:","options":["High-energy neutrinos using Cherenkov radiation","Gravitational waves through laser interferometry","Dark matter particles directly","X-ray bursts from distant galaxies"],"answer":0},
-{"q":"The National Geospatial Mission aims to: 1. Develop foundational geospatial infrastructure to modernise land records. 2. Replace GPS globally with an Indian system immediately. 3. Facilitate data-driven planning and governance. Which are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0},
-{"q":"Small Modular Reactors (SMRs) are being discussed because: 1. They are modular and suitable for distributed generation. 2. They currently require no regulatory oversight given their size. 3. They are factory-built enabling economies of series production. Which are correct?","options":["1 and 3 only","1 only","2 only","All three"],"answer":0},
-{"q":"The Extremely Large Telescope (ELT) will be crucial because it will: 1. Have a very large aperture to study faint distant objects and exoplanets. 2. Replace all space telescopes. 3. Improve our ability to probe the early universe. Which are correct?","options":["1 and 3 only","2 only","1 only","All three"],"answer":0},
-{"q":"Consider brucellosis: 1. It is a bacterial zoonotic disease often transmitted by unpasteurised dairy. 2. It is primarily a plant disease. 3. It can affect both livestock and humans. Which are correct?","options":["1 and 3 only","1 only","2 only","All three"],"answer":0},
-{"q":"With reference to biomedical waste treatment innovations like 'Sṛjanam', which of the following is correct?","options":["They aim to process biomedical waste eco-friendly without incineration at point of generation","They are designed solely for export markets","They propose widespread immediate replacement of municipal solid waste systems","They promote incineration at higher temperatures only"],"answer":0},
-{"q":"ITER’s global significance lies primarily in:","options":["Demonstrating the feasibility of large-scale fusion energy through international collaboration","Delivering commercial fusion electricity to grids by 2025","Replacing fission reactors immediately","Developing military fusion weapons"],"answer":0},
-{"q":"High faecal coliform counts at river confluences during mass bathing events mostly indicate:","options":["Sewage and sanitation contamination, posing public health risks","Improved water quality due to dilution","Increased fish populations","Higher dissolved oxygen levels"],"answer":0},
-{"q":"Concerns about 'black plastics' in food contact applications arose because studies found they may contain:","options":["Toxic flame retardants and heavy metals from recycled electronic waste","Pure polyethylene only","Essential vitamins beneficial for health","Guaranteed food-safe polymers"],"answer":0},
-{"q":"Selenium toxicity incidents linked to food arise mainly from:","options":["Excess selenium in staple grains causing selenosis symptoms","Complete deficiency of selenium in diet","Viral contamination of wheat","Salt contamination only"],"answer":0},
-{"q":"Recent advances in Spinal Muscular Atrophy (SMA) treatment highlight:","options":["The arrival of disease-modifying therapies improving outcomes across SMA types","A new vaccine that prevents SMA","A dietary supplement that cures SMA","An obsolete therapy with no benefit"],"answer":0},
-{"q":"Aero India is significant because:","options":["It showcases aerospace and defence technologies and facilitates defence cooperation and trade","It is primarily a cultural festival with no defence content","It determines civil aviation policy alone","It is an event for pilot talent shows"],"answer":0},
-{"q":"Pinaka Multiple Rocket Launch System is best described as:","options":["An artillery rocket system for area saturation with multi-round salvo capability","An intercontinental ballistic missile","A naval sonar system","A passive radar network"],"answer":0}
+/* Example question set – replace with your 50 UPSC-style Qs if needed */
+const QUESTIONS=[
+ {q:"Consider the following statements about the doctrine of 'pith and substance': 1. It is used to determine the true nature of legislation when classification under legislative lists is in doubt. 2. The doctrine allows the legislature to enact laws outside its competence if the dominant feature falls within its competence. 3. It is applied only in cases involving fundamental rights. How many of the statements given above are correct?",options:["1 and 2 only","1 only","2 and 3 only","All three"],answer:0},
+ {q:"With reference to Article 356 of the Constitution, consider the following statements: 1. The President can impose President’s Rule only upon the written request of the Governor. 2. The imposition of President’s Rule can be challenged in the Supreme Court on ground of mala fides. 3. Parliament’s approval is required for continuance beyond two months. Which of the statements is/are correct?",options:["2 only","1 and 2 only","2 and 3 only","1, 2 and 3"],answer:0},
+ {q:"The doctrine of basic structure in Indian Constitution acts as:",options:["A limitation on Parliament's amending power","An explicit clause in the Constitution","A principle permitting abolition of judicial review","A rule under Article 370"],answer:0},
+ {q:"With reference to Soil Health Card Scheme, which of the following are correct? 1. It provides nutrient status of soil. 2. It ensures MSP. 3. It helps precision nutrient management.",options:["1 and 3 only","1 only","2 only","All three"],answer:0}
 ];
-/* End QUESTIONS */
-
 QUESTIONS.sort(()=>Math.random()-0.5);
 
-let candidateName=''; let timeLeft=60*60; let timerInterval=null;
-const $ = id => document.getElementById(id);
+let candidateName='',timeLeft=60*60,timerInterval=null;
+const $=id=>document.getElementById(id);
 
-/* Batch render - 7 per batch to keep UI responsive */
-function renderQuestionsInBatches() {
-  const root = $('questions-root'); root.innerHTML = '';
-  const batchSize = 7;
-  let idx = 0;
-  function renderBatch() {
-    const end = Math.min(idx + batchSize, QUESTIONS.length);
-    for (let i = idx; i < end; i++) {
-      const q = QUESTIONS[i];
-      const card = document.createElement('div');
-      card.className = 'question';
-      card.id = 'q' + i;
-      const h = document.createElement('h3');
-      h.innerText = `Q${i+1}. ${q.q}`;
-      card.appendChild(h);
-      q.options.forEach((opt, j) => {
-        const lbl = document.createElement('label');
-        lbl.className = 'option';
-        const inp = document.createElement('input');
-        inp.type = 'radio';
-        inp.name = 'q' + i;
-        inp.value = j;
-        inp.addEventListener('change', () => markAttempt(i));
-        lbl.appendChild(inp);
-        lbl.appendChild(document.createTextNode(' ' + opt));
-        card.appendChild(lbl);
-      });
-      root.appendChild(card);
-    }
-    idx = end;
-    if (idx < QUESTIONS.length) {
-      setTimeout(renderBatch, 40);
-    } else {
-      setTimeout(highlightOnScroll, 200);
-    }
-  }
-  renderBatch();
+function renderQuestions(){
+ const root=$('questions-root');root.innerHTML='';
+ QUESTIONS.forEach((q,i)=>{
+  const div=document.createElement('div');
+  div.className='question';div.id='q'+i;
+  div.innerHTML=`<h3>Q${i+1}. ${q.q}</h3>`+
+   q.options.map((opt,j)=>`<label class="option"><input type="radio" name="q${i}" value="${j}" onchange="markAttempt(${i})"> ${opt}</label>`).join('');
+  root.appendChild(div);
+ });
 }
-
-function renderTracker() {
-  const grid = $('tracker-grid'); grid.innerHTML = '';
-  QUESTIONS.forEach((_, i) => {
-    const d = document.createElement('div'); d.className = 'num'; d.innerText = i+1;
-    d.addEventListener('click', () => {
-      const el = $('q' + i);
-      if (el) el.scrollIntoView({behavior:'smooth', block:'center'});
-    });
-    grid.appendChild(d);
-  });
+function renderTracker(){
+ const grid=$('tracker-grid');grid.innerHTML='';
+ QUESTIONS.forEach((_,i)=>{
+  const b=document.createElement('div');
+  b.className='num';b.textContent=i+1;
+  b.addEventListener('click',()=>{const el=$('q'+i);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});});
+  grid.appendChild(b);
+ });
 }
-
-function markAttempt(i) {
-  const nodes = document.querySelectorAll('#tracker-grid .num');
-  const node = nodes[i];
-  if (node) node.classList.add('attempted');
-  window._attempts = window._attempts || [];
-  window._attempts[i] = true;
+function markAttempt(i){
+ const n=document.querySelectorAll('.num')[i];if(n)n.classList.add('attempted');
 }
-
 function highlightOnScroll(){
-  const qs = document.querySelectorAll('.question'); if(!qs || qs.length===0) return;
-  const viewportMid = window.innerHeight/2; let active = 0;
-  qs.forEach((el,i)=>{ const r = el.getBoundingClientRect(); if(r.top < viewportMid && r.bottom > 100) active = i; });
-  const nums = document.querySelectorAll('#tracker-grid .num'); nums.forEach(n=>n.classList.remove('active'));
-  if(nums[active]) nums[active].classList.add('active');
+ const qs=document.querySelectorAll('.question');let active=0;
+ const mid=window.innerHeight/2;
+ qs.forEach((el,i)=>{const r=el.getBoundingClientRect();if(r.top<mid&&r.bottom>100)active=i;});
+ const nums=document.querySelectorAll('.num');nums.forEach(n=>n.classList.remove('active'));
+ if(nums[active])nums[active].classList.add('active');
 }
-
 function startTimer(){
-  const tEl = $('timer');
-  if(timerInterval) clearInterval(timerInterval);
-  timerInterval = setInterval(()=>{
-    const m = Math.floor(timeLeft/60), s = timeLeft%60;
-    const txt = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
-    if(tEl) tEl.textContent = txt;
-    timeLeft--;
-    if(timeLeft < 0){ clearInterval(timerInterval); submitQuiz(true); alert('Time up — quiz auto-submitted.'); }
-  },1000);
+ const t=$('timer');
+ timerInterval=setInterval(()=>{
+  const m=Math.floor(timeLeft/60),s=timeLeft%60;
+  t.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  timeLeft--;
+  if(timeLeft<0){clearInterval(timerInterval);submitQuiz(true);alert('Time up — quiz auto-submitted.');}
+ },1000);
 }
-
 function submitQuiz(auto=false){
-  if(timerInterval) clearInterval(timerInterval);
-  let score=0, correct=0, wrong=0, unattempted=0;
-  QUESTIONS.forEach((q,i)=>{ const sel = document.querySelector(`input[name="q${i}"]:checked`); if(!sel){ unattempted++; return; } const v = parseInt(sel.value); if(v===q.answer){ score+=2; correct++; } else { score-=0.66; wrong++; } });
-  const total = QUESTIONS.length; const res = $('result'); res.style.display='block';
-  res.innerHTML = `<h2>${candidateName}</h2>
-    <p><strong>Total:</strong> ${total} &nbsp; <strong>Correct:</strong> ${correct} &nbsp; <strong>Wrong:</strong> ${wrong} &nbsp; <strong>Unattempted:</strong> ${unattempted}</p>
-    <p><strong>Score:</strong> ${score.toFixed(2)}</p>`;
-  let key = '<h3>Answer Key</h3><ol class="key">';
-  QUESTIONS.forEach((q,i)=> key += `<li>Q${i+1}: ${q.options[q.answer]}</li>`);
-  key += '</ol>';
-  res.innerHTML += key;
-  $('quiz-section').style.display = 'none';
-  res.scrollIntoView({behavior:'smooth'});
+ clearInterval(timerInterval);
+ let score=0,correct=0,wrong=0,unattempted=0;
+ QUESTIONS.forEach((q,i)=>{
+  const sel=document.querySelector(`input[name="q${i}"]:checked`);
+  if(!sel){unattempted++;return;}
+  const val=parseInt(sel.value);
+  if(val===q.answer){score+=2;correct++;}else{score-=0.66;wrong++;}
+ });
+ const total=QUESTIONS.length;
+ const res=$('result');
+ res.style.display='block';
+ res.innerHTML=`
+  <h2>${candidateName}</h2>
+  <p><strong>Total Questions:</strong> ${total}</p>
+  <p><strong>Correct:</strong> ${correct}</p>
+  <p><strong>Incorrect:</strong> ${wrong}</p>
+  <p><strong>Unattempted:</strong> ${unattempted}</p>
+  <p><strong>Final Score:</strong> ${score.toFixed(2)}</p>
+  <hr><h3>Answer Key</h3>
+  <ol class="key">${QUESTIONS.map((q,i)=>`<li>Q${i+1}: ${q.options[q.answer]}</li>`).join('')}</ol>`;
+ $('quiz-section').style.display='none';
+ setTimeout(()=>res.scrollIntoView({behavior:'smooth'}),300);
 }
-
-document.addEventListener('DOMContentLoaded', ()=> {
-  renderTracker();
-  const startBtn = $('startButton'), submitBtn = $('submitButton'), nameInput = $('name');
-  if(startBtn){
-    startBtn.addEventListener('click', ()=> {
-      const nm = (nameInput && nameInput.value || '').trim();
-      if(!nm){ alert('Please enter your name'); if(nameInput) nameInput.focus(); return; }
-      candidateName = nm;
-      renderQuestionsInBatches();
-      renderTracker();
-      $('start-card').style.display = 'none';
-      $('quiz-section').style.display = 'block';
-      startTimer();
-      window.addEventListener('scroll', highlightOnScroll, {passive:true});
-      setTimeout(highlightOnScroll, 300);
-    });
-  }
-  if(submitBtn) submitBtn.addEventListener('click', ()=> { if(confirm('Submit quiz now?')) submitQuiz(false); });
-  const btnTop = $('btn-top'); if(btnTop) btnTop.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+document.addEventListener('DOMContentLoaded',()=>{
+ renderTracker();
+ const startBtn=$('startButton'),submitBtn=$('submitButton'),nameInput=$('name');
+ if(startBtn){
+  startBtn.addEventListener('click',()=>{
+   const nm=nameInput.value.trim();
+   if(!nm){alert('Please enter your name');nameInput.focus();return;}
+   candidateName=nm;
+   renderQuestions();renderTracker();
+   $('start-card').style.display='none';
+   $('quiz-section').style.display='block';
+   startTimer();
+   window.addEventListener('scroll',highlightOnScroll,{passive:true});
+   setTimeout(highlightOnScroll,300);
+  });
+ }
+ if(submitBtn)submitBtn.addEventListener('click',()=>{if(confirm('Submit quiz now?'))submitQuiz(false);});
+ const btnTop=$('btn-top');if(btnTop)btnTop.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
 });
 </script>
 </body>

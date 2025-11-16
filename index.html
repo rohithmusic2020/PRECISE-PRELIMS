@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Prelims Precise — March 2025 (50 Qs)</title>
 <style>
-  /* Light theme — clean UPSC style */
   :root{
     --bg:#f6f8fa; --card:#ffffff; --accent:#0b6cf0; --muted:#6b7280;
     --success:#16a34a; --danger:#dc2626; --border:#e6eef9;
@@ -18,7 +17,6 @@
   header h1{margin:0;font-size:20px}
   .card{background:var(--card); border-radius:10px;padding:18px;box-shadow:0 6px 20px rgba(13,38,76,0.06);border:1px solid var(--border)}
   .muted{color:var(--muted);font-size:13px}
-  .center{text-align:center}
   .start-box{display:grid;gap:12px;align-items:center}
   input[type="text"]{padding:10px;border-radius:8px;border:1px solid #dbe6f5;background:transparent;color:inherit;outline:none;width:100%}
   button{background:var(--accent);border:none;color:white;padding:10px 14px;border-radius:9px;font-weight:600;cursor:pointer}
@@ -65,7 +63,6 @@
     </div>
     <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:10px">
       <button id="startBtn">Start Quiz</button>
-      <button id="previewBtn" class="secondary">Preview first 10 Qs</button>
     </div>
   </div>
 
@@ -103,546 +100,257 @@
 </div>
 
 <script>
-/*
-  Light-theme single-file quiz
-  - 50 questions (all have exactly 4 radio options)
-  - Statement questions use UPSC-style 4-option format
-  - Additional "How many statements are correct?" question variants included
-  - Timer: 3600s auto-submit
-  - Questions shuffled on start
-  - All content sourced from March 2025 Prelims Precise PDF. :contentReference[oaicite:2]{index=2}
+/* Final quiz (light theme) — 50 curated questions from March 2025 Prelims Precise.
+   - All questions have exactly 4 radio options
+   - 'statements' and 'howmany' types implemented using 4-option radio format
+   - Timer: 3600s, auto-submit
+   - Shuffled on start
+   Source: March 2025 Prelims Precise PDF. :contentReference[oaicite:2]{index=2}
 */
 
-/* ------------ QUESTIONS (50) -------------
-   Every question object:
-   {
-     id: number,
-     type: "single" | "statements" | "howmany",
-     q: string,
-     statements?: [ ... ]        // for 'statements' or 'howmany' show these above options
-     options: [ "A...","B...", "C...", "D..." ],
-     answer: index (0..3)
-   }
-   All options are radio (4 choices).
-   ---------------------------------------*/
-
+/* QUESTIONS array (50 items). Each object:
+   { id, type: "single"|"statements"|"howmany", q, statements?(array), options(4), answer:0..3 }
+   (All items pulled from the March 2025 PDF)
+*/
 const QUESTIONS = [
-/*1*/ { id:1, type:"single",
- q:"What is a 'D-voter' in Assam context?",
- options:[
+/*1*/ { id:1, type:"single", q:"What is a 'D-voter' in Assam context?", options:[
   "A person whose citizenship is marked doubtful by the Election Commission.",
   "A voter disqualified due to failing to vote in consecutive elections.",
   "A temporary voter category for migrants with provisional cards.",
   "A voter registered under the Domicile Act of Assam."
- ],
- answer:0
-},
+ ], answer:0},
 
-/*2*/ { id:2, type:"statements",
- q:"Consider the following statements about the Jan Vishwas Bill 2.0 (decriminalisation exercise):",
- statements:[
+/*2*/ { id:2, type:"statements", q:"Consider the following statements about the Jan Vishwas Bill 2.0 (decriminalisation exercise):", statements:[
   "It proposes converting certain criminal offences into civil penalties to boost ease of doing business.",
   "Jan Vishwas Bill 2.0 is the first decriminalisation exercise undertaken by the Indian government.",
   "DPIIT has been tasked with mapping further laws for decriminalisation."
- ],
- options:[
-  "1 only",
-  "1 and 2 only",
-  "2 and 3 only",
-  "1 and 3 only"
- ],
- // Correct: statements 1 and 3 are true per PDF.
- answer:3
-},
+ ], options:["1 only","1 and 2 only","2 and 3 only","1 and 3 only"], answer:3},
 
-/*3*/ { id:3, type:"single",
- q:"Which of these is TRUE about the Dramatic Performances Act (1876) as noted in the March 2025 brief?",
- options:[
+/*3*/ { id:3, type:"single", q:"Which of these is TRUE about the Dramatic Performances Act (1876) as noted in the March 2025 brief?", options:[
   "It enabled warrantless searches and was used in colonial times to suppress nationalist plays.",
   "It was enacted in 1956 to regulate modern theatre.",
   "It was created post-independence to protect artists' rights.",
   "It has never been used in India."
- ],
- answer:0
-},
+ ], answer:0},
 
-/*4*/ { id:4, type:"single",
- q:"In March 2025 the Supreme Court stayed action by Lokpal in a matter relating to which office?",
- options:[
-  "A High Court judge",
-  "The Chief Election Commissioner",
-  "A State Governor",
-  "A Union Minister"
- ],
- answer:0
-},
+/*4*/ { id:4, type:"single", q:"In March 2025 the Supreme Court stayed action by Lokpal in a matter relating to which office?", options:[
+  "A High Court judge","The Chief Election Commissioner","A State Governor","A Union Minister"
+ ], answer:0},
 
-/*5*/ { id:5, type:"statements",
- q:"Which of the following statements correctly describe the doctrine of eminent domain as discussed in the March brief?",
- statements:[
+/*5*/ { id:5, type:"statements", q:"Which of the following statements correctly describe the doctrine of eminent domain as discussed in the March brief?", statements:[
   "It allows government acquisition of private property for public use, with compensation.",
   "Article 300A permits deprivation of property arbitrarily without law.",
   "Right to Fair Compensation and Transparency in Land Acquisition Act, 2013 provides procedural safeguards."
- ],
- options:[
-  "1 only",
-  "1 and 3 only",
-  "2 only",
-  "1, 2 and 3"
- ],
- // Correct: 1 and 3
- answer:1
-},
+ ], options:["1 only","1 and 3 only","2 only","1, 2 and 3"], answer:1},
 
-/*6*/ { id:6, type:"single",
- q:"The Time Use Survey (Jan–Dec 2024) indicated which key gender disparity?",
- options:[
+/*6*/ { id:6, type:"single", q:"The Time Use Survey (Jan–Dec 2024) indicated which key gender disparity?", options:[
   "Women spend significantly more time on unpaid domestic work than men.",
   "Men spend far more time on unpaid domestic work than women.",
   "Both genders spend equal time on unpaid domestic work.",
   "Survey found no difference in paid work participation."
- ],
- answer:0
-},
+ ], answer:0},
 
-/*7*/ { id:7, type:"statements",
- q:"About the Gold Monetisation Scheme (GMS) update (March 26, 2025) — which are correct?",
- statements:[
+/*7*/ { id:7, type:"statements", q:"About the Gold Monetisation Scheme (GMS) update (March 26, 2025) — which are correct?", statements:[
   "Medium-term (5–7 years) and long-term (12–15 years) deposit options were discontinued.",
   "Short-term bank deposit options (1–3 years) continue at banks' discretion.",
   "GMS was launched in 2024."
- ],
- options:[
-  "1 and 2 only",
-  "2 only",
-  "1 and 3 only",
-  "All three"
- ],
- // Correct per PDF: 1 and 2
- answer:0
-},
+ ], options:["1 and 2 only","2 only","1 and 3 only","All three"], answer:0},
 
-/*8*/ { id:8, type:"single",
- q:"The 'Zero-for-Zero' tariff strategy mentioned in March 2025 context refers to:",
- options:[
+/*8*/ { id:8, type:"single", q:"The 'Zero-for-Zero' tariff strategy mentioned in March 2025 context refers to:", options:[
   "A reciprocal tariff elimination proposal between India and the US.",
   "A WTO-mandated single global tariff.",
   "India’s unilateral tariff on selected US goods without reciprocity.",
   "A tariff exclusively for zero-emission goods."
- ],
- answer:0
-},
+ ], answer:0},
 
-/*9*/ { id:9, type:"single",
- q:"According to Energy Statistics India 2025, which fuel contributed about 48% of India's Total Primary Energy Supply (TPES) in FY 2023-24?",
- options:["Coal","Oil","Renewables","Natural gas"], answer:0
-},
+/*9*/ { id:9, type:"single", q:"According to Energy Statistics India 2025, which fuel contributed about 48% of India's TPES in FY 2023-24?", options:["Coal","Oil","Renewables","Natural gas"], answer:0},
 
-/*10*/ { id:10, type:"statements",
- q:"About the Modified Ethanol Interest Subvention Scheme (MEIS) for Cooperative Sugar Mills — which statements are correct?",
- statements:[
+/*10*/ { id:10, type:"statements", q:"About the Modified Ethanol Interest Subvention Scheme (MEIS) for Cooperative Sugar Mills — which statements are correct?", statements:[
   "It promotes multi-feedstock ethanol plants using maize and damaged food grains.",
-  "It offers interest subvention of 6% per annum (or 50% of bank rate, whichever is lower) for five years including one-year moratorium.",
+  "It offers interest subvention of 6% p.a. for five years including one-year moratorium.",
   "It restricts ethanol production to sugarcane only."
- ],
- options:[
-  "1 only",
-  "1 and 2 only",
-  "2 and 3 only",
-  "All three"
- ],
- // Correct: 1 and 2
- answer:1
-},
+ ], options:["1 only","1 and 2 only","2 and 3 only","All three"], answer:1},
 
-/*11*/ { id:11, type:"single",
- q:"The Ganga Water Treaty (1996) between India and Bangladesh governs sharing at which barrage?",
- options:["Farakka Barrage","Teesta Barrage","Kosi Barrage","Barricade at Ghat"], answer:0
-},
+/*11*/ { id:11, type:"single", q:"The Ganga Water Treaty (1996) between India and Bangladesh governs sharing at which barrage?", options:["Farakka Barrage","Teesta Barrage","Kosi Barrage","Gau Barrage"], answer:0},
 
-/*12*/ { id:12, type:"statements",
- q:"About the Hague Service Convention use in serving summons abroad — which are correct as per March brief?",
- statements:[
+/*12*/ { id:12, type:"statements", q:"About the Hague Service Convention use in serving summons abroad — which are correct as per March brief?", statements:[
   "It facilitates cross-border service of judicial documents.",
   "India processes requests under the Convention via the Ministry of Law & Justice.",
   "Service under the Convention ensures immediate enforcement of foreign court orders in India."
- ],
- options:[
-  "1 and 2 only",
-  "2 only",
-  "3 only",
-  "All three"
- ],
- // Correct: 1 and 2
- answer:0
-},
+ ], options:["1 and 2 only","2 only","3 only","All three"], answer:0},
 
-/*13*/ { id:13, type:"single",
- q:"Mission 300 aims to connect how many people to electricity in Sub-Saharan Africa by 2030?",
- options:["100 million","300 million","600 million","50 million"], answer:1
-},
+/*13*/ { id:13, type:"single", q:"Mission 300 aims to connect how many people to electricity in Sub-Saharan Africa by 2030?", options:["100 million","300 million","600 million","50 million"], answer:1},
 
-/*14*/ { id:14, type:"single",
- q:"Mudumal menhirs, added to India’s tentative UNESCO list, date roughly to which period?",
- options:["Megalithic (approx 3,500–4,000 years)","Palaeolithic","Medieval","Neolithic"], answer:0
-},
+/*14*/ { id:14, type:"single", q:"Mudumal menhirs, added to India’s tentative UNESCO list, date roughly to which period?", options:["Megalithic (approx 3,500–4,000 years)","Palaeolithic","Medieval","Neolithic"], answer:0},
 
-/*15*/ { id:15, type:"statements",
- q:"Which are correct about Wallace Line and biodiversity (March brief)?",
- statements:[
+/*15*/ { id:15, type:"statements", q:"Which are correct about Wallace Line and biodiversity (March brief)?", statements:[
   "It separates Asian from Australasian fauna.",
   "Climate change and habitat loss could weaken the barrier allowing species dispersal.",
   "It runs between Madagascar and mainland Africa."
- ],
- options:[
-  "1 and 2 only",
-  "2 only",
-  "1 and 3 only",
-  "All three"
- ],
- // Correct: 1 and 2
- answer:0
-},
+ ], options:["1 and 2 only","2 only","1 and 3 only","All three"], answer:0},
 
-/*16*/ { id:16, type:"single",
- q:"Plastic Ice VII (reported) is best described as:",
- options:[
+/*16*/ { id:16, type:"single", q:"Plastic Ice VII (reported) is best described as:", options:[
   "A cubic lattice ice where molecules can rotate — formed under extreme pressure and temperature.",
   "Regular hexagonal ice found in glaciers.",
   "Liquid water trapped at low temperatures.",
   "A low-pressure ice only on Mars."
- ],
- answer:0
-},
+ ], answer:0},
 
-/*17*/ { id:17, type:"single",
- q:"India’s first 'Frozen Zoo' preserving DNA of Himalayan wildlife was established at:",
- options:[
+/*17*/ { id:17, type:"single", q:"India’s first 'Frozen Zoo' preserving DNA of Himalayan wildlife was established at:", options:[
   "Padmaja Naidu Himalayan Zoological Park, Darjeeling",
   "Sanjay Gandhi Zoological Park, Mumbai",
   "Arignar Anna Zoological Park, Chennai",
   "Nehru Zoological Park, Hyderabad"
- ],
- answer:0
-},
+ ], answer:0},
 
-/*18*/ { id:18, type:"statements",
- q:"About the Loss and Damage Fund (as in the March brief):",
- statements:[
+/*18*/ { id:18, type:"statements", q:"About the Loss and Damage Fund (as in the March brief):", statements:[
   "The fund was established at COP27 and operationalized at a later COP with initial financing.",
   "The United States announced intention to withdraw from the fund in 2025.",
   "The fund finances fossil fuel infrastructure in developing countries."
- ],
- options:[
-  "1 and 2 only",
-  "2 and 3 only",
-  "1 only",
-  "All three"
- ],
- // Correct: 1 and 2 (per brief)
- answer:0
-},
+ ], options:["1 and 2 only","2 and 3 only","1 only","All three"], answer:0},
 
-/*19*/ { id:19, type:"single",
- q:"The Solar Ultraviolet Imaging Telescope (SUIT) is onboard which mission?",
- options:["Aditya-L1","Chandrayaan-3","Astrosat","Gaganyaan"], answer:0
-},
+/*19*/ { id:19, type:"single", q:"The Solar Ultraviolet Imaging Telescope (SUIT) is onboard which mission?", options:["Aditya-L1","Chandrayaan-3","Astrosat","Gaganyaan"], answer:0},
 
-/*20*/ { id:20, type:"statements",
- q:"Vikram 3201 and Kalpana 3201 microprocessors (reported) — which statements are correct?",
- statements:[
+/*20*/ { id:20, type:"statements", q:"Vikram 3201 and Kalpana 3201 microprocessors — which statements are correct?", statements:[
   "They are 32-bit microprocessors developed in India for space applications.",
   "Vikram 3201 is an evolution of an earlier 16-bit Vikram microprocessor used in launch vehicles.",
-  "They are licensed commercial x86 processors made by Intel."
- ],
- options:[
-  "1 and 2 only",
-  "1 and 3 only",
-  "3 only",
-  "All three"
- ],
- // Correct: 1 and 2
- answer:0
-},
+  "They are licensed commercial x86 processors from Intel."
+ ], options:["1 and 2 only","1 and 3 only","3 only","All three"], answer:0},
 
-/*21*/ { id:21, type:"single",
- q:"ISRO completed de-docking of SpaDeX satellites on which date (per March brief)?",
- options:["March 13, 2025","January 16, 2025","December 30, 2024","March 31, 2025"], answer:0
-},
+/*21*/ { id:21, type:"single", q:"ISRO completed de-docking of SpaDeX satellites on which date (per March brief)?", options:[
+  "March 13, 2025","January 16, 2025","December 30, 2024","March 31, 2025"
+ ], answer:0},
 
-/*22*/ { id:22, type:"single",
- q:"Which private lander achieved the first successful soft lunar landing carrying NASA payloads (Blue Ghost)?",
- options:["Firefly Aerospace's Blue Ghost","SpaceX Dragon XL","Intuitive Machines Nova-C","Astrobotic Peregrine"], answer:0
-},
+/*22*/ { id:22, type:"single", q:"Which private lander achieved the first successful soft lunar landing carrying NASA payloads (Blue Ghost)?", options:[
+  "Firefly Aerospace's Blue Ghost","SpaceX Dragon XL","Intuitive Machines Nova-C","Astrobotic Peregrine"
+ ], answer:0},
 
-/*23*/ { id:23, type:"statements",
- q:"About defence exercises noted — which are correct?",
- statements:[
+/*23*/ { id:23, type:"statements", q:"About defence exercises noted — which are correct?", statements:[
   "Varuna is a bilateral naval exercise between India and France.",
   "Sea Dragon is a multinational anti-submarine exercise hosted by the US 7th Fleet.",
   "INIOCHOS is an annual Greek-hosted air exercise in which India participates."
- ],
- options:[
-  "1 and 2 only",
-  "1 and 3 only",
-  "2 and 3 only",
-  "All three"
- ],
- // In brief: Varuna yes, Sea Dragon yes, INIOCHOS is Hellenic Air Force exercise (India has participated) — so all three.
- answer:3
-},
+ ], options:["1 and 2 only","1 and 3 only","2 and 3 only","All three"], answer:3},
 
-/*24*/ { id:24, type:"single",
- q:"The World Happiness Report 2025 placed India at which rank?",
- options:["98","118","72","45"], answer:1
-},
+/*24*/ { id:24, type:"single", q:"The World Happiness Report 2025 placed India at which rank?", options:["98","118","72","45"], answer:1},
 
-/*25*/ { id:25, type:"single",
- q:"The new Minimum Dietary Diversity (MDD) indicator focuses on which group?",
- options:[
+/*25*/ { id:25, type:"single", q:"The new Minimum Dietary Diversity (MDD) indicator focuses on which group?", options:[
   "Women and children of reproductive age consuming at least five food groups in 24 hours",
-  "Only infants under 6 months",
-  "Only elderly above 65",
-  "Only adolescent boys"
- ],
- answer:0
-},
+  "Only infants under 6 months","Only elderly above 65","Only adolescent boys"
+ ], answer:0},
 
-/*26*/ { id:26, type:"statements",
- q:"About Orans (Rajasthan sacred groves) — which statements are correct?",
- statements:[
+/*26*/ { id:26, type:"statements", q:"About Orans (Rajasthan sacred groves) — which statements are correct?", statements:[
   "Supreme Court directed Rajasthan to map and classify orans as forests.",
   "Orans support rainwater harvesting and livestock dependent livelihoods.",
   "Orans are found only in Rajasthan."
- ],
- options:[
-  "1 and 2 only",
-  "2 only",
-  "1, 2 and 3",
-  "3 only"
- ],
- // Correct: 1 and 2
- answer:0
-},
+ ], options:["1 and 2 only","2 only","1, 2 and 3","3 only"], answer:0},
 
-/*27*/ { id:27, type:"single",
- q:"Which species was reported reclassified as Critically Endangered after a 97% decline?",
- options:["African penguin","Olive Ridley turtle","Narwhal","Caracal"], answer:0
-},
+/*27*/ { id:27, type:"single", q:"Which species was reported reclassified as Critically Endangered after a 97% decline?", options:[
+  "African penguin","Olive Ridley turtle","Narwhal","Caracal"
+ ], answer:0},
 
-/*28*/ { id:28, type:"single",
- q:"Crassolabium dhritiae, a newly described nematode species, was discovered in which state?",
- options:["Odisha","Tamil Nadu","Madhya Pradesh","Karnataka"], answer:0
-},
+/*28*/ { id:28, type:"single", q:"Crassolabium dhritiae, a newly described nematode species, was discovered in which state?", options:[
+  "Odisha","Tamil Nadu","Madhya Pradesh","Karnataka"
+ ], answer:0},
 
-/*29*/ { id:29, type:"statements",
- q:"Melioidosis (Odisha study) — which statements are correct?",
- statements:[
+/*29*/ { id:29, type:"statements", q:"Melioidosis (Odisha study) — which statements are correct?", statements:[
   "It shows seasonality, peaking during and after monsoon.",
   "It is caused by Burkholderia pseudomallei.",
   "A widely used vaccine exists in India."
- ],
- options:[
-  "1 and 2 only",
-  "2 and 3 only",
-  "1 only",
-  "All three"
- ],
- // Correct: 1 and 2
- answer:0
-},
+ ], options:["1 and 2 only","2 and 3 only","1 only","All three"], answer:0},
 
-/*30*/ { id:30, type:"single",
- q:"Bollgard-3 cotton variety includes which trait?",
- options:[
+/*30*/ { id:30, type:"single", q:"Bollgard-3 cotton variety includes which trait?", options:[
   "Three Bt proteins (Cry1Ac, Cry2Ab, Vip3A) for broader pest resistance",
-  "Only Cry1Ac",
-  "A drought-tolerant gene",
-  "A fungal-resistance gene"
- ],
- answer:0
-},
+  "Only Cry1Ac","A drought-tolerant gene","A fungal-resistance gene"
+ ], answer:0},
 
-/*31*/ { id:31, type:"single",
- q:"National Technical Textiles Mission (NTTM) was launched in which year?",
- options:["2018","2020","2022","2015"], answer:1
-},
+/*31*/ { id:31, type:"single", q:"National Technical Textiles Mission (NTTM) was launched in which year?", options:["2018","2020","2022","2015"], answer:1},
 
-/*32*/ { id:32, type:"single",
- q:"Which change to the Equalisation Levy was mentioned in March 2025 notes?",
- options:[
+/*32*/ { id:32, type:"single", q:"Which change to the Equalisation Levy was mentioned in March 2025 notes?", options:[
   "Proposal to abolish the equalisation levy on online advertisements from April 1, 2025",
-  "Increase to 12% effective 2026",
-  "Extend levy to domestic digital transactions",
-  "No change planned"
- ],
- answer:0
-},
+  "Increase to 12% effective 2026","Extend levy to domestic digital transactions","No change planned"
+ ], answer:0},
 
-/*33*/ { id:33, type:"statements",
- q:"Which are correct about the Supreme Court's in-house inquiry process?",
- statements:[
+/*33*/ { id:33, type:"statements", q:"Which are correct about the Supreme Court's in-house inquiry process?", statements:[
   "CJI can form a three-member committee for deeper investigation.",
   "In-house inquiries are an alternative to impeachment under Article 124(4).",
   "Such in-house committees automatically replace criminal investigations."
- ],
- options:[
-  "1 and 2 only",
-  "2 and 3 only",
-  "1 and 3 only",
-  "All three"
- ],
- // Correct: 1 and 2
- answer:0
-},
+ ], options:["1 and 2 only","2 and 3 only","1 and 3 only","All three"], answer:0},
 
-/*34*/ { id:34, type:"single",
- q:"Tribhuvan Sahkari University (India’s first national cooperative university) will be headquartered at:",
- options:["Anand, Gujarat","New Delhi","Pune","Lucknow"], answer:0
-},
+/*34*/ { id:34, type:"single", q:"Tribhuvan Sahkari University (India’s first national cooperative university) will be headquartered at:", options:[
+  "Anand, Gujarat","New Delhi","Pune","Lucknow"
+ ], answer:0},
 
-/*35*/ { id:35, type:"single",
- q:"India’s bioeconomy valuation crossed approximately how much in 2024 (per March brief)?",
- options:["$50 billion","$165 billion","$400 billion","$1 trillion"], answer:1
-},
+/*35*/ { id:35, type:"single", q:"India’s bioeconomy valuation crossed approximately how much in 2024 (per March brief)?", options:[
+  "$50 billion","$165 billion","$400 billion","$1 trillion"
+ ], answer:1},
 
-/*36*/ { id:36, type:"statements",
- q:"Trends in remittances to India (FY24) — which are correct?",
- statements:[
+/*36*/ { id:36, type:"statements", q:"Trends in remittances to India (FY24) — which are correct?", statements:[
   "The US accounted for the largest share (~27.7%) of remittances.",
   "Gulf countries no longer contribute to India’s remittances.",
   "States like Maharashtra and Kerala are among top recipients."
- ],
- options:[
-  "1 and 3 only",
-  "1 only",
-  "2 and 3 only",
-  "All three"
- ],
- // Correct: 1 and 3 (Gulf still significant)
- answer:0
-},
+ ], options:["1 and 3 only","1 only","2 and 3 only","All three"], answer:0},
 
-/*37*/ { id:37, type:"single",
- q:"Lithuania made headlines in arms-control by doing what?",
- options:[
-  "Exiting the Convention on Cluster Munitions",
-  "Becoming a party to the Cluster Munitions Convention",
-  "Donating clearance equipment to affected states",
-  "Adopting cluster munitions into its doctrine"
- ],
- answer:0
-},
+/*37*/ { id:37, type:"single", q:"Lithuania made headlines in arms-control by doing what?", options:[
+  "Exiting the Convention on Cluster Munitions","Becoming a party to the Convention","Donating clearance equipment","Adopting cluster munitions"
+ ], answer:0},
 
-/*38*/ { id:38, type:"single",
- q:"Habitual Offender laws in India have links to which colonial statute?",
- options:["Criminal Tribes Act (1871)","Indian Penal Code (1860)","Arms Act (1878)","Criminal Procedure Code (1898)"], answer:0
-},
+/*38*/ { id:38, type:"single", q:"Habitual Offender laws in India have links to which colonial statute?", options:[
+  "Criminal Tribes Act (1871)","Indian Penal Code (1860)","Arms Act (1878)","Criminal Procedure Code (1898)"
+ ], answer:0},
 
-/*39*/ { id:39, type:"single",
- q:"Which programme aims to strengthen multimodal and integrated logistics (reported in March brief)?",
- options:["SMILE Programme","Sagarmala","Make in India","Bharatmala"], answer:0
-},
+/*39*/ { id:39, type:"single", q:"Which programme aims to strengthen multimodal and integrated logistics (reported in March brief)?", options:[
+  "SMILE Programme","Sagarmala","Make in India","Bharatmala"
+ ], answer:0},
 
-/*40*/ { id:40, type:"single",
- q:"Which scientific breakthrough involved creating 'supersolid light'?",
- options:[
+/*40*/ { id:40, type:"single", q:"Which scientific breakthrough involved creating 'supersolid light'?", options:[
   "Using polaritons in a semiconductor to create a supersolid state of light",
-  "Freezing photons in liquid helium",
-  "Converting light into a superconducting phase",
-  "Trapping light in Bose-Einstein condensate of electrons"
- ],
- answer:0
-},
+  "Freezing photons in liquid helium","Converting light into a superconducting phase","Trapping light in electron condensate"
+ ], answer:0},
 
-/*41*/ { id:41, type:"single",
- q:"Which major ocean current was reported to be slowing due to Antarctic ice melt?",
- options:["Antarctic Circumpolar Current","Gulf Stream","Kuroshio Current","Labrador Current"], answer:0
-},
+/*41*/ { id:41, type:"single", q:"Which major ocean current was reported to be slowing due to Antarctic ice melt?", options:[
+  "Antarctic Circumpolar Current","Gulf Stream","Kuroshio Current","Labrador Current"
+ ], answer:0},
 
-/*42*/ { id:42, type:"single",
- q:"Earth’s oldest meteorite impact crater (reported) was discovered in which region?",
- options:["Pilbara, Western Australia","Siberia","Canadian Shield","South Africa"], answer:0
-},
+/*42*/ { id:42, type:"single", q:"Earth’s oldest meteorite impact crater (reported) was discovered in which region?", options:[
+  "Pilbara, Western Australia","Siberia","Canadian Shield","South Africa"
+ ], answer:0},
 
-/*43*/ { id:43, type:"statements",
- q:"'No Money for Terror' ministerial conference focused on which themes?",
- statements:[
-  "Digital channels of terrorist financing",
-  "Financial inclusion and risk-based approach",
-  "Exemption of non-profit organisations from due diligence"
- ],
- options:[
-  "1 and 2 only",
-  "1 only",
-  "2 and 3 only",
-  "All three"
- ],
- // Correct: 1 and 2
- answer:0
-},
+/*43*/ { id:43, type:"statements", q:"'No Money for Terror' ministerial conference focused on which themes?", statements:[
+  "Digital channels of terrorist financing","Financial inclusion and risk-based approach","Exemption of NGOs from due diligence"
+ ], options:["1 and 2 only","1 only","2 and 3 only","All three"], answer:0},
 
-/*44*/ { id:44, type:"single",
- q:"Khelo India Winter Games 2025 (second phase) was held at which location?",
- options:["Gulmarg (J&K)","Auli (Uttarakhand)","Manali (Himachal)","Leh (Ladakh)"], answer:0
-},
+/*44*/ { id:44, type:"single", q:"Khelo India Winter Games 2025 (second phase) was held at which location?", options:[
+  "Gulmarg (J&K)","Auli (Uttarakhand)","Manali (Himachal)","Leh (Ladakh)"
+ ], answer:0},
 
-/*45*/ { id:45, type:"single",
- q:"Viral meningitis cases reported in March 2025 in the brief were from which place?",
- options:["Kalamassery, Ernakulam (Kerala)","Chennai (Tamil Nadu)","Mumbai (Maharashtra)","Patna (Bihar)"], answer:0
-},
+/*45*/ { id:45, type:"single", q:"Viral meningitis cases reported in March 2025 in the brief were from which place?", options:[
+  "Kalamassery, Ernakulam (Kerala)","Chennai (Tamil Nadu)","Mumbai (Maharashtra)","Patna (Bihar)"
+ ], answer:0},
 
-/*46*/ { id:46, type:"single",
- q:"Dog-faced water snake was unexpectedly recorded inland in which state?",
- options:["Assam","West Bengal","Odisha","Bihar"], answer:0
-},
+/*46*/ { id:46, type:"single", q:"Dog-faced water snake was unexpectedly recorded inland in which state?", options:[
+  "Assam","West Bengal","Odisha","Bihar"
+ ], answer:0},
 
-/*47*/ { id:47, type:"single",
- q:"Which tree species was being removed by Telangana authorities for causing pollen/water table issues?",
- options:["Conocarpus","Eucalyptus","Acacia","Prosopis"], answer:0
-},
+/*47*/ { id:47, type:"single", q:"Which tree species was being removed by Telangana authorities for causing pollen/water table issues?", options:[
+  "Conocarpus","Eucalyptus","Acacia","Prosopis"
+ ], answer:0},
 
-/*48*/ { id:48, type:"single",
- q:"The World Bank report 'Becoming a High-Income Economy in a Generation' suggested India needs an average annual growth rate of approximately:",
- options:["5.5%","6.8%","7.8%","9.5%"], answer:2
-},
+/*48*/ { id:48, type:"single", q:"The World Bank report 'Becoming a High-Income Economy in a Generation' suggested India needs an average annual growth rate of approximately:", options:[
+  "5.5%","6.8%","7.8%","9.5%"
+ ], answer:2},
 
-/*49*/ { id:49, type:"statements",
- q:"Regarding the Lokpal’s jurisdiction and High Court judges as noted in the March brief — which are correct?",
- statements:[
-  "Supreme Court observed that High Court judges take oath under the Constitution and raised jurisdictional concerns for Lokpal.",
+/*49*/ { id:49, type:"statements", q:"Regarding the Lokpal’s jurisdiction and High Court judges — which are correct?", statements:[
+  "Supreme Court observed High Court judges take oath under the Constitution raising jurisdictional concerns for Lokpal.",
   "Supreme Court allowed Lokpal unrestricted probe into sitting High Court judges.",
   "K. Veeraswamy v. Union of India (1991) held judges are public servants under the Prevention of Corruption Act."
- ],
- options:[
-  "1 and 3 only",
-  "1 and 2 only",
-  "2 only",
-  "All three"
- ],
- // Correct per brief: 1 and 3
- answer:0
-},
+ ], options:["1 and 3 only","1 and 2 only","2 only","All three"], answer:0},
 
-/*50*/ { id:50, type:"howmany",
- q:"How many of the following statements about the Modified Ethanol Interest Subvention Scheme (MEIS) are correct?\\n1. It allows Cooperative Sugar Mills to diversify feedstock to maize and damaged food grains.\\n2. Centre offers interest subvention for five years including a one-year moratorium.\\n3. It bans use of damaged food grains for ethanol.",
- statements:[
-  "Statement 1",
-  "Statement 2",
-  "Statement 3"
- ],
- options:[
-  "Only one",
-  "Only two",
-  "All three",
-  "None"
- ],
- // Correct: 1 and 2 true => Only two
- answer:1
-}
+/*50*/ { id:50, type:"howmany", q:"How many of the following statements about the Modified Ethanol Interest Subvention Scheme (MEIS) are correct?\n1. It allows Cooperative Sugar Mills to diversify feedstock to maize and damaged food grains.\n2. Centre offers interest subvention for five years including a one-year moratorium.\n3. It bans use of damaged food grains for ethanol.", statements:[
+  "Statement 1","Statement 2","Statement 3"
+ ], options:["Only one","Only two","All three","None"], answer:1}
 ]; // end QUESTIONS
 
-/* Utility */
+/* Helpers */
 function shuffle(arr){
   for(let i=arr.length-1;i>0;i--){
     const j=Math.floor(Math.random()*(i+1));
@@ -666,26 +374,19 @@ const answeredCount = document.getElementById('answeredCount');
 const qType = document.getElementById('qType');
 
 document.getElementById('startBtn').addEventListener('click', startQuiz);
-document.getElementById('previewBtn').addEventListener('click', previewFirst10);
 document.getElementById('nextBtn').addEventListener('click', ()=>changeQuestion(1));
 document.getElementById('prevBtn').addEventListener('click', ()=>changeQuestion(-1));
 document.getElementById('submitBtn').addEventListener('click', submitQuiz);
-
-function previewFirst10(){
-  alert("Preview — first 10 questions (titles):\\n\\n" + QUESTIONS.slice(0,10).map((q,i)=>`${i+1}. ${q.q.replace(/\\n/g,' ')} `).join("\\n\\n"));
-}
 
 function startQuiz(){
   const name = document.getElementById('username').value.trim();
   if(!name){ alert('Please enter your name to start'); return; }
   state.user = name;
   userDisplay.textContent = name;
-  // shuffle questions and set order (QUESTIONS already contains 50 curated items)
   state.order = shuffle(QUESTIONS.slice());
   state.idx = 0; state.answers = {}; state.startedAt = Date.now();
   entry.style.display='none'; quiz.style.display='block';
   renderQuestion();
-  // start timer
   state.timerSec = 3600; updateTimer(state.timerSec);
   if(state.timerInterval) clearInterval(state.timerInterval);
   state.timerInterval = setInterval(()=>{
@@ -706,8 +407,7 @@ function renderQuestion(){
   const qObj = state.order[state.idx];
   currentIndex.textContent = state.idx+1;
   qType.textContent = '';
-  // build HTML
-  let html = `<div class="question"><div style="font-weight:600">${qObj.q.replace(/\\n/g,'<br>')}</div></div>`;
+  let html = `<div class="question"><div style="font-weight:600">${qObj.q.replace(/\n/g,'<br>')}</div></div>`;
   if(qObj.statements && qObj.type!=='howmany'){
     html += '<div class="small muted" style="margin-top:6px">Statements:</div><div style="margin-top:6px">';
     qObj.statements.forEach((st,si)=> html += `<div style="margin:4px 0;margin-left:8px">${si+1}. ${st}</div>`);
@@ -717,12 +417,8 @@ function renderQuestion(){
     html += '<div class="small muted" style="margin-top:6px">Statements:</div><div style="margin-top:6px">';
     qObj.statements.forEach((st,si)=> html += `<div style="margin:4px 0;margin-left:8px">${si+1}. ${st}</div>`);
     html += '</div>';
-    qType.textContent = 'How many of the above are correct? Choose one option';
-  } else {
-    qType.textContent = '';
+    qType.textContent = 'How many of the above are correct?';
   }
-
-  // options (always 4)
   html += '<div class="opts">';
   qObj.options.forEach((opt,oi)=>{
     const checked = (state.answers[qObj.id]===oi)?'checked':'';
@@ -731,7 +427,6 @@ function renderQuestion(){
   html += '</div>';
   questionArea.innerHTML = html;
 
-  // attach listeners
   document.querySelectorAll('input[name="opt"]').forEach(r=>{
     r.addEventListener('change', (e)=>{
       const id = Number(e.target.dataset.id), val = Number(e.target.value);
@@ -760,29 +455,35 @@ function autoSubmit(){
 function submitQuiz(){
   if(!confirm("Submit quiz now? You will receive score and review.")) return;
   clearInterval(state.timerInterval);
-  // grading
-  let score = 0;
+  const total = QUESTIONS.length;
+  let correct = 0, attempted = 0;
   const review = state.order.map((qObj, idx)=>{
     const user = state.answers[qObj.id];
-    const correct = (typeof user!=='undefined' && user===qObj.answer);
-    if(correct) score += 1;
-    return {no:idx+1, q:qObj.q, type:qObj.type, statements:qObj.statements||null, options:qObj.options, user:user, key:qObj.answer, correct:correct};
+    if(typeof user !== 'undefined') attempted++;
+    const isCorrect = (typeof user !== 'undefined' && user === qObj.answer);
+    if(isCorrect) correct++;
+    return {no:idx+1, q:qObj.q, type:qObj.type, statements:qObj.statements||null, options:qObj.options, user:user, key:qObj.answer, correct:isCorrect};
   });
+  const wrong = attempted - correct;
+  const unattempted = total - attempted;
+  const score = correct;
 
-  // show results
+  // display results
   quiz.style.display='none';
   document.getElementById('resultArea').style.display='block';
   const scoreBox = document.getElementById('scoreBox');
-  const passMark = Math.round(QUESTIONS.length * 0.6);
-  scoreBox.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><div><h3 style="margin:0">${state.user} — Result</h3><div class="small">Score: <strong>${score}</strong> / ${QUESTIONS.length}</div></div><div>${score>=passMark? '<div class="correct" style="padding:8px;border-radius:8px">Good attempt</div>':'<div class="wrong" style="padding:8px;border-radius:8px">Review suggested</div>'}</div></div>`;
+  scoreBox.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+    <div><h3 style="margin:0">${state.user} — Result</h3><div class="small">Total Questions: ${total} | Attempted: ${attempted}</div></div>
+    <div style="font-weight:600">Correct: ${correct} | Wrong: ${wrong} | Unattempted: ${unattempted} | Score: ${score}/${total}</div>
+  </div>`;
 
-  // review details
+  // review panel
   const reviewBox = document.getElementById('reviewBox');
   let html = `<h4 style="margin:0 0 12px 0">Review</h4>`;
   review.forEach(r=>{
     html += `<div style="padding:10px;border-radius:8px;background:#fbfdff;border:1px solid #eef6ff;margin-bottom:10px">`;
     html += `<div style="display:flex;justify-content:space-between"><div><strong>Q${r.no}.</strong></div><div>${r.correct?'<span style="color:var(--success)">Correct</span>':'<span style="color:var(--danger)">Wrong</span>'}</div></div>`;
-    html += `<div style="margin-top:8px">${r.q.replace(/\\n/g,'<br>')}</div>`;
+    html += `<div style="margin-top:8px">${r.q.replace(/\n/g,'<br>')}</div>`;
     if(r.statements){
       html += `<div class="small muted" style="margin-top:8px">Statements:</div>`;
       r.statements.forEach((s,si)=> html += `<div style="margin-left:8px">${si+1}. ${s}</div>`);
@@ -797,12 +498,12 @@ function submitQuiz(){
   });
   reviewBox.innerHTML = html;
 
-  // export button
+  // export
   const exportBtn = document.createElement('button');
   exportBtn.textContent = 'Download attempt JSON';
   exportBtn.style.marginTop='10px';
   exportBtn.onclick = ()=> {
-    const data = {user:state.user, startedAt:state.startedAt, finishedAt:Date.now(), score:score, review:review};
+    const data = {user:state.user, startedAt:state.startedAt, finishedAt:Date.now(), total:total, attempted:attempted, correct:correct, wrong:wrong, unattempted:unattempted, score:score, review:review};
     const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
     const url=URL.createObjectURL(blob);
     const a=document.createElement('a'); a.href=url; a.download=`PrelimsPrecise_March2025_${state.user.replace(/\\s+/g,'_')}.json`; a.click(); URL.revokeObjectURL(url);

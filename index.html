@@ -5,56 +5,58 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Prelims Precise — March 2025 (50 Qs)</title>
 <style>
+  /* Light theme — clean UPSC style */
   :root{
-    --bg:#0f1724; --card:#0b1220; --accent:#0ea5a4; --muted:#94a3b8;
-    --paper:#f8fafc; --success:#34d399; --danger:#fb7185;
+    --bg:#f6f8fa; --card:#ffffff; --accent:#0b6cf0; --muted:#6b7280;
+    --success:#16a34a; --danger:#dc2626; --border:#e6eef9;
   }
-  *{box-sizing:border-box;font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;}
-  body{margin:0;background:linear-gradient(180deg,#071025 0%,#071a2b 100%);color:var(--paper);line-height:1.45}
-  .wrap{max-width:980px;margin:36px auto;padding:20px}
-  header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+  *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+  body{margin:0;background:var(--bg);color:#0b1220;line-height:1.45}
+  .wrap{max-width:980px;margin:28px auto;padding:20px}
+  header{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+  header img{width:56px;height:56px;border-radius:8px;background:linear-gradient(135deg,#e6f0ff,#dbeefe);display:flex;align-items:center;justify-content:center}
   header h1{margin:0;font-size:20px}
-  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:12px;padding:18px;box-shadow:0 6px 24px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
+  .card{background:var(--card); border-radius:10px;padding:18px;box-shadow:0 6px 20px rgba(13,38,76,0.06);border:1px solid var(--border)}
   .muted{color:var(--muted);font-size:13px}
   .center{text-align:center}
   .start-box{display:grid;gap:12px;align-items:center}
-  input[type="text"]{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--paper);outline:none}
-  button{background:var(--accent);border:none;color:#012;padding:10px 14px;border-radius:9px;font-weight:600;cursor:pointer}
-  button:disabled{opacity:0.5;cursor:not-allowed}
+  input[type="text"]{padding:10px;border-radius:8px;border:1px solid #dbe6f5;background:transparent;color:inherit;outline:none;width:100%}
+  button{background:var(--accent);border:none;color:white;padding:10px 14px;border-radius:9px;font-weight:600;cursor:pointer}
+  button.secondary{background:#eef6ff;color:var(--accent);border:1px solid #dbeefe}
   .meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
-  .timer{font-weight:700;padding:6px 10px;border-radius:8px;background:rgba(14,165,164,0.12);color:var(--accent)}
+  .timer{font-weight:700;padding:6px 10px;border-radius:8px;background:#eef6ff;color:var(--accent);border:1px solid #dbeefe}
   .qbox{margin-top:18px}
   .qhead{display:flex;justify-content:space-between;align-items:center;gap:12px}
   .qnum{font-weight:700;color:var(--accent)}
   .question{margin:10px 0 12px}
-  .opts{display:grid;gap:8px}
-  .opt{display:flex;align-items:flex-start;gap:10px;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)}
-  .opt input{margin-top:3px}
+  .opts{display:grid;gap:10px;margin-top:8px}
+  .opt{display:flex;align-items:flex-start;gap:10px;padding:12px;border-radius:8px;border:1px solid #f0f4fb;background:#fbfdff}
+  .opt input{margin-top:4px}
   .footer{display:flex;justify-content:space-between;gap:12px;margin-top:18px}
   .small{font-size:13px;color:var(--muted)}
   .result{margin-top:18px;padding:12px;border-radius:10px}
-  .correct{background:rgba(52,211,153,0.08);color:var(--success);border:1px solid rgba(52,211,153,0.12)}
-  .wrong{background:rgba(251,113,133,0.06);color:var(--danger);border:1px solid rgba(251,113,133,0.10)}
+  .correct{background:rgba(22,163,74,0.08);color:var(--success);border:1px solid rgba(22,163,74,0.12)}
+  .wrong{background:rgba(220,38,38,0.06);color:var(--danger);border:1px solid rgba(220,38,38,0.10)}
   .review{margin-top:12px}
-  pre{white-space:pre-wrap;font-family:monospace;font-size:13px;color:var(--muted);padding:12px;background:rgba(255,255,255,0.02);border-radius:8px;overflow:auto}
+  pre{white-space:pre-wrap;font-family:monospace;font-size:13px;color:var(--muted);padding:12px;background:#fbfdff;border-radius:8px;overflow:auto;border:1px solid #eef6ff}
   @media(max-width:700px){.wrap{padding:12px}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44'><rect width='44' height='44' rx='8' fill='%230e1721'/><text x='50%' y='60%' fill='%230ea5a4' font-size='20' font-family='Arial' text-anchor='middle'>PP</text></svg>" alt="logo" />
+    <img aria-hidden="true"><svg width="0" height="0" style="position:absolute;left:-9999px"></svg>
     <div>
-      <h1>Prelims Precise — March 2025 (50 Qs) — UPSC-style filtered</h1>
-      <div class="muted">Mixed: 70% statements-type + 30% single-correct | Source: March 2025 Prelims Precise PDF.</div>
+      <h1>Prelims Precise — March 2025 (50 Questions)</h1>
+      <div class="muted">Source: March 2025 Prelims Precise (Fortune IAS). :contentReference[oaicite:1]{index=1}</div>
     </div>
   </header>
 
   <div id="entry" class="card start-box">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <div>
-        <div class="small">Enter name to start</div>
-        <input id="username" type="text" placeholder="Type your name (required)" />
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+      <div style="flex:1">
+        <div class="small">Enter your name to begin</div>
+        <input id="username" type="text" placeholder="Full name (required)" />
       </div>
       <div class="meta">
         <div class="timer" id="previewTimer">Time: 60:00</div>
@@ -63,17 +65,17 @@
     </div>
     <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:10px">
       <button id="startBtn">Start Quiz</button>
-      <button id="demoBtn" style="background:#18384b;color:var(--paper)">Preview Questions</button>
+      <button id="previewBtn" class="secondary">Preview first 10 Qs</button>
     </div>
   </div>
 
   <div id="quiz" class="card" style="display:none">
     <div style="display:flex;justify-content:space-between;align-items:center">
       <div class="qhead">
-        <div class="qnum">Question <span id="currentIndex">1</span> / 50</div>
-        <div class="small" id="qSection">Section</div>
+        <div class="qnum">Q <span id="currentIndex">1</span> / 50</div>
+        <div class="small" id="qType"> </div>
       </div>
-      <div style="display:flex;gap:10px;align-items:center">
+      <div style="display:flex;gap:12px;align-items:center">
         <div class="timer" id="timer">60:00</div>
         <div class="small">Name: <span id="userDisplay"></span></div>
       </div>
@@ -83,12 +85,12 @@
 
     <div class="footer">
       <div>
-        <button id="prevBtn">Previous</button>
-        <button id="nextBtn">Next</button>
+        <button id="prevBtn" class="secondary">Previous</button>
+        <button id="nextBtn" class="secondary">Next</button>
       </div>
       <div style="display:flex;gap:8px;align-items:center">
         <div class="small">Answered: <span id="answeredCount">0</span>/50</div>
-        <button id="submitBtn" style="background:#0ea5a4">Submit Quiz</button>
+        <button id="submitBtn">Submit Quiz</button>
       </div>
     </div>
   </div>
@@ -98,260 +100,305 @@
     <div class="card review" id="reviewBox"></div>
   </div>
 
-  <div style="margin-top:12px" class="muted">
-    Source: March 2025 Prelims Precise (Fortune IAS) — all questions created solely from this PDF. :contentReference[oaicite:1]{index=1}
-  </div>
 </div>
 
 <script>
 /*
-  Quiz engine:
-  - questions[] holds 50 question objects (type: 'single' or 'statements')
-  - For 'single': options[], answer: index
-  - For 'statements': statements[], answers: [indices of true statements]
-  - Shuffles on start. Timer 3600 seconds. Auto-submit at 0.
-  - Mixed scoring: single -> 1 mark; statements -> 1 mark for exact match (no negative marking).
+  Light-theme single-file quiz
+  - 50 questions (all have exactly 4 radio options)
+  - Statement questions use UPSC-style 4-option format
+  - Additional "How many statements are correct?" question variants included
+  - Timer: 3600s auto-submit
+  - Questions shuffled on start
+  - All content sourced from March 2025 Prelims Precise PDF. :contentReference[oaicite:2]{index=2}
 */
 
-/* -----------------------
-   QUESTIONS (50) - sourced from March 2025 PDF only.
-   Each question is compact and UPSC-aimed.
-   ----------------------- */
+/* ------------ QUESTIONS (50) -------------
+   Every question object:
+   {
+     id: number,
+     type: "single" | "statements" | "howmany",
+     q: string,
+     statements?: [ ... ]        // for 'statements' or 'howmany' show these above options
+     options: [ "A...","B...", "C...", "D..." ],
+     answer: index (0..3)
+   }
+   All options are radio (4 choices).
+   ---------------------------------------*/
+
 const QUESTIONS = [
-/* 1 */ { id:1, section:"Polity", type:"single",
+/*1*/ { id:1, type:"single",
  q:"What is a 'D-voter' in Assam context?",
  options:[
-  "A voter whose citizenship is under doubt and marked 'D' by EC.",
-  "A voter marked for deletion after NRC if they fail to vote.",
-  "A special category voter with voting rights only local elections.",
+  "A person whose citizenship is marked doubtful by the Election Commission.",
+  "A voter disqualified due to failing to vote in consecutive elections.",
+  "A temporary voter category for migrants with provisional cards.",
   "A voter registered under the Domicile Act of Assam."
  ],
  answer:0
 },
 
-/* 2 */ { id:2, section:"Polity", type:"statements",
+/*2*/ { id:2, type:"statements",
  q:"Consider the following statements about the Jan Vishwas Bill 2.0 (decriminalisation exercise):",
  statements:[
-  "It aims to convert certain criminal offences into civil penalties to improve ease of doing business.",
-  "Jan Vishwas Bill 2.0 is the first-ever exercise of this kind in India.",
-  "The DPIIT (Department for Promotion of Industry & Internal Trade) has been tasked with mapping further laws."
+  "It proposes converting certain criminal offences into civil penalties to boost ease of doing business.",
+  "Jan Vishwas Bill 2.0 is the first decriminalisation exercise undertaken by the Indian government.",
+  "DPIIT has been tasked with mapping further laws for decriminalisation."
  ],
- answers:[0,2]
+ options:[
+  "1 only",
+  "1 and 2 only",
+  "2 and 3 only",
+  "1 and 3 only"
+ ],
+ // Correct: statements 1 and 3 are true per PDF.
+ answer:3
 },
 
-/* 3 */ { id:3, section:"Polity", type:"single",
- q:"Which of these is TRUE about the Dramatic Performances Act of 1876 as per the March 2025 brief?",
+/*3*/ { id:3, type:"single",
+ q:"Which of these is TRUE about the Dramatic Performances Act (1876) as noted in the March 2025 brief?",
  options:[
-  "It allowed warrantless searches and was used in colonial times to curb nationalist plays.",
-  "It was enacted in 1956 to regulate modern theatre across India.",
-  "It was a post-independence statute passed to protect artists.",
-  "It never had any enforcement history in India."
+  "It enabled warrantless searches and was used in colonial times to suppress nationalist plays.",
+  "It was enacted in 1956 to regulate modern theatre.",
+  "It was created post-independence to protect artists' rights.",
+  "It has never been used in India."
  ],
  answer:0
 },
 
-/* 4 */ { id:4, section:"Polity", type:"single",
- q:"Which body did the Supreme Court stay action against when Lokpal took up a corruption complaint in March 2025?",
+/*4*/ { id:4, type:"single",
+ q:"In March 2025 the Supreme Court stayed action by Lokpal in a matter relating to which office?",
  options:[
-  "A sitting Supreme Court judge",
   "A High Court judge",
-  "A member of Parliament",
+  "The Chief Election Commissioner",
+  "A State Governor",
   "A Union Minister"
  ],
+ answer:0
+},
+
+/*5*/ { id:5, type:"statements",
+ q:"Which of the following statements correctly describe the doctrine of eminent domain as discussed in the March brief?",
+ statements:[
+  "It allows government acquisition of private property for public use, with compensation.",
+  "Article 300A permits deprivation of property arbitrarily without law.",
+  "Right to Fair Compensation and Transparency in Land Acquisition Act, 2013 provides procedural safeguards."
+ ],
+ options:[
+  "1 only",
+  "1 and 3 only",
+  "2 only",
+  "1, 2 and 3"
+ ],
+ // Correct: 1 and 3
  answer:1
 },
 
-/* 5 */ { id:5, section:"Polity", type:"statements",
- q:"Doctrine of eminent domain (as noted in March 2025) — which statements are correct?",
- statements:[
-  "It allows government to acquire private property for public use with compensation.",
-  "Article 300A explicitly permits deprivation of property without law.",
-  "The Right to Fair Compensation and Transparency in Land Acquisition, Rehabilitation and Resettlement Act, 2013 provides procedural safeguards."
- ],
- answers:[0,2]
-},
-
-/* 6 */ { id:6, section:"Economy", type:"single",
- q:"The Time Use Survey (Jan–Dec 2024) highlighted which key gender gap?",
+/*6*/ { id:6, type:"single",
+ q:"The Time Use Survey (Jan–Dec 2024) indicated which key gender disparity?",
  options:[
-  "Women (6+) spent significantly more time on unpaid domestic work than men.",
-  "Men spent more time on unpaid domestic work than women.",
-  "No gender differences were observed in unpaid work.",
-  "Survey covered only paid work patterns."
+  "Women spend significantly more time on unpaid domestic work than men.",
+  "Men spend far more time on unpaid domestic work than women.",
+  "Both genders spend equal time on unpaid domestic work.",
+  "Survey found no difference in paid work participation."
  ],
  answer:0
 },
 
-/* 7 */ { id:7, section:"Economy", type:"statements",
- q:"About the Gold Monetisation Scheme (GMS) update in March 2025 — which are correct?",
+/*7*/ { id:7, type:"statements",
+ q:"About the Gold Monetisation Scheme (GMS) update (March 26, 2025) — which are correct?",
  statements:[
-  "Medium-term and long-term deposit options were discontinued from March 26, 2025.",
-  "Short-term bank deposits (1–3 years) continued at banks' discretion.",
-  "The scheme was launched in 2020."
+  "Medium-term (5–7 years) and long-term (12–15 years) deposit options were discontinued.",
+  "Short-term bank deposit options (1–3 years) continue at banks' discretion.",
+  "GMS was launched in 2024."
  ],
- answers:[0,1]
+ options:[
+  "1 and 2 only",
+  "2 only",
+  "1 and 3 only",
+  "All three"
+ ],
+ // Correct per PDF: 1 and 2
+ answer:0
 },
 
-/* 8 */ { id:8, section:"Economy", type:"single",
- q:"What is the 'Zero-for-Zero' tariff idea mentioned in March 2025 context?",
+/*8*/ { id:8, type:"single",
+ q:"The 'Zero-for-Zero' tariff strategy mentioned in March 2025 context refers to:",
  options:[
   "A reciprocal tariff elimination proposal between India and the US.",
-  "A WTO-mandated tariff on digital services.",
-  "A unilateral tariff India imposed on selected US goods.",
-  "A global tariff on zero-emission goods."
+  "A WTO-mandated single global tariff.",
+  "India’s unilateral tariff on selected US goods without reciprocity.",
+  "A tariff exclusively for zero-emission goods."
  ],
  answer:0
 },
 
-/* 9 */ { id:9, section:"Economy", type:"single",
- q:"Which sector accounted for ~48% of India's Total Primary Energy Supply (TPES) in FY 2023-24 per Energy Statistics India 2025?",
- options:[
-  "Coal",
-  "Oil",
-  "Renewables",
-  "Nuclear"
- ],
- answer:0
+/*9*/ { id:9, type:"single",
+ q:"According to Energy Statistics India 2025, which fuel contributed about 48% of India's Total Primary Energy Supply (TPES) in FY 2023-24?",
+ options:["Coal","Oil","Renewables","Natural gas"], answer:0
 },
 
-/*10*/ { id:10, section:"Economy", type:"statements",
- q:"Modified Ethanol Interest Subvention Scheme (MEIS) for Cooperative Sugar Mills — correct statements are:",
+/*10*/ { id:10, type:"statements",
+ q:"About the Modified Ethanol Interest Subvention Scheme (MEIS) for Cooperative Sugar Mills — which statements are correct?",
  statements:[
-  "It supports multi-feedstock ethanol plants to use maize and damaged food grains.",
-  "It provides interest subvention at 6% p.a. for five years (including 1-year moratorium).",
-  "It restricts ethanol feedstock only to sugarcane."
+  "It promotes multi-feedstock ethanol plants using maize and damaged food grains.",
+  "It offers interest subvention of 6% per annum (or 50% of bank rate, whichever is lower) for five years including one-year moratorium.",
+  "It restricts ethanol production to sugarcane only."
  ],
- answers:[0,1]
+ options:[
+  "1 only",
+  "1 and 2 only",
+  "2 and 3 only",
+  "All three"
+ ],
+ // Correct: 1 and 2
+ answer:1
 },
 
-/*11*/ { id:11, section:"IR", type:"single",
+/*11*/ { id:11, type:"single",
  q:"The Ganga Water Treaty (1996) between India and Bangladesh governs sharing at which barrage?",
+ options:["Farakka Barrage","Teesta Barrage","Kosi Barrage","Barricade at Ghat"], answer:0
+},
+
+/*12*/ { id:12, type:"statements",
+ q:"About the Hague Service Convention use in serving summons abroad — which are correct as per March brief?",
+ statements:[
+  "It facilitates cross-border service of judicial documents.",
+  "India processes requests under the Convention via the Ministry of Law & Justice.",
+  "Service under the Convention ensures immediate enforcement of foreign court orders in India."
+ ],
  options:[
-  "Farakka Barrage",
-  "Teesta Barrage",
-  "Kishenganga Barrage",
-  "Gau River Barrage"
+  "1 and 2 only",
+  "2 only",
+  "3 only",
+  "All three"
  ],
+ // Correct: 1 and 2
  answer:0
 },
 
-/*12*/ { id:12, section:"IR", type:"statements",
- q:"About the Hague Service Convention application in the Adani case — which are true?",
+/*13*/ { id:13, type:"single",
+ q:"Mission 300 aims to connect how many people to electricity in Sub-Saharan Africa by 2030?",
+ options:["100 million","300 million","600 million","50 million"], answer:1
+},
+
+/*14*/ { id:14, type:"single",
+ q:"Mudumal menhirs, added to India’s tentative UNESCO list, date roughly to which period?",
+ options:["Megalithic (approx 3,500–4,000 years)","Palaeolithic","Medieval","Neolithic"], answer:0
+},
+
+/*15*/ { id:15, type:"statements",
+ q:"Which are correct about Wallace Line and biodiversity (March brief)?",
  statements:[
-  "It facilitates service of judicial documents abroad.",
-  "India processes such requests through the Ministry of Law & Justice.",
-  "Using it guarantees immediate enforcement of a foreign court order in India."
- ],
- answers:[0,1]
-},
-
-/*13*/ { id:13, section:"IR", type:"single",
- q:"Mission 300 aims to provide electricity connections to how many people in Sub-Saharan Africa by 2030?",
- options:["100 million","300 million","500 million","50 million"], answer:1
-},
-
-/*14*/ { id:14, section:"History", type:"single",
- q:"Mudumal menhirs, added to India's tentative UNESCO list, are associated with which period?",
- options:["Megalithic (approx 3,500–4,000 years)","Neolithic (10,000 yrs)","Bronze Age (2,000 yrs)","Medieval (1,000 yrs)"],
- answer:0
-},
-
-/*15*/ { id:15, section:"Geography", type:"statements",
- q:"Which statements about the Wallace Line and biodiversity (as per March brief) are correct?",
- statements:[
-  "Wallace Line separates Asian and Australasian fauna.",
-  "Climate change and habitat loss may enable species to cross the boundary more easily.",
+  "It separates Asian from Australasian fauna.",
+  "Climate change and habitat loss could weaken the barrier allowing species dispersal.",
   "It runs between Madagascar and mainland Africa."
  ],
- answers:[0,1]
+ options:[
+  "1 and 2 only",
+  "2 only",
+  "1 and 3 only",
+  "All three"
+ ],
+ // Correct: 1 and 2
+ answer:0
 },
 
-/*16*/ { id:16, section:"Geography", type:"single",
- q:"Plastic Ice VII is characterized by:",
+/*16*/ { id:16, type:"single",
+ q:"Plastic Ice VII (reported) is best described as:",
  options:[
-  "A rigid lattice where molecules can rotate freely (observed under extreme pressure/temperature).",
-  "Standard hexagonal ice found at 1 atm.",
-  "Ice formed only in cometary tails.",
-  "A low-pressure ice found on surface of Mars."
+  "A cubic lattice ice where molecules can rotate — formed under extreme pressure and temperature.",
+  "Regular hexagonal ice found in glaciers.",
+  "Liquid water trapped at low temperatures.",
+  "A low-pressure ice only on Mars."
  ],
  answer:0
 },
 
-/*17*/ { id:17, section:"Environment", type:"single",
- q:"Which initiative became India’s first 'Frozen Zoo' for Himalayan species DNA preservation?",
+/*17*/ { id:17, type:"single",
+ q:"India’s first 'Frozen Zoo' preserving DNA of Himalayan wildlife was established at:",
  options:[
-  "Padmaja Naidu Himalayan Zoological Park (Darjeeling)",
-  "Sanjay Gandhi Zoo (Mumbai)",
-  "Chennai Central Zoo",
-  "Gandhinagar Biodiversity Park"
+  "Padmaja Naidu Himalayan Zoological Park, Darjeeling",
+  "Sanjay Gandhi Zoological Park, Mumbai",
+  "Arignar Anna Zoological Park, Chennai",
+  "Nehru Zoological Park, Hyderabad"
  ],
  answer:0
 },
 
-/*18*/ { id:18, section:"Environment", type:"statements",
- q:"Loss and Damage Fund (as noted) — which are correct?",
+/*18*/ { id:18, type:"statements",
+ q:"About the Loss and Damage Fund (as in the March brief):",
  statements:[
-  "It was operationalized (after COP27 creation) at a later COP and had initial financing agreements arranged.",
-  "In March 2025, the US announced intent to withdraw from the fund.",
-  "The fund aims to finance development of fossil fuel projects."
+  "The fund was established at COP27 and operationalized at a later COP with initial financing.",
+  "The United States announced intention to withdraw from the fund in 2025.",
+  "The fund finances fossil fuel infrastructure in developing countries."
  ],
- answers:[0,1]
-},
-
-/*19*/ { id:19, section:"S&T", type:"single",
- q:"ISRO's SUIT (Solar Ultraviolet Imaging Telescope) is onboard which mission?",
- options:["Aditya-L1","Chandrayaan-3","Mangalyaan","Gaganyaan"], answer:0
-},
-
-/*20*/ { id:20, section:"S&T", type:"statements",
- q:"Vikram 3201 and Kalpana 3201 microprocessors — which statements are true?",
- statements:[
-  "They are India’s 32-bit microprocessors developed for space/flight use.",
-  "Vikram 3201 is an evolution of a 16-bit microprocessor previously used in launch vehicles.",
-  "They are commercial x86 processors licensed from Intel."
- ],
- answers:[0,1]
-},
-
-/*21*/ { id:21, section:"S&T", type:"single",
- q:"ISRO completed a de-docking operation for SpaDeX satellites on which date (as per March brief)?",
  options:[
-  "March 13, 2025",
-  "January 16, 2025",
-  "December 30, 2024",
-  "March 31, 2025"
+  "1 and 2 only",
+  "2 and 3 only",
+  "1 only",
+  "All three"
  ],
+ // Correct: 1 and 2 (per brief)
  answer:0
 },
 
-/*22*/ { id:22, section:"S&T", type:"single",
- q:"Blue Ghost lunar lander (Firefly Aerospace) achieved what milestone noted in March 2025?",
- options:[
-  "First successful private lunar soft landing carrying NASA payloads",
-  "First human-crewed private lunar landing",
-  "Failed landing on the far side of the Moon",
-  "Launch failure on Falcon 9"
+/*19*/ { id:19, type:"single",
+ q:"The Solar Ultraviolet Imaging Telescope (SUIT) is onboard which mission?",
+ options:["Aditya-L1","Chandrayaan-3","Astrosat","Gaganyaan"], answer:0
+},
+
+/*20*/ { id:20, type:"statements",
+ q:"Vikram 3201 and Kalpana 3201 microprocessors (reported) — which statements are correct?",
+ statements:[
+  "They are 32-bit microprocessors developed in India for space applications.",
+  "Vikram 3201 is an evolution of an earlier 16-bit Vikram microprocessor used in launch vehicles.",
+  "They are licensed commercial x86 processors made by Intel."
  ],
+ options:[
+  "1 and 2 only",
+  "1 and 3 only",
+  "3 only",
+  "All three"
+ ],
+ // Correct: 1 and 2
  answer:0
 },
 
-/*23*/ { id:23, section:"Defence", type:"statements",
- q:"Regarding India’s maritime & defence exercises mentioned in March 2025 brief — correct?",
+/*21*/ { id:21, type:"single",
+ q:"ISRO completed de-docking of SpaDeX satellites on which date (per March brief)?",
+ options:["March 13, 2025","January 16, 2025","December 30, 2024","March 31, 2025"], answer:0
+},
+
+/*22*/ { id:22, type:"single",
+ q:"Which private lander achieved the first successful soft lunar landing carrying NASA payloads (Blue Ghost)?",
+ options:["Firefly Aerospace's Blue Ghost","SpaceX Dragon XL","Intuitive Machines Nova-C","Astrobotic Peregrine"], answer:0
+},
+
+/*23*/ { id:23, type:"statements",
+ q:"About defence exercises noted — which are correct?",
  statements:[
-  "Varuna is a bilateral India-France naval exercise.",
+  "Varuna is a bilateral naval exercise between India and France.",
   "Sea Dragon is a multinational anti-submarine exercise hosted by the US 7th Fleet.",
-  "INIOCHOS is a land border exercise between India and Greece."
+  "INIOCHOS is an annual Greek-hosted air exercise in which India participates."
  ],
- answers:[0,1]
+ options:[
+  "1 and 2 only",
+  "1 and 3 only",
+  "2 and 3 only",
+  "All three"
+ ],
+ // In brief: Varuna yes, Sea Dragon yes, INIOCHOS is Hellenic Air Force exercise (India has participated) — so all three.
+ answer:3
 },
 
-/*24*/ { id:24, section:"Misc", type:"single",
- q:"The World Happiness Report 2025 ranked India at which position?",
- options:["98","118","45","72"], answer:1
+/*24*/ { id:24, type:"single",
+ q:"The World Happiness Report 2025 placed India at which rank?",
+ options:["98","118","72","45"], answer:1
 },
 
-/*25*/ { id:25, section:"Misc", type:"single",
- q:"Which new Minimum Dietary Diversity (MDD) indicator target group was highlighted?",
+/*25*/ { id:25, type:"single",
+ q:"The new Minimum Dietary Diversity (MDD) indicator focuses on which group?",
  options:[
   "Women and children of reproductive age consuming at least five food groups in 24 hours",
   "Only infants under 6 months",
@@ -361,250 +408,296 @@ const QUESTIONS = [
  answer:0
 },
 
-/*26*/ { id:26, section:"Environment", type:"statements",
- q:"About Orans (Rajasthan sacred groves) — select correct statements:",
+/*26*/ { id:26, type:"statements",
+ q:"About Orans (Rajasthan sacred groves) — which statements are correct?",
  statements:[
-  "The Supreme Court directed Rajasthan to map and classify orans as forests.",
-  "Orans contribute to rainwater harvesting and livestock grazing dependency.",
-  "Orans are confined only to Kerala in India."
+  "Supreme Court directed Rajasthan to map and classify orans as forests.",
+  "Orans support rainwater harvesting and livestock dependent livelihoods.",
+  "Orans are found only in Rajasthan."
  ],
- answers:[0,1]
+ options:[
+  "1 and 2 only",
+  "2 only",
+  "1, 2 and 3",
+  "3 only"
+ ],
+ // Correct: 1 and 2
+ answer:0
 },
 
-/*27*/ { id:27, section:"Environment", type:"single",
- q:"Which species was reclassified as 'Critically Endangered' due to a 97% population decline?",
+/*27*/ { id:27, type:"single",
+ q:"Which species was reported reclassified as Critically Endangered after a 97% decline?",
  options:["African penguin","Olive Ridley turtle","Narwhal","Caracal"], answer:0
 },
 
-/*28*/ { id:28, section:"Biodiversity", type:"single",
- q:"Crassolabium dhritiae (new nematode) was discovered in which Indian state?",
- options:["Odisha","Kerala","Gujarat","Rajasthan"], answer:0
+/*28*/ { id:28, type:"single",
+ q:"Crassolabium dhritiae, a newly described nematode species, was discovered in which state?",
+ options:["Odisha","Tamil Nadu","Madhya Pradesh","Karnataka"], answer:0
 },
 
-/*29*/ { id:29, section:"Health", type:"statements",
- q:"Melioidosis (Odisha study) — correct points:",
+/*29*/ { id:29, type:"statements",
+ q:"Melioidosis (Odisha study) — which statements are correct?",
  statements:[
-  "It shows seasonality with peaks during and after monsoon.",
+  "It shows seasonality, peaking during and after monsoon.",
   "It is caused by Burkholderia pseudomallei.",
-  "A vaccine is widely available and used in India."
+  "A widely used vaccine exists in India."
  ],
- answers:[0,1]
+ options:[
+  "1 and 2 only",
+  "2 and 3 only",
+  "1 only",
+  "All three"
+ ],
+ // Correct: 1 and 2
+ answer:0
 },
 
-/*30*/ { id:30, section:"Agriculture", type:"single",
- q:"Bollgard-3 cotton variety incorporates which of the following?",
+/*30*/ { id:30, type:"single",
+ q:"Bollgard-3 cotton variety includes which trait?",
  options:[
-  "Three Bt proteins including Vip3A for enhanced pest resistance",
-  "Only Cry1Ac protein",
-  "A fungal resistance gene",
-  "Drought-resistant gene from barley"
+  "Three Bt proteins (Cry1Ac, Cry2Ab, Vip3A) for broader pest resistance",
+  "Only Cry1Ac",
+  "A drought-tolerant gene",
+  "A fungal-resistance gene"
  ],
  answer:0
 },
 
-/*31*/ { id:31, section:"Industry", type:"single",
- q:"National Technical Textiles Mission (NTTM) was launched in which year (as per March brief)?",
+/*31*/ { id:31, type:"single",
+ q:"National Technical Textiles Mission (NTTM) was launched in which year?",
  options:["2018","2020","2022","2015"], answer:1
 },
 
-/*32*/ { id:32, section:"Economy", type:"single",
- q:"Which change to Equalisation Levy was mentioned in March 2025 notes?",
+/*32*/ { id:32, type:"single",
+ q:"Which change to the Equalisation Levy was mentioned in March 2025 notes?",
  options:[
-  "Proposal to abolish the digital ad equalisation levy from April 1, 2025",
-  "Increase equalisation levy to 12%",
-  "Introduce levy on domestic advertisers only",
+  "Proposal to abolish the equalisation levy on online advertisements from April 1, 2025",
+  "Increase to 12% effective 2026",
+  "Extend levy to domestic digital transactions",
   "No change planned"
  ],
  answer:0
 },
 
-/*33*/ { id:33, section:"Polity", type:"statements",
- q:"Supreme Court in-house inquiry process — which are correct aspects?",
+/*33*/ { id:33, type:"statements",
+ q:"Which are correct about the Supreme Court's in-house inquiry process?",
  statements:[
   "CJI can form a three-member committee for deeper investigation.",
-  "Inquiries are an alternative to impeachment under Article 124(4).",
-  "In-house inquiry necessarily replaces criminal trial in all cases."
+  "In-house inquiries are an alternative to impeachment under Article 124(4).",
+  "Such in-house committees automatically replace criminal investigations."
  ],
- answers:[0,1]
+ options:[
+  "1 and 2 only",
+  "2 and 3 only",
+  "1 and 3 only",
+  "All three"
+ ],
+ // Correct: 1 and 2
+ answer:0
 },
 
-/*34*/ { id:34, section:"Polity", type:"single",
- q:"The Tribhuvan Sahkari University (India’s first national cooperative university) will be headquartered at:",
- options:["Anand, Gujarat","IIM Ahmedabad","New Delhi","Pune"], answer:0
+/*34*/ { id:34, type:"single",
+ q:"Tribhuvan Sahkari University (India’s first national cooperative university) will be headquartered at:",
+ options:["Anand, Gujarat","New Delhi","Pune","Lucknow"], answer:0
 },
 
-/*35*/ { id:35, section:"Economy", type:"single",
- q:"India's bioeconomy valuation in 2024 crossed approximately:",
+/*35*/ { id:35, type:"single",
+ q:"India’s bioeconomy valuation crossed approximately how much in 2024 (per March brief)?",
  options:["$50 billion","$165 billion","$400 billion","$1 trillion"], answer:1
 },
 
-/*36*/ { id:36, section:"Trade", type:"statements",
- q:"Trends in remittances to India (FY24) — correct statements:",
+/*36*/ { id:36, type:"statements",
+ q:"Trends in remittances to India (FY24) — which are correct?",
  statements:[
-  "The US became the top source of remittances (~27.7%).",
-  "Gulf countries lost entirely as remittance sources.",
-  "States like Maharashtra and Kerala are top recipients."
+  "The US accounted for the largest share (~27.7%) of remittances.",
+  "Gulf countries no longer contribute to India’s remittances.",
+  "States like Maharashtra and Kerala are among top recipients."
  ],
- answers:[0,2]
+ options:[
+  "1 and 3 only",
+  "1 only",
+  "2 and 3 only",
+  "All three"
+ ],
+ // Correct: 1 and 3 (Gulf still significant)
+ answer:0
 },
 
-/*37*/ { id:37, section:"IR", type:"single",
- q:"Lithuania's action in the arms-control arena (noted in March) was to:",
+/*37*/ { id:37, type:"single",
+ q:"Lithuania made headlines in arms-control by doing what?",
  options:[
-  "Exit the Convention on Cluster Munitions",
-  "Sign a new Cluster Munitions treaty",
-  "Pledge more funding for cluster clearance",
-  "Adopt cluster munitions into its military"
+  "Exiting the Convention on Cluster Munitions",
+  "Becoming a party to the Cluster Munitions Convention",
+  "Donating clearance equipment to affected states",
+  "Adopting cluster munitions into its doctrine"
  ],
  answer:0
 },
 
-/*38*/ { id:38, section:"Legal", type:"single",
- q:"Habitual Offender laws in India trace back to which colonial law?",
- options:["Criminal Tribes Act (1871)","Indian Penal Code (1860)","Crimes Act (1885)","Defense of India Act"], answer:0
+/*38*/ { id:38, type:"single",
+ q:"Habitual Offender laws in India have links to which colonial statute?",
+ options:["Criminal Tribes Act (1871)","Indian Penal Code (1860)","Arms Act (1878)","Criminal Procedure Code (1898)"], answer:0
 },
 
-/*39*/ { id:39, section:"Misc", type:"single",
- q:"Which program aims to strengthen multimodal & integrated logistics (mentioned in March brief)?",
- options:["SMILE Programme","Sagarmala","Make in India","LogiNet"], answer:0
+/*39*/ { id:39, type:"single",
+ q:"Which programme aims to strengthen multimodal and integrated logistics (reported in March brief)?",
+ options:["SMILE Programme","Sagarmala","Make in India","Bharatmala"], answer:0
 },
 
-/*40*/ { id:40, section:"Science", type:"single",
- q:"Which breakthrough involved transforming light into a 'supersolid' state?",
- options:["Using polaritons in a semiconductor to create supersolid light","Condensing helium at room temperature","Creating superconducting light","Freezing photons into crystals"], answer:0
+/*40*/ { id:40, type:"single",
+ q:"Which scientific breakthrough involved creating 'supersolid light'?",
+ options:[
+  "Using polaritons in a semiconductor to create a supersolid state of light",
+  "Freezing photons in liquid helium",
+  "Converting light into a superconducting phase",
+  "Trapping light in Bose-Einstein condensate of electrons"
+ ],
+ answer:0
 },
 
-/*41*/ { id:41, section:"Environment", type:"single",
- q:"Which ocean current was reported to be slowing due to melting ice sheets?",
+/*41*/ { id:41, type:"single",
+ q:"Which major ocean current was reported to be slowing due to Antarctic ice melt?",
  options:["Antarctic Circumpolar Current","Gulf Stream","Kuroshio Current","Labrador Current"], answer:0
 },
 
-/*42*/ { id:42, section:"Geography", type:"single",
+/*42*/ { id:42, type:"single",
  q:"Earth’s oldest meteorite impact crater (reported) was discovered in which region?",
- options:["Pilbara, Western Australia","Siberia","Canadian Shield","Kalahari"], answer:0
+ options:["Pilbara, Western Australia","Siberia","Canadian Shield","South Africa"], answer:0
 },
 
-/*43*/ { id:43, section:"Policy", type:"statements",
- q:"The 'No Money for Terror' conference highlighted which themes?",
+/*43*/ { id:43, type:"statements",
+ q:"'No Money for Terror' ministerial conference focused on which themes?",
  statements:[
   "Digital channels of terrorist financing",
-  "Financial inclusion and risk-based approaches",
-  "Exemption of NGOs from due diligence"
+  "Financial inclusion and risk-based approach",
+  "Exemption of non-profit organisations from due diligence"
  ],
- answers:[0,1]
-},
-
-/*44*/ { id:44, section:"Sports", type:"single",
- q:"Khelo India Winter Games 2025 second phase was hosted at which location (March brief)?",
- options:["Gulmarg, Kashmir","Auli, Uttarakhand","Manali, Himachal","Leh, Ladakh"], answer:0
-},
-
-/*45*/ { id:45, section:"Health", type:"single",
- q:"Viral meningitis cases reported in March 2025 were from which Indian state in the brief?",
- options:["Kerala (Kalamassery, Ernakulam)","Karnataka","Tamil Nadu","Punjab"], answer:0
-},
-
-/*46*/ { id:46, section:"Biodiversity", type:"single",
- q:"Dog-faced water snake was recorded inland in which state (unexpected sighting)?",
- options:["Assam","West Bengal","Odisha","Gujarat"], answer:0
-},
-
-/*47*/ { id:47, section:"Species", type:"single",
- q:"Which tree species was being removed by Telangana authorities due to being a pollen/water issue?",
- options:["Conocarpus","Teak","Banyan","Eucalyptus"], answer:0
-},
-
-/*48*/ { id:48, section:"Economy", type:"single",
- q:"The World Bank report 'Becoming a High-Income Economy in a Generation' suggested India needs an average growth rate of about:",
- options:["5.0%","6.5%","7.8%","9.2%"], answer:2
-},
-
-/*49*/ { id:49, section:"Legal", type:"statements",
- q:"Regarding Lokpal & High Court judges from the March brief — which are true?",
- statements:[
-  "Supreme Court observed High Court judges take oath under the Constitution and raised jurisdictional concerns for Lokpal.",
-  "Supreme Court allowed unfettered investigation of serving High Court judges by Lokpal.",
-  "K. Veeraswamy v. Union of India (1991) discussed judges as public servants under Prevention of Corruption Act."
- ],
- answers:[0,2]
-},
-
-/*50*/ { id:50, section:"Economy", type:"single",
- q:"Which scheme was explicitly linked to the target of 20% ethanol blending with petrol by 2025?",
  options:[
-  "Modified Ethanol Interest Subvention Scheme (MEIS) for Cooperative Sugar Mills",
-  "National Biofuel Scheme 2030",
-  "Ethanol Blending Scheme 2010",
-  "Green Fuels Initiative 2025"
- ], answer:0
+  "1 and 2 only",
+  "1 only",
+  "2 and 3 only",
+  "All three"
+ ],
+ // Correct: 1 and 2
+ answer:0
+},
+
+/*44*/ { id:44, type:"single",
+ q:"Khelo India Winter Games 2025 (second phase) was held at which location?",
+ options:["Gulmarg (J&K)","Auli (Uttarakhand)","Manali (Himachal)","Leh (Ladakh)"], answer:0
+},
+
+/*45*/ { id:45, type:"single",
+ q:"Viral meningitis cases reported in March 2025 in the brief were from which place?",
+ options:["Kalamassery, Ernakulam (Kerala)","Chennai (Tamil Nadu)","Mumbai (Maharashtra)","Patna (Bihar)"], answer:0
+},
+
+/*46*/ { id:46, type:"single",
+ q:"Dog-faced water snake was unexpectedly recorded inland in which state?",
+ options:["Assam","West Bengal","Odisha","Bihar"], answer:0
+},
+
+/*47*/ { id:47, type:"single",
+ q:"Which tree species was being removed by Telangana authorities for causing pollen/water table issues?",
+ options:["Conocarpus","Eucalyptus","Acacia","Prosopis"], answer:0
+},
+
+/*48*/ { id:48, type:"single",
+ q:"The World Bank report 'Becoming a High-Income Economy in a Generation' suggested India needs an average annual growth rate of approximately:",
+ options:["5.5%","6.8%","7.8%","9.5%"], answer:2
+},
+
+/*49*/ { id:49, type:"statements",
+ q:"Regarding the Lokpal’s jurisdiction and High Court judges as noted in the March brief — which are correct?",
+ statements:[
+  "Supreme Court observed that High Court judges take oath under the Constitution and raised jurisdictional concerns for Lokpal.",
+  "Supreme Court allowed Lokpal unrestricted probe into sitting High Court judges.",
+  "K. Veeraswamy v. Union of India (1991) held judges are public servants under the Prevention of Corruption Act."
+ ],
+ options:[
+  "1 and 3 only",
+  "1 and 2 only",
+  "2 only",
+  "All three"
+ ],
+ // Correct per brief: 1 and 3
+ answer:0
+},
+
+/*50*/ { id:50, type:"howmany",
+ q:"How many of the following statements about the Modified Ethanol Interest Subvention Scheme (MEIS) are correct?\\n1. It allows Cooperative Sugar Mills to diversify feedstock to maize and damaged food grains.\\n2. Centre offers interest subvention for five years including a one-year moratorium.\\n3. It bans use of damaged food grains for ethanol.",
+ statements:[
+  "Statement 1",
+  "Statement 2",
+  "Statement 3"
+ ],
+ options:[
+  "Only one",
+  "Only two",
+  "All three",
+  "None"
+ ],
+ // Correct: 1 and 2 true => Only two
+ answer:1
 }
 ]; // end QUESTIONS
 
-/* Utility helpers */
-function shuffle(array){
-  for(let i=array.length-1;i>0;i--){
+/* Utility */
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
     const j=Math.floor(Math.random()*(i+1));
-    [array[i],array[j]]=[array[j],array[i]];
+    [arr[i],arr[j]]=[arr[j],arr[i]];
   }
-  return array;
+  return arr;
 }
 
 /* App state */
-let state = {
-  user:null, order:[], idx:0, answers:{}, startedAt:null, timerSec:3600, timerInterval:null
-};
+let state = { user:null, order:[], idx:0, answers:{}, startedAt:null, timerSec:3600, timerInterval:null };
 
-/* DOM refs */
+/* DOM */
 const entry = document.getElementById('entry');
 const quiz = document.getElementById('quiz');
-const resultArea = document.getElementById('resultArea');
 const questionArea = document.getElementById('questionArea');
 const currentIndex = document.getElementById('currentIndex');
 const timerEl = document.getElementById('timer');
 const previewTimer = document.getElementById('previewTimer');
 const userDisplay = document.getElementById('userDisplay');
 const answeredCount = document.getElementById('answeredCount');
-const qSection = document.getElementById('qSection');
+const qType = document.getElementById('qType');
 
 document.getElementById('startBtn').addEventListener('click', startQuiz);
-document.getElementById('demoBtn').addEventListener('click', previewList);
+document.getElementById('previewBtn').addEventListener('click', previewFirst10);
 document.getElementById('nextBtn').addEventListener('click', ()=>changeQuestion(1));
 document.getElementById('prevBtn').addEventListener('click', ()=>changeQuestion(-1));
 document.getElementById('submitBtn').addEventListener('click', submitQuiz);
 
-function previewList(){
-  // Simple preview: show titles briefly
-  const names = QUESTIONS.map((q,i)=>`${i+1}. [${q.section}] ${q.q}`).join('\\n');
-  alert("Preview: first 10 questions:\\n\\n" + QUESTIONS.slice(0,10).map((q,i)=>`${i+1}. ${q.q}`).join("\\n\\n"));
+function previewFirst10(){
+  alert("Preview — first 10 questions (titles):\\n\\n" + QUESTIONS.slice(0,10).map((q,i)=>`${i+1}. ${q.q.replace(/\\n/g,' ')} `).join("\\n\\n"));
 }
 
 function startQuiz(){
   const name = document.getElementById('username').value.trim();
-  if(!name){alert('Please enter your name to start'); return;}
+  if(!name){ alert('Please enter your name to start'); return; }
   state.user = name;
   userDisplay.textContent = name;
-  // shuffle & choose 50 (the QUESTIONS array already contains 50 selected items)
+  // shuffle questions and set order (QUESTIONS already contains 50 curated items)
   state.order = shuffle(QUESTIONS.slice());
-  state.idx = 0;
-  state.answers = {};
-  state.startedAt = Date.now();
-  entry.style.display='none';
-  quiz.style.display='block';
-  document.getElementById('currentIndex').textContent = 1;
+  state.idx = 0; state.answers = {}; state.startedAt = Date.now();
+  entry.style.display='none'; quiz.style.display='block';
   renderQuestion();
   // start timer
-  state.timerSec = 3600; updateTimerDisplay(state.timerSec);
+  state.timerSec = 3600; updateTimer(state.timerSec);
   if(state.timerInterval) clearInterval(state.timerInterval);
   state.timerInterval = setInterval(()=>{
     state.timerSec--;
-    updateTimerDisplay(state.timerSec);
+    updateTimer(state.timerSec);
     if(state.timerSec<=0){ clearInterval(state.timerInterval); autoSubmit(); }
   },1000);
 }
 
-function updateTimerDisplay(sec){
-  const m = Math.floor(sec/60).toString().padStart(2,'0');
-  const s = (sec%60).toString().padStart(2,'0');
+function updateTimer(sec){
+  const m = String(Math.floor(sec/60)).padStart(2,'0');
+  const s = String(sec%60).padStart(2,'0');
   timerEl.textContent = `${m}:${s}`;
   previewTimer.textContent = `Time: ${m}:${s}`;
 }
@@ -612,113 +705,99 @@ function updateTimerDisplay(sec){
 function renderQuestion(){
   const qObj = state.order[state.idx];
   currentIndex.textContent = state.idx+1;
-  qSection.textContent = qObj.section;
+  qType.textContent = '';
   // build HTML
-  let html = `<div class="question"><div class="qnum">Q${state.idx+1}.</div><div style="margin-top:6px"><strong>${qObj.q}</strong></div></div>`;
-  if(qObj.type==='single'){
-    html += '<div class="opts">';
-    qObj.options.forEach((opt,oi)=>{
-      const checked = state.answers[qObj.id]===oi ? 'checked' : '';
-      html += `<label class="opt"><input type="radio" name="opt" data-id="${qObj.id}" value="${oi}" ${checked}/> <div>${opt}</div></label>`;
-    });
+  let html = `<div class="question"><div style="font-weight:600">${qObj.q.replace(/\\n/g,'<br>')}</div></div>`;
+  if(qObj.statements && qObj.type!=='howmany'){
+    html += '<div class="small muted" style="margin-top:6px">Statements:</div><div style="margin-top:6px">';
+    qObj.statements.forEach((st,si)=> html += `<div style="margin:4px 0;margin-left:8px">${si+1}. ${st}</div>`);
     html += '</div>';
-  } else if(qObj.type==='statements'){
-    html += '<div class="small muted" style="margin-bottom:6px">(Select all correct statements)</div><div class="opts">';
-    qObj.statements.forEach((st,si)=>{
-      const checked = state.answers[qObj.id] && state.answers[qObj.id].includes(si) ? 'checked' : '';
-      html += `<label class="opt"><input type="checkbox" name="stmt" data-id="${qObj.id}" value="${si}" ${checked}/> <div>${String.fromCharCode(65+si)}. ${st}</div></label>`;
-    });
+    qType.textContent = 'Choose the correct option';
+  } else if(qObj.type==='howmany'){
+    html += '<div class="small muted" style="margin-top:6px">Statements:</div><div style="margin-top:6px">';
+    qObj.statements.forEach((st,si)=> html += `<div style="margin:4px 0;margin-left:8px">${si+1}. ${st}</div>`);
     html += '</div>';
-  }
-  questionArea.innerHTML = html;
-  // attach listeners
-  if(qObj.type==='single'){
-    document.querySelectorAll('input[name="opt"]').forEach(r=>{
-      r.addEventListener('change', (e)=>{
-        const id = Number(e.target.dataset.id);
-        const val = Number(e.target.value);
-        state.answers[id] = val;
-        updateAnsweredCount();
-      });
-    });
+    qType.textContent = 'How many of the above are correct? Choose one option';
   } else {
-    document.querySelectorAll('input[name="stmt"]').forEach(cb=>{
-      cb.addEventListener('change',(e)=>{
-        const id = Number(e.target.dataset.id);
-        const val = Number(e.target.value);
-        state.answers[id] = state.answers[id] || [];
-        if(e.target.checked){
-          if(!state.answers[id].includes(val)) state.answers[id].push(val);
-        } else {
-          state.answers[id] = state.answers[id].filter(x=>x!==val);
-          if(state.answers[id].length===0) delete state.answers[id];
-        }
-        updateAnsweredCount();
-      });
-    });
+    qType.textContent = '';
   }
+
+  // options (always 4)
+  html += '<div class="opts">';
+  qObj.options.forEach((opt,oi)=>{
+    const checked = (state.answers[qObj.id]===oi)?'checked':'';
+    html += `<label class="opt"><input type="radio" name="opt" data-id="${qObj.id}" value="${oi}" ${checked}/> <div>${String.fromCharCode(65+oi)}. ${opt}</div></label>`;
+  });
+  html += '</div>';
+  questionArea.innerHTML = html;
+
+  // attach listeners
+  document.querySelectorAll('input[name="opt"]').forEach(r=>{
+    r.addEventListener('change', (e)=>{
+      const id = Number(e.target.dataset.id), val = Number(e.target.value);
+      state.answers[id] = val;
+      updateAnsweredCount();
+    });
+  });
   updateAnsweredCount();
 }
 
 function changeQuestion(dir){
-  let newIdx = state.idx + dir;
-  if(newIdx<0||newIdx>=state.order.length) return;
-  state.idx = newIdx;
-  renderQuestion();
+  let ni = state.idx + dir;
+  if(ni<0||ni>=state.order.length) return;
+  state.idx = ni; renderQuestion();
 }
 
 function updateAnsweredCount(){
-  const totalAnswered = Object.keys(state.answers).length;
-  answeredCount.textContent = totalAnswered;
+  answeredCount.textContent = Object.keys(state.answers).length;
 }
 
 function autoSubmit(){
-  alert("Time is up — the quiz will be auto-submitted now.");
+  alert("Time's up — quiz will be auto-submitted now.");
   submitQuiz();
 }
 
 function submitQuiz(){
-  if(!confirm("Submit quiz now? (You will see results and review)")) return;
-  // compute score
+  if(!confirm("Submit quiz now? You will receive score and review.")) return;
   clearInterval(state.timerInterval);
-  const review = [];
-  let score=0;
-  state.order.forEach((qObj, idx)=>{
-    const qid=qObj.id;
-    const userAns = state.answers[qid];
-    let correct=false;
-    if(qObj.type==='single'){
-      correct = (typeof userAns!=='undefined' && userAns===qObj.answer);
-      if(correct) score+=1;
-    } else if(qObj.type==='statements'){
-      const correctSet = JSON.stringify((qObj.answers||[]).slice().sort());
-      const userSet = JSON.stringify((userAns||[]).slice().sort());
-      correct = (userSet===correctSet);
-      if(correct) score+=1;
-    }
-    review.push({no:idx+1, section:qObj.section, q:qObj.q, type:qObj.type, user:userAns, correct:correct, key:qObj.answer||qObj.answers, obj:qObj});
+  // grading
+  let score = 0;
+  const review = state.order.map((qObj, idx)=>{
+    const user = state.answers[qObj.id];
+    const correct = (typeof user!=='undefined' && user===qObj.answer);
+    if(correct) score += 1;
+    return {no:idx+1, q:qObj.q, type:qObj.type, statements:qObj.statements||null, options:qObj.options, user:user, key:qObj.answer, correct:correct};
   });
+
   // show results
   quiz.style.display='none';
-  resultArea.style.display='block';
+  document.getElementById('resultArea').style.display='block';
   const scoreBox = document.getElementById('scoreBox');
-  scoreBox.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><div><h3 style="margin:0">Result — ${state.user}</h3><div class="muted">Score: ${score} / ${QUESTIONS.length}</div></div><div style="text-align:right"><div class="${score>=Math.round(QUESTIONS.length*0.6)?'correct':'wrong'}" style="padding:8px;border-radius:8px">${score>=Math.round(QUESTIONS.length*0.6)?'Good attempt':'Review suggested'}</div></div></div>`;
-  // review panel
+  const passMark = Math.round(QUESTIONS.length * 0.6);
+  scoreBox.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><div><h3 style="margin:0">${state.user} — Result</h3><div class="small">Score: <strong>${score}</strong> / ${QUESTIONS.length}</div></div><div>${score>=passMark? '<div class="correct" style="padding:8px;border-radius:8px">Good attempt</div>':'<div class="wrong" style="padding:8px;border-radius:8px">Review suggested</div>'}</div></div>`;
+
+  // review details
   const reviewBox = document.getElementById('reviewBox');
-  let revHtml = `<h4 style="margin-top:0">Review</h4>`;
+  let html = `<h4 style="margin:0 0 12px 0">Review</h4>`;
   review.forEach(r=>{
-    revHtml += `<div style="padding:10px;border-radius:8px;margin-bottom:8px;background:rgba(255,255,255,0.01)"><div style="display:flex;justify-content:space-between;align-items:center"><div><strong>Q${r.no} [${r.section}]</strong></div><div>${r.correct?'<span style="color:#34d399">Correct</span>':'<span style="color:#fb7185">Wrong</span>'}</div></div><div style="margin-top:6px">${r.q}</div>`;
-    if(r.type==='single'){
-      const opts = r.obj.options.map((o,oi)=>`<div style="margin-top:6px" ${r.obj.answer===oi?' style="font-weight:700"':''}>${String.fromCharCode(65+oi)}. ${o}${r.obj.answer===oi?' ← Answer':''}${typeof r.user!=='undefined' && r.user===oi? ' ← You':''}</div>`).join('');
-      revHtml += `<div style="margin-top:8px">${opts}</div>`;
-    } else {
-      const statements = r.obj.statements.map((s,si)=>`<div style="margin-top:6px"${(r.obj.answers||[]).includes(si)?' style="font-weight:700"':''}>${String.fromCharCode(65+si)}. ${s}${(r.obj.answers||[]).includes(si)?' ← Answer':''}${(r.user||[]).includes(si)?' ← You':''}</div>`).join('');
-      revHtml += `<div style="margin-top:8px">${statements}</div>`;
+    html += `<div style="padding:10px;border-radius:8px;background:#fbfdff;border:1px solid #eef6ff;margin-bottom:10px">`;
+    html += `<div style="display:flex;justify-content:space-between"><div><strong>Q${r.no}.</strong></div><div>${r.correct?'<span style="color:var(--success)">Correct</span>':'<span style="color:var(--danger)">Wrong</span>'}</div></div>`;
+    html += `<div style="margin-top:8px">${r.q.replace(/\\n/g,'<br>')}</div>`;
+    if(r.statements){
+      html += `<div class="small muted" style="margin-top:8px">Statements:</div>`;
+      r.statements.forEach((s,si)=> html += `<div style="margin-left:8px">${si+1}. ${s}</div>`);
     }
-    revHtml += `</div>`;
+    html += `<div style="margin-top:8px">`;
+    r.options.forEach((o,oi)=>{
+      const marker = (r.key===oi)?' ← Answer':'';
+      const you = (r.user===oi)?' ← You':'';
+      html += `<div style="margin-top:6px"${r.key===oi?' style="font-weight:700"':''}>${String.fromCharCode(65+oi)}. ${o}${marker}${you}</div>`;
+    });
+    html += `</div></div>`;
   });
-  reviewBox.innerHTML = revHtml;
-  // offer JSON export
+  reviewBox.innerHTML = html;
+
+  // export button
   const exportBtn = document.createElement('button');
   exportBtn.textContent = 'Download attempt JSON';
   exportBtn.style.marginTop='10px';
@@ -726,12 +805,11 @@ function submitQuiz(){
     const data = {user:state.user, startedAt:state.startedAt, finishedAt:Date.now(), score:score, review:review};
     const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
     const url=URL.createObjectURL(blob);
-    const a=document.createElement('a'); a.href=url; a.download=`PrelimsPrecise_March2025_${state.user.replace(/\s+/g,'_')}.json`; a.click(); URL.revokeObjectURL(url);
+    const a=document.createElement('a'); a.href=url; a.download=`PrelimsPrecise_March2025_${state.user.replace(/\\s+/g,'_')}.json`; a.click(); URL.revokeObjectURL(url);
   };
   reviewBox.appendChild(exportBtn);
 }
 
-/* End script */
 </script>
 </body>
 </html>

@@ -455,58 +455,109 @@ function autoSubmit(){
 function submitQuiz(){
   if(!confirm("Submit quiz now? You will receive score and review.")) return;
   clearInterval(state.timerInterval);
+
   const total = QUESTIONS.length;
   let correct = 0, attempted = 0;
+
   const review = state.order.map((qObj, idx)=>{
     const user = state.answers[qObj.id];
     if(typeof user !== 'undefined') attempted++;
+
     const isCorrect = (typeof user !== 'undefined' && user === qObj.answer);
     if(isCorrect) correct++;
-    return {no:idx+1, q:qObj.q, type:qObj.type, statements:qObj.statements||null, options:qObj.options, user:user, key:qObj.answer, correct:isCorrect};
+
+    return {
+      no: idx+1,
+      q: qObj.q,
+      type: qObj.type,
+      statements: qObj.statements || null,
+      options: qObj.options,
+      user: user,
+      key: qObj.answer,
+      correct: isCorrect
+    };
   });
+
   const wrong = attempted - correct;
   const unattempted = total - attempted;
-  const score = correct;
+
+  // NEW MARKING SCHEME
+  const score = ((correct * 2) - (wrong * 0.66)).toFixed(2);
 
   // display results
   quiz.style.display='none';
   document.getElementById('resultArea').style.display='block';
-  const scoreBox = document.getElementById('scoreBox');
-  scoreBox.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-    <div><h3 style="margin:0">${state.user} — Result</h3><div class="small">Total Questions: ${total} | Attempted: ${attempted}</div></div>
-    <div style="font-weight:600">Correct: ${correct} | Wrong: ${wrong} | Unattempted: ${unattempted} | Score: ${score}/${total}</div>
-  </div>`;
 
-  // review panel
+  const scoreBox = document.getElementById('scoreBox');
+  scoreBox.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <div>
+        <h3 style="margin:0">${state.user} — Result</h3>
+        <div class="small">Total Questions: ${total} | Attempted: ${attempted}</div>
+      </div>
+      <div style="font-weight:600">
+        Correct: ${correct} | Wrong: ${wrong} | Unattempted: ${unattempted} |
+        Score: ${score}/100
+      </div>
+    </div>
+  `;
+
+  // review rendering
   const reviewBox = document.getElementById('reviewBox');
   let html = `<h4 style="margin:0 0 12px 0">Review</h4>`;
+
   review.forEach(r=>{
-    html += `<div style="padding:10px;border-radius:8px;background:#fbfdff;border:1px solid #eef6ff;margin-bottom:10px">`;
-    html += `<div style="display:flex;justify-content:space-between"><div><strong>Q${r.no}.</strong></div><div>${r.correct?'<span style="color:var(--success)">Correct</span>':'<span style="color:var(--danger)">Wrong</span>'}</div></div>`;
-    html += `<div style="margin-top:8px">${r.q.replace(/\n/g,'<br>')}</div>`;
+    html += `
+      <div style="padding:10px;border-radius:8px;background:#fbfdff;border:1px solid #eef6ff;margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between">
+          <div><strong>Q${r.no}.</strong></div>
+          <div>${r.correct ? '<span style="color:var(--success)">Correct</span>' : '<span style="color:var(--danger)">Wrong</span>'}</div>
+        </div>
+        <div style="margin-top:8px">${r.q.replace(/\\n/g,'<br>')}</div>
+    `;
+
     if(r.statements){
       html += `<div class="small muted" style="margin-top:8px">Statements:</div>`;
       r.statements.forEach((s,si)=> html += `<div style="margin-left:8px">${si+1}. ${s}</div>`);
     }
+
     html += `<div style="margin-top:8px">`;
     r.options.forEach((o,oi)=>{
-      const marker = (r.key===oi)?' ← Answer':'';
-      const you = (r.user===oi)?' ← You':'';
-      html += `<div style="margin-top:6px"${r.key===oi?' style="font-weight:700"':''}>${String.fromCharCode(65+oi)}. ${o}${marker}${you}</div>`;
+      const marker = (r.key === oi) ? ' ← Answer' : '';
+      const you = (r.user === oi) ? ' ← You' : '';
+      html += `<div style="margin-top:6px"${r.key===oi?' style="font-weight:700"':''}>
+                  ${String.fromCharCode(65+oi)}. ${o}${marker}${you}
+               </div>`;
     });
     html += `</div></div>`;
   });
+
   reviewBox.innerHTML = html;
 
-  // export
+  // export JSON button
   const exportBtn = document.createElement('button');
   exportBtn.textContent = 'Download attempt JSON';
   exportBtn.style.marginTop='10px';
   exportBtn.onclick = ()=> {
-    const data = {user:state.user, startedAt:state.startedAt, finishedAt:Date.now(), total:total, attempted:attempted, correct:correct, wrong:wrong, unattempted:unattempted, score:score, review:review};
+    const data = {
+      user: state.user,
+      startedAt: state.startedAt,
+      finishedAt: Date.now(),
+      total: total,
+      attempted: attempted,
+      correct: correct,
+      wrong: wrong,
+      unattempted: unattempted,
+      score: score,
+      review: review
+    };
     const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
     const url=URL.createObjectURL(blob);
-    const a=document.createElement('a'); a.href=url; a.download=`PrelimsPrecise_March2025_${state.user.replace(/\\s+/g,'_')}.json`; a.click(); URL.revokeObjectURL(url);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download=`PrelimsPrecise_March2025_${state.user.replace(/\\s+/g,'_')}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
   };
   reviewBox.appendChild(exportBtn);
 }

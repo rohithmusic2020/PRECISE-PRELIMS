@@ -1,541 +1,228 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Prelims Precise — March 2025 (50 Qs)</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC Prelims Quiz - January 2025</title>
 <style>
-  :root{
-    --bg:#f6f8fa; --card:#ffffff; --accent:#0b6cf0; --muted:#6b7280;
-    --success:#16a34a; --danger:#dc2626; --border:#e6eef9;
-  }
-  *{box-sizing:border-box;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
-  body{margin:0;background:var(--bg);color:#0b1220;line-height:1.45}
-  .wrap{max-width:980px;margin:28px auto;padding:20px}
-  header{display:flex;align-items:center;gap:14px;margin-bottom:18px}
-  header img{width:56px;height:56px;border-radius:8px;background:linear-gradient(135deg,#e6f0ff,#dbeefe);display:flex;align-items:center;justify-content:center}
-  header h1{margin:0;font-size:20px}
-  .card{background:var(--card); border-radius:10px;padding:18px;box-shadow:0 6px 20px rgba(13,38,76,0.06);border:1px solid var(--border)}
-  .muted{color:var(--muted);font-size:13px}
-  .start-box{display:grid;gap:12px;align-items:center}
-  input[type="text"]{padding:10px;border-radius:8px;border:1px solid #dbe6f5;background:transparent;color:inherit;outline:none;width:100%}
-  button{background:var(--accent);border:none;color:white;padding:10px 14px;border-radius:9px;font-weight:600;cursor:pointer}
-  button.secondary{background:#eef6ff;color:var(--accent);border:1px solid #dbeefe}
-  .meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
-  .timer{font-weight:700;padding:6px 10px;border-radius:8px;background:#eef6ff;color:var(--accent);border:1px solid #dbeefe}
-  .qbox{margin-top:18px}
-  .qhead{display:flex;justify-content:space-between;align-items:center;gap:12px}
-  .qnum{font-weight:700;color:var(--accent)}
-  .question{margin:10px 0 12px}
-  .opts{display:grid;gap:10px;margin-top:8px}
-  .opt{display:flex;align-items:flex-start;gap:10px;padding:12px;border-radius:8px;border:1px solid #f0f4fb;background:#fbfdff}
-  .opt input{margin-top:4px}
-  .footer{display:flex;justify-content:space-between;gap:12px;margin-top:18px}
-  .small{font-size:13px;color:var(--muted)}
-  .result{margin-top:18px;padding:12px;border-radius:10px}
-  .correct{color:var(--success)}
-  .wrong{color:var(--danger)}
-  .review{margin-top:12px}
+  body { font-family: Arial, sans-serif; background-color: #f9fafb; color: #111827; margin: 0; padding: 0; }
+  .container { max-width: 1000px; margin: 30px auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; }
+  h1 { text-align: center; color: #1f2937; }
+  .sidebar { width: 200px; margin-right: 20px; }
+  .sidebar h3 { text-align: center; }
+  .status { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; }
+  .status div { width: 25px; height: 25px; text-align: center; line-height: 25px; border-radius: 4px; color: white; cursor: pointer; }
+  .not-attempted { background: #9ca3af; }
+  .attempted { background: #10b981; }
+  .review { background: #f59e0b; }
+  .question-area { flex: 1; }
+  .question { margin-bottom: 20px; }
+  .question h3 { margin-bottom: 8px; }
+  button { background-color: #2563eb; color: white; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; }
+  button:hover { background-color: #1e40af; }
+  .result { text-align: center; font-weight: bold; margin-top: 20px; }
+  .timer { text-align: right; font-weight: bold; color: #b91c1c; margin-bottom: 20px; }
+  #start-screen { text-align: center; }
+  input { padding: 8px; border: 1px solid #ccc; border-radius: 6px; margin: 5px; width: 60%; }
+  label { display: block; padding: 6px; border: 1px solid #e5e7eb; border-radius: 6px; margin-bottom: 5px; cursor: pointer; }
+  .nav-buttons { text-align: center; margin-top: 20px; }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <img aria-hidden="true"><svg width="0" height="0" style="position:absolute;left:-9999px"></svg>
-    <div>
-      <h1>Prelims Precise — March 2025 (50 Questions)</h1>
-      <div class="muted">Source: March 2025 Prelims Precise (Fortune IAS).</div>
-    </div>
-  </header>
-
-  <div id="entry" class="card start-box">
-    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
-      <div style="flex:1">
-        <div class="small">Enter your name to begin</div>
-        <input id="username" type="text" placeholder="Full name (required)" />
-      </div>
-      <div class="meta">
-        <div class="timer" id="previewTimer">Time: 60:00</div>
-        <div class="small">50 questions — Auto submit after 60 minutes</div>
-      </div>
-    </div>
-    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:10px">
-      <button id="startBtn">Start Quiz</button>
-    </div>
+<div class="container">
+  <div class="sidebar">
+    <h3>Progress</h3>
+    <div class="status" id="status-box"></div>
   </div>
 
-  <div id="quiz" class="card" style="display:none">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <div class="qhead">
-        <div class="qnum">Q <span id="currentIndex">1</span> / 50</div>
-        <div class="small" id="qType"> </div>
-      </div>
-      <div style="display:flex;gap:12px;align-items:center">
-        <div class="timer" id="timer">60:00</div>
-        <div class="small">Name: <span id="userDisplay"></span></div>
-      </div>
+  <div class="question-area">
+    <h1>UPSC Prelims Quiz - January 2025</h1>
+    <div id="start-screen">
+      <h2>Enter Your Name</h2>
+      <input type="text" id="name" placeholder="Enter your full name" required><br>
+      <button onclick="startQuiz()">Start Quiz</button>
     </div>
 
-    <div id="questionArea" class="qbox"></div>
-
-    <div class="footer">
-      <div>
-        <button id="prevBtn" class="secondary">Previous</button>
-        <button id="nextBtn" class="secondary">Next</button>
+    <div id="quiz-section" style="display:none;">
+      <div class="timer">Time Left: <span id="timer">60:00</span></div>
+      <div id="quiz"></div>
+      <div class="nav-buttons">
+        <button onclick="prevPage()">Previous</button>
+        <button onclick="markForReview()">Mark for Review</button>
+        <button onclick="nextPage()">Next</button>
+        <button onclick="submitQuiz()">Submit Quiz</button>
       </div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <div class="small">Answered: <span id="answeredCount">0</span>/50</div>
-        <button id="submitBtn">Submit Quiz</button>
-      </div>
+      <div class="result" id="result"></div>
     </div>
   </div>
-
-  <div id="resultArea" style="display:none">
-    <div class="card result" id="scoreBox"></div>
-    <div class="card review" id="reviewBox"></div>
-  </div>
-
 </div>
 
 <script>
-/* FULL 50 QUESTIONS – CLEAN, VERIFIED */
-const QUESTIONS = [
+const questionsPerPage = 10;
+let currentPage = 0;
+let status = [];
+let candidateName = "";
+let timeLeft = 60 * 60;
+let timerInterval;
 
-{ id:1, type:"single", q:"What is a 'D-voter' in Assam context?", options:[
-"A person whose citizenship is marked doubtful by the Election Commission.",
-"A voter disqualified due to failing to vote in consecutive elections.",
-"A temporary voter category for migrants with provisional cards.",
-"A voter registered under the Domicile Act of Assam."
-], answer:0},
+function startQuiz() {
+  candidateName = document.getElementById('name').value.trim();
+  if (!candidateName) {
+    alert('Please enter your name to start the quiz.');
+    return;
+  }
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('quiz-section').style.display = 'block';
+  startTimer();
+  renderStatus();
+  renderPage();
+}
 
-{ id:2, type:"statements", q:"Consider the following statements about the Jan Vishwas Bill 2.0:", statements:[
-"It proposes converting certain criminal offences into civil penalties to boost ease of doing business.",
-"Jan Vishwas Bill 2.0 is the first decriminalisation exercise undertaken by the Government.",
-"DPIIT has been tasked with mapping further laws for decriminalisation."
-], options:["1 only","1 and 2 only","2 and 3 only","1 and 3 only"], answer:3},
+function startTimer() {
+  const timerElement = document.getElementById('timer');
+  timerInterval = setInterval(() => {
+    let minutes = Math.floor(timeLeft / 60);
+    let seconds = timeLeft % 60;
+    timerElement.textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+    timeLeft--;
+    if (timeLeft < 0) { clearInterval(timerInterval); submitQuiz(); alert('Time up! Quiz auto-submitted.'); }
+  }, 1000);
+}
 
-{ id:3, type:"single", q:"Which of these is TRUE about the Dramatic Performances Act (1876)?", options:[
-"It enabled warrantless searches and was used to suppress nationalist plays.",
-"It was enacted in 1956.",
-"It was passed post-independence.",
-"It has never been enforced."
-], answer:0},
-
-{ id:4, type:"single", q:"Supreme Court stayed Lokpal action involving which office?", options:[
-"A High Court judge","Chief Election Commissioner","State Governor","Union Minister"
-], answer:0},
-
-{ id:5, type:"statements", q:"Doctrine of Eminent Domain — which are correct?", statements:[
-"It allows acquisition of private property for public use with compensation.",
-"Article 300A allows deprivation of property without authority of law.",
-"The RFCTLARR Act 2013 provides safeguards."
-], options:["1 only","1 and 3 only","2 only","1,2,3"], answer:1},
-
-{ id:6, type:"single", q:"Time Use Survey 2024 highlighted which?", options:[
-"Women spend far more time on unpaid domestic work.",
-"Men spend more time on unpaid domestic work.",
-"No gender gap.",
-"Survey tracked only paid work."
-], answer:0},
-
-{ id:7, type:"statements", q:"Gold Monetisation Scheme update — which correct?", statements:[
-"Medium and long-term deposits discontinued.",
-"Short-term bank deposits continue.",
-"GMS launched in 2024."
-], options:["1 and 2","2 only","1 and 3","All three"], answer:0},
-
-{ id:8, type:"single", q:"Zero-for-Zero tariff refers to:", options:[
-"Mutual tariff elimination India–US","WTO universal tariff","India unilateral tariff","Zero-emission goods tariff"
-], answer:0},
-
-{ id:9, type:"single", q:"Largest contributor to India's TPES in FY24?", options:[
-"Coal","Oil","Renewables","Nuclear"
-], answer:0},
-
-{ id:10, type:"statements", q:"MEIS Scheme — which correct?", statements:[
-"Supports multi-feedstock ethanol (maize, damaged grains).",
-"Interest subvention 6% for 5 years incl. moratorium.",
-"Restricts ethanol to sugarcane."
-], options:["1 only","1 and 2","2 and 3","All three"], answer:1},
-
-{ id:11, type:"single", q:"Ganga Water Treaty covers which barrage?", options:[
-"Farakka","Teesta","Kosi","Purnea"
-], answer:0},
-
-{ id:12, type:"statements", q:"Hague Service Convention — which correct?", statements:[
-"Helps serve judicial documents abroad.",
-"Handled in India by Law Ministry.",
-"Ensures foreign orders auto-enforced in India."
-], options:["1 and 2","2 only","3 only","All three"], answer:0},
-
-{ id:13, type:"single", q:"Mission 300 aims to electrify how many in Africa?", options:[
-"100 million","300 million","500 million","600 million"
-], answer:1},
-
-{ id:14, type:"single", q:"Mudumal menhirs belong to:", options:[
-"Megalithic period","Neolithic","Palaeolithic","Medieval"
-], answer:0},
-
-{ id:15, type:"statements", q:"Wallace Line — correct?", statements:[
-"Separates Asian & Australasian fauna.",
-"Climate change may reduce its barrier.",
-"Runs between Africa & Madagascar."
-], options:["1 and 2","2 only","1 and 3","All three"], answer:0},
-
-{ id:16, type:"single", q:"Plastic Ice VII is:", options:[
-"Rotating-molecule cubic ice at extreme pressure.",
-"Ordinary hexagonal ice.","Ice on comets.","Low-pressure Martian ice."
-], answer:0},
-
-{ id:17, type:"single", q:"India’s first Frozen Zoo is at:", options:[
-"Darjeeling Zoo","Mumbai Zoo","Hyderabad Zoo","Chennai Zoo"
-], answer:0},
-
-{ id:18, type:"statements", q:"Loss & Damage Fund — correct?", statements:[
-"Set up COP27, later operationalised.","US planned withdrawal.","Funds fossil projects."
-], options:["1 and 2","2 and 3","1 only","All three"], answer:0},
-
-{ id:19, type:"single", q:"SUIT instrument is on:", options:[
-"Aditya-L1","Chandrayaan-3","Astrosat","Gaganyaan"
-], answer:0},
-
-{ id:20, type:"statements", q:"Vikram 3201, Kalpana 3201 — correct?", statements:[
-"Both 32-bit Indian CPUs.","Vikram evolved from 16-bit model used in rockets.","They are Intel x86 chips."
-], options:["1 and 2","1 and 3","3 only","All three"], answer:0},
-
-{ id:21, type:"single", q:"SpaDeX de-docking occurred on:", options:[
-"March 13, 2025","Jan 16, 2025","Dec 30, 2024","March 31, 2025"
-], answer:0},
-
-{ id:22, type:"single", q:"First private lunar soft landing carrying NASA payloads:", options:[
-"Blue Ghost (Firefly)","Dragon XL","Nova-C","Peregrine"
-], answer:0},
-
-{ id:23, type:"statements", q:"Defence exercises — correct?", statements:[
-"Varuna = India–France naval.","Sea Dragon = US-led ASW.","INIOCHOS = Greek air exercise."
-], options:["1 and 2","1 and 3","2 and 3","All three"], answer:3},
-
-{ id:24, type:"single", q:"India’s rank in World Happiness Report 2025:", options:[
-"98","118","72","45"
-], answer:1},
-
-{ id:25, type:"single", q:"MDD indicator applies to:", options:[
-"Women & children (5 food groups/24h)","Infants","Elderly","Adolescent boys"
-], answer:0},
-
-{ id:26, type:"statements", q:"Orans — which correct?", statements:[
-"SC said map/classify as forests.","Help rainwater & pastoralists.","Exist only in Rajasthan."
-], options:["1 and 2","2 only","1,2,3","3 only"], answer:0},
-
-{ id:27, type:"single", q:"Which species saw 97% decline?", options:[
-"African penguin","Olive Ridley","Narwhal","Caracal"
-], answer:0},
-
-{ id:28, type:"single", q:"Crassolabium dhritiae found in:", options:[
-"Odisha","Tamil Nadu","MP","Karnataka"
-], answer:0},
-
-{ id:29, type:"statements", q:"Melioidosis — correct?", statements:[
-"Seasonal (monsoon).","Caused by B. pseudomallei.","Vaccine widely available."
-], options:["1 and 2","2 and 3","1 only","All three"], answer:0},
-
-{ id:30, type:"single", q:"Bollgard-3 contains:", options:[
-"Cry1Ac + Cry2Ab + Vip3A","Only Cry1Ac","Drought gene","Fungal gene"
-], answer:0},
-
-{ id:31, type:"single", q:"NTTM started in:", options:[
-"2018","2020","2022","2015"
-], answer:1},
-
-{ id:32, type:"single", q:"Equalisation Levy change:", options:[
-"Abolish ad levy from April 2025","Increase to 12%","Extend domestically","No change"
-], answer:0},
-
-{ id:33, type:"statements", q:"SC in-house inquiry — correct?", statements:[
-"CJI can form 3-member committee.","Alternative to impeachment.","Replaces criminal trial always."
-], options:["1 and 2","2 and 3","1 and 3","All three"], answer:0},
-
-{ id:34, type:"single", q:"Tribhuvan Sahkari University HQ:", options:[
-"Anand, Gujarat","Delhi","Pune","Chandigarh"
-], answer:0},
-
-{ id:35, type:"single", q:"India’s bioeconomy valuation in 2024:", options:[
-"$50B","$165B","$400B","$1T"
-], answer:1},
-
-{ id:36, type:"statements", q:"Remittances — correct?", statements:[
-"US ~27.7%.","Gulf irrelevant now.","Maharashtra & Kerala top recipients."
-], options:["1 and 3","1 only","2 and 3","All three"], answer:0},
-
-{ id:37, type:"single", q:"Lithuania in arms control:", options:[
-"Exited Cluster Munitions Convention","Joined Convention","Funded clearance","Adopted munitions"
-], answer:0},
-
-{ id:38, type:"single", q:"Habitual Offender laws trace to:", options:[
-"Criminal Tribes Act 1871","IPC","CrPC","Arms Act"
-], answer:0},
-
-{ id:39, type:"single", q:"Programme for multimodal logistics:", options:[
-"SMILE","Sagarmala","Make in India","Bharatmala"
-], answer:0},
-
-{ id:40, type:"single", q:"Supersolid light created using:", options:[
-"Polaritons in semiconductor","Liquid helium","Photon freezing","Electron condensate"
-], answer:0},
-
-{ id:41, type:"single", q:"Which current slowing due to ice melt?", options:[
-"Antarctic Circumpolar","Gulf Stream","Kuroshio","Labrador"
-], answer:0},
-
-{ id:42, type:"single", q:"Oldest impact crater found in:", options:[
-"Pilbara (Australia)","Siberia","Canadian Shield","Kalahari"
-], answer:0},
-
-{ id:43, type:"statements", q:"NMfT Conference themes:", statements:[
-"Digital terror financing.","Financial inclusion approach.","NGO exemption."
-], options:["1 and 2","1 only","2 and 3","All three"], answer:0},
-
-{ id:44, type:"single", q:"Khelo India Winter Games Phase-2 held at:", options:[
-"Gulmarg","Auli","Manali","Leh"
-], answer:0},
-
-{ id:45, type:"single", q:"Viral meningitis reported in:", options:[
-"Kalamassery, Ernakulam","Chennai","Mumbai","Patna"
-], answer:0},
-
-{ id:46, type:"single", q:"Dog-faced water snake inland sighting in:", options:[
-"Assam","West Bengal","Odisha","Bihar"
-], answer:0},
-
-{ id:47, type:"single", q:"Tree removed by Telangana:", options:[
-"Conocarpus","Eucalyptus","Acacia","Prosopis"
-], answer:0},
-
-{ id:48, type:"single", q:"High-income India needs growth:", options:[
-"5.5%","6.8%","7.8%","9.5%"
-], answer:2},
-
-{ id:49, type:"statements", q:"Lokpal & HC judges — correct?", statements:[
-"SC noted jurisdiction issue; HC judges take constitutional oath.",
-"SC allowed unrestricted probe.",
-"Veeraswamy case: judges are public servants."
-], options:["1 and 3","1 and 2","2 only","All three"], answer:0},
-
-{ id:50, type:"howmany", q:"MEIS — How many statements are correct?\n1. Allows maize & damaged grains.\n2. Interest subvention for 5 years.\n3. Bans damaged grains for ethanol.", statements:[
-"Statement 1","Statement 2","Statement 3"
-], options:["Only one","Only two","All three","None"], answer:1}
-
+// 50 Real UPSC MCQs from Prelims Precise - January 2025
+const questions = [
+  {q:'Which of the following is not part of NITI Aayog\'s twin mandate?', options:['Promoting cooperative federalism','Monitoring SDGs','Formulating Five-Year Plans','Designing welfare policies'], answer:2},
+  {q:'Under Article 224A, ad-hoc judges are appointed with consent of:', options:['Prime Minister','Supreme Court','President','Parliament'], answer:2},
+  {q:'Lokpal of India was established under which Act?', options:['Prevention of Corruption Act','Lokpal and Lokayuktas Act, 2013','CVC Act','Whistleblower Protection Act'], answer:1},
+  {q:'Uttarakhand UCC excludes which group?', options:['Hindus','Scheduled Tribes','Christians','Muslims'], answer:1},
+  {q:'Producer Price Index differs from WPI because it:', options:['Includes taxes','Excludes logistics & margins','Measures retail inflation','Covers services only'], answer:1},
+  {q:'INTERPOL Silver Notice seeks:', options:['Missing persons','Criminal assets info','Drug warnings','Interpol Red Alert'], answer:1},
+  {q:'Maha Kumbh occurs every:', options:['6 years','12 years','36 years','144 years'], answer:3},
+  {q:'Greenland is a territory of:', options:['Norway','Denmark','Iceland','Canada'], answer:1},
+  {q:'Biochar helps remove DDT by:', options:['Oxidation','Binding & preventing uptake','Chemical dilution','Neutralization'], answer:1},
+  {q:'Methemoglobinemia is caused by excess:', options:['Lead','Fluoride','Nitrate','Arsenic'], answer:2},
+  {q:'Fiscal Health Index launched by:', options:['RBI','Finance Ministry','NITI Aayog','CAG'], answer:2},
+  {q:'National Critical Mineral Mission covers:', options:['Coal & Iron','Full mineral value chain','Private mining only','Crude oil imports'], answer:1},
+  {q:'Ethanol blending target E20 year:', options:['2024-25','2025-26','2026-27','2030-31'], answer:1},
+  {q:'Digital Payments Index base year:', options:['2011-12','2015-16','2017-18','2018-19'], answer:2},
+  {q:'India ranked 2nd in future-of-work preparedness in:', options:['IMD Index','QS World Future Skills Index 2025','ILO Report','Global Skills Matrix'], answer:1},
+  {q:'Quad originated after:', options:['2004 Tsunami','2008 crisis','2011 quake','COVID-19 pandemic'], answer:0},
+  {q:'Panama Canal connects:', options:['Red Sea-Med','Atlantic-Pacific','Caspian-Black','Arctic-Atlantic'], answer:1},
+  {q:'BRICS Partner Country category created under:', options:['India 2021','China 2022','Russia 2024','Brazil 2025'], answer:2},
+  {q:'WTO created by Marrakesh Agreement in:', options:['1989','1991','1994','1995'], answer:2},
+  {q:'Gangasagar Mela occurs at:', options:['Ganga-Yamuna','Hooghly-Bay of Bengal','Krishna-Godavari','Ganga-Chambal'], answer:1},
+  {q:'World Monuments Fund HQ is in:', options:['London','Rome','New York','Paris'], answer:2},
+  {q:'Hatti tribe belongs to:', options:['Odisha','Himachal Pradesh','Nagaland','Jharkhand'], answer:1},
+  {q:'Indus script remains undeciphered because:', options:['Too few short inscriptions','It has bilingual text','It uses grammar','It is numeric'], answer:0},
+  {q:'Iron Age in Tamil Nadu dates to:', options:['1500 BCE','2000 BCE','3345 BCE','1300 BCE'], answer:2},
+  {q:'Mallakhamb originated in:', options:['Kerala','Karnataka','Maharashtra','MP'], answer:2},
+  {q:'Slack Tide occurs when:', options:['At high tide','Tidal pause before reversal','During neap tide','Full moon'], answer:1},
+  {q:'Deccan Volcanism occurred about:', options:['6m yrs','66m yrs','260m yrs','600m yrs'], answer:1},
+  {q:'IMD functions under Ministry of:', options:['Science','Earth Sciences','Home','Environment'], answer:1},
+  {q:'India’s coastline now measures:', options:['7516 km','9800 km','11098 km','12600 km'], answer:2},
+  {q:'Artesian condition occurs when:', options:['Water table at sea','Groundwater under pressure','Perched aquifer','Desert runoff'], answer:1},
+  {q:'Planet Parade is:', options:['Asteroid alignment','Grouping of planets','Lunar eclipse','Solar flare'], answer:1},
+  {q:'Chhattisgarh Green GDP links:', options:['Forest services with GDP','Industry with carbon credits','Tourism with forests','Subsidies with climate'], answer:0},
+  {q:'Rhodamine B banned as it:', options:['Causes allergy','Induces DNA damage','Reduces sugar','Non-biodegradable'], answer:1},
+  {q:'Wetland City Accreditation under Ramsar COP:', options:['10','11','12','13'], answer:2},
+  {q:'Organophosphates formed from:', options:['Sulphuric acid + alcohol','Phosphoric acid + alcohol','Nitric acid + ester','Amine + acid chloride'], answer:1},
+  {q:'Nitrogen pollution arises from:', options:['Ozone','Fertilizers & livestock','Solar radiation','Deforestation'], answer:1},
+  {q:'Trichophyton indotineae is:', options:['Plant fungus','Skin fungus','Virus','Bacterium'], answer:1},
+  {q:'Esterase enzyme degrades:', options:['Metals','DEHP plasticizer','DDT','PE only'], answer:1},
+  {q:'Eddington limit is balance between:', options:['Thermal & chemical','Gravity & radiation','Fusion & fission','Electric & magnetic'], answer:1},
+  {q:'Nano-urea applied as:', options:['Soil','Seeds','Leaf spray','Irrigation'], answer:2},
+  {q:'Guillain Barre affects:', options:['Respiratory','Peripheral nervous','Digestive','Renal'], answer:1},
+  {q:'CROPS experiment relates to:', options:['Crop insurance','Growing plants in microgravity','Genetic editing','Radiation test'], answer:1},
+  {q:'GPU efficient due to:', options:['Quantum bits','Parallel processing','Serial ops','Image only'], answer:1},
+  {q:'Silicon Carbide properties:', options:['Soft','Hard & semiconducting','Corrosive','Magnetic'], answer:1},
+  {q:'SpaDeX made India the ___ country to dock spacecraft:', options:['3rd','4th','5th','6th'], answer:1}
 ];
 
-/* ===================== LOGIC ====================== */
-function shuffle(arr){
-  for(let i=arr.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [arr[i],arr[j]]=[arr[j],arr[i]];
+// Randomize questions each time
+questions.sort(() => Math.random() - 0.5);
+
+function renderStatus() {
+  const box = document.getElementById('status-box');
+  box.innerHTML = '';
+  status = [];
+  for (let i = 0; i < questions.length; i++) {
+    const div = document.createElement('div');
+    div.textContent = i + 1;
+    div.className = 'not-attempted';
+    div.onclick = () => { currentPage = Math.floor(i / questionsPerPage); renderPage(); };
+    status.push('not-attempted');
+    box.appendChild(div);
   }
-  return arr;
 }
 
-let state = { user:null, order:[], idx:0, answers:{}, startedAt:null, timerSec:3600, timerInterval:null };
+function renderPage() {
+  const quizDiv = document.getElementById('quiz');
+  quizDiv.innerHTML = '';
+  const start = currentPage * questionsPerPage;
+  const end = start + questionsPerPage;
+  const pageQuestions = questions.slice(start, end);
 
-const entry=document.getElementById('entry');
-const quiz=document.getElementById('quiz');
-const questionArea=document.getElementById('questionArea');
-const currentIndex=document.getElementById('currentIndex');
-const timerEl=document.getElementById('timer');
-const previewTimer=document.getElementById('previewTimer');
-const userDisplay=document.getElementById('userDisplay');
-const answeredCount=document.getElementById('answeredCount');
-const qType=document.getElementById('qType');
-
-document.getElementById('startBtn').addEventListener('click', startQuiz);
-document.getElementById('nextBtn').addEventListener('click', ()=>changeQuestion(1));
-document.getElementById('prevBtn').addEventListener('click', ()=>changeQuestion(-1));
-document.getElementById('submitBtn').addEventListener('click', submitQuiz);
-
-function startQuiz(){
-  const name=document.getElementById('username').value.trim();
-  if(!name){ alert("Enter name"); return; }
-  state.user=name;
-  userDisplay.textContent=name;
-  state.order=shuffle(QUESTIONS.slice());
-  state.idx=0; state.answers={}; state.startedAt=Date.now();
-  entry.style.display='none'; quiz.style.display='block';
-  renderQuestion();
-  state.timerSec=3600; updateTimer(state.timerSec);
-  if(state.timerInterval) clearInterval(state.timerInterval);
-  state.timerInterval=setInterval(()=>{
-    state.timerSec--;
-    updateTimer(state.timerSec);
-    if(state.timerSec<=0){ clearInterval(state.timerInterval); autoSubmit(); }
-  },1000);
-}
-
-function updateTimer(sec){
-  const m=String(Math.floor(sec/60)).padStart(2,'0');
-  const s=String(sec%60).padStart(2,'0');
-  timerEl.textContent=`${m}:${s}`;
-  previewTimer.textContent=`Time: ${m}:${s}`;
-}
-
-function renderQuestion(){
-  const qObj=state.order[state.idx];
-  currentIndex.textContent=state.idx+1;
-  qType.textContent='';
-
-  let html=`<div class="question"><div style="font-weight:600">${qObj.q.replace(/\n/g,'<br>')}</div></div>`;
-
-  if(qObj.statements && qObj.type!=='howmany'){
-    html+=`<div class='small muted' style='margin-top:6px'>Statements:</div><div style='margin-top:6px'>`;
-    qObj.statements.forEach((st,si)=> html+=`<div style='margin:4px 0;margin-left:8px'>${si+1}. ${st}</div>`);
-    html+=`</div>`;
-    qType.textContent='Choose the correct option';
-  }
-
-  if(qObj.type==='howmany'){
-    html+=`<div class='small muted' style='margin-top:6px'>Statements:</div><div style='margin-top:6px'>`;
-    qObj.statements.forEach((st,si)=> html+=`<div style='margin:4px 0;margin-left:8px'>${si+1}. ${st}</div>`);
-    html+=`</div>`;
-    qType.textContent='How many are correct?';
-  }
-
-  html+=`<div class='opts'>`;
-  qObj.options.forEach((opt,oi)=>{
-    const checked=(state.answers[qObj.id]===oi)?'checked':'';
-    html+=`<label class='opt'><input type='radio' name='opt' data-id='${qObj.id}' value='${oi}' ${checked}/> <div>${String.fromCharCode(65+oi)}. ${opt}</div></label>`;
+  pageQuestions.forEach((q, i) => {
+    const qIndex = start + i;
+    const div = document.createElement('div');
+    div.classList.add('question');
+    div.innerHTML = `<h3>Q${qIndex+1}. ${q.q}</h3>` + q.options.map((opt, idx) => `<label><input type='radio' name='q${qIndex}' value='${idx}' onchange='updateStatus(${qIndex})'> ${opt}</label>`).join('');
+    quizDiv.appendChild(div);
   });
-  html+=`</div>`;
-
-  questionArea.innerHTML=html;
-
-  document.querySelectorAll("input[name='opt']").forEach(r=>{
-    r.addEventListener('change', e=>{
-      const id=Number(e.target.dataset.id);
-      const val=Number(e.target.value);
-      state.answers[id]=val;
-      updateAnsweredCount();
-    });
-  });
-
-  updateAnsweredCount();
 }
 
-function changeQuestion(dir){
-  let ni=state.idx+dir;
-  if(ni<0 || ni>=state.order.length) return;
-  state.idx=ni;
-  renderQuestion();
+function updateStatus(index) {
+  status[index] = 'attempted';
+  document.getElementById('status-box').children[index].className = 'attempted';
 }
 
-function updateAnsweredCount(){
-  answeredCount.textContent=Object.keys(state.answers).length;
-}
-
-function autoSubmit(){
-  alert("Time's up! Auto-submitting.");
-  submitQuiz();
-}
-
-function submitQuiz(){
-  if(!confirm("Submit quiz now?")) return;
-  clearInterval(state.timerInterval);
-
-  const total=QUESTIONS.length;
-  let correct=0, attempted=0;
-
-  const review=state.order.map((qObj,idx)=>{
-    const user=state.answers[qObj.id];
-    if(typeof user!=='undefined') attempted++;
-    const isCorrect=(typeof user!=='undefined' && user===qObj.answer);
-    if(isCorrect) correct++;
-    return {
-      no:idx+1,
-      q:qObj.q,
-      type:qObj.type,
-      statements:qObj.statements||null,
-      options:qObj.options,
-      user:user,
-      key:qObj.answer,
-      correct:isCorrect
-    };
-  });
-
-  const wrong=attempted-correct;
-  const unattempted=total-attempted;
-  const score=((correct*2)-(wrong*0.66)).toFixed(2);
-
-  quiz.style.display='none';
-  document.getElementById('resultArea').style.display='block';
-
-  document.getElementById('scoreBox').innerHTML=`
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-      <div>
-        <h3 style="margin:0">${state.user} — Result</h3>
-        <div class="small">Total Questions: ${total} | Attempted: ${attempted}</div>
-      </div>
-      <div style="font-weight:600">
-        Correct: ${correct} | Wrong: ${wrong} | Unattempted: ${unattempted} |
-        Score: ${score}/100
-      </div>
-    </div>
-  `;
-
-  const reviewBox=document.getElementById('reviewBox');
-  let html=`<h4 style="margin:0 0 12px 0">Review</h4>`;
-
-  review.forEach(r=>{
-    html+=`
-      <div style="padding:10px;border-radius:8px;background:#fbfdff;border:1px solid #eef6ff;margin-bottom:10px">
-        <div style="display:flex;justify-content:space-between">
-          <div><strong>Q${r.no}.</strong></div>
-          <div>${r.correct?'<span class="correct">Correct</span>':'<span class="wrong">Wrong</span>'}</div>
-        </div>
-        <div style="margin-top:8px">${r.q.replace(/\\n/g,'<br>')}</div>
-    `;
-
-    if(r.statements){
-      html+=`<div class='small muted' style='margin-top:8px'>Statements:</div>`;
-      r.statements.forEach((s,si)=> html+=`<div style='margin-left:8px'>${si+1}. ${s}</div>`);
+function markForReview() {
+  const start = currentPage * questionsPerPage;
+  const end = start + questionsPerPage;
+  for (let i = start; i < end; i++) {
+    if (status[i] !== 'attempted') {
+      status[i] = 'review';
+      document.getElementById('status-box').children[i].className = 'review';
     }
+  }
+  nextPage();
+}
 
-    html+=`<div style='margin-top:8px'>`;
-    r.options.forEach((o,oi)=>{
-      const ans=(r.key===oi)?' ← Answer':'';
-      const you=(r.user===oi)?' ← You':'';
-      html+=`<div style='margin-top:6px' ${r.key===oi?"style='font-weight:700'":""}>
-        ${String.fromCharCode(65+oi)}. ${o}${ans}${you}
-      </div>`;
-    });
-    html+=`</div></div>`;
+function nextPage() {
+  if ((currentPage + 1) * questionsPerPage < questions.length) {
+    currentPage++;
+    renderPage();
+  }
+}
+
+function prevPage() {
+  if (currentPage > 0) {
+    currentPage--;
+    renderPage();
+  }
+}
+
+function submitQuiz() {
+  clearInterval(timerInterval);
+  let score = 0, correct=0, wrong=0, unattempted=0;
+  questions.forEach((q, i) => {
+    const selected = document.querySelector(`input[name='q${i}']:checked`);
+    if(!selected){ unattempted++; return; }
+    const val = parseInt(selected.value);
+    if(val === q.answer){ score += 2; correct++; }
+    else { score -= 0.66; wrong++; }
   });
+  const total = questions.length;
 
-  reviewBox.innerHTML=html;
+  const resultDiv = document.getElementById('result');
+  let answerList = '<h3>Correct Answers</h3><ol>' + questions.map((q,i)=>`<li>${q.q}<br><b>Ans:</b> ${q.options[q.answer]}</li>`).join('') + '</ol>';
 
-  const btn=document.createElement('button');
-  btn.textContent="Download attempt JSON";
-  btn.style.marginTop="10px";
-  btn.onclick=()=>{
-    const data={
-      user:state.user,
-      startedAt:state.startedAt,
-      finishedAt:Date.now(),
-      total:total,
-      attempted:attempted,
-      correct:correct,
-      wrong:wrong,
-      unattempted:unattempted,
-      score:score,
-      review:review
-    };
-    const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement("a");
-    a.href=url;
-    a.download=`PrelimsPrecise_March2025_${state.user.replace(/\s+/g,'_')}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-  reviewBox.appendChild(btn);
+  resultDiv.innerHTML = `<h2>Results for ${candidateName}</h2>
+    <p><strong>Total Questions:</strong> ${total}</p>
+    <p><strong>Correct:</strong> ${correct}</p>
+    <p><strong>Wrong:</strong> ${wrong}</p>
+    <p><strong>Unattempted:</strong> ${unattempted}</p>
+    <p><strong>Final Score:</strong> ${score.toFixed(2)}</p>` + answerList;
 }
 </script>
 </body>
